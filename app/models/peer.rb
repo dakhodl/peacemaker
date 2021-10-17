@@ -1,0 +1,2 @@
+class Peer < ApplicationRecord
+end
