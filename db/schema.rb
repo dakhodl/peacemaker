@@ -13,6 +13,7 @@
 ActiveRecord::Schema.define(version: 2021_10_17_035721) do
 
   create_table "ads", force: :cascade do |t|
+    t.string "title"
     t.text "message"
     t.integer "hops"
     t.datetime "created_at", precision: 6, null: false
