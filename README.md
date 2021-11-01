@@ -22,3 +22,11 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+
+## Heroku proof of concept
+
+heroku buildpacks:add jtschoonhoven/heroku-buildpack-tor
+
+// to get the .onion name
+heroku ps:exec --dyno=tor.1 'cat "/app/hidden_service/hostname"'
+
