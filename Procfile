@@ -1,1 +1,1 @@
-web: ./tor/bin/run_tor & rails s
+tor: ./tor/bin/run_tor & puma -C config/puma.rb
