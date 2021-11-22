@@ -3,23 +3,9 @@ networks:
   development:
   test:
 volumes:
-  db_data:
   gem_cache:
   shared_data:
 services:
-  # tor:
-  #   container_name: tor
-  #   image: lncm/tor:0.4.5.7@sha256:a83e0d9fd1a35adf025f2f34237ec1810e2a59765988dce1dfb222ca8ef6583c
-  #   restart: on-failure
-  #   volumes:
-  #       - .:/var/app
-  #       - shared_data:/var/shared
-  #       - ${PWD}/config/torrc-dev:/etc/tor/torrc
-  #   ports:
-  #     - "127.0.0.1:80:80"
-  #   networks:
-  #       - development
-    # entrypoint: ./dev-tor-entrypoint.sh
   redis:
     image: redis:4.0-alpine
     command: redis-server
