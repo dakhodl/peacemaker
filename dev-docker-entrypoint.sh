@@ -27,6 +27,8 @@ echo "[TOR] heroku ps:exec --dyno=${DYNO} 'cat \"${APP_PATH}/hidden_service/hs_e
 echo "[TOR] ==================================================================="
 echo ""
 
+bundle exec rails db:migrate
+
 # Start Tor
 "tor" -f "${APP_PATH}/config/torrc-dev" & bundle exec ${@}
 # run passed commands
