@@ -38,3 +38,10 @@
 /yarn-error.log
 yarn-debug.log*
 .yarn-integrity
+
+
+# Ignore tor keyfiles
+/hidden_service
+
+# and .env
+.env*
