@@ -7,5 +7,14 @@ But instead we use Docker.
 
 ```
 docker-compose build
-docker-compose up // starts the server in development
+docker-compose up web // starts the server in development
 ```
+
+
+### Running tests
+
+```
+docker-compose up test
+```
+
+This will boot a test environment and run the rspec suite.
