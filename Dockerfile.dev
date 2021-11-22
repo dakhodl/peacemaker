@@ -35,6 +35,8 @@ RUN gem install bundler --version "$BUNDLE_VERSION" \
 # navigate to app directory
 WORKDIR $APP_PATH
 
+RUN yarn install
+
 EXPOSE $RAILS_PORT
 
 ENTRYPOINT [ "bundle", "exec" ]
