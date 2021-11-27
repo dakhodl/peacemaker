@@ -10,6 +10,8 @@ bundle check || bundle install --jobs 20 --retry 5
 # Remove pre-existing puma/passenger server.pid
 rm -f $APP_PATH/tmp/pids/server.pid
 
+bundle exec rake webpacker:install
+
 
 #!/usr/bin/env bash
 set -eo pipefail
