@@ -41,7 +41,9 @@ yarn-debug.log*
 
 
 # Ignore tor keyfiles
-/hidden_service
+/hidden_service/hostname
+/hidden_service/*key
+/hidden_service/authorized_clients
 
 # and .env
 .env*
