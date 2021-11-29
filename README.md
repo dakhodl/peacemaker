@@ -8,8 +8,6 @@ But instead we use Docker.
 ```
 git clone https://github.com/dakhodl/peacekeeper.git
 cd peacekeeper
-touch .env.development
-touch .env.test
 brew install tor // or apt-get install tor - whatever you use
 mkdir hidden_service/
 chmod 0700 hidden_service/
@@ -19,6 +17,8 @@ cat hidden_service/hostname
 docker-compose build
 // grab a coffee - first bundle could take a while
 docker-compose up web // starts the server in development
+// browse to the .onion you saw in hidden_service/hostname
+// first load will compile JS assets, grab another coffee
 ```
 
 
