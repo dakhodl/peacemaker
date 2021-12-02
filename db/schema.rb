@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_17_035721) do
+ActiveRecord::Schema.define(version: 2021_12_02_022832) do
+
+  create_table "ad_peers", force: :cascade do |t|
+    t.integer "peer_id", null: false
+    t.integer "ad_id", null: false
+    t.integer "status", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["ad_id"], name: "index_ad_peers_on_ad_id"
+    t.index ["peer_id"], name: "index_ad_peers_on_peer_id"
+  end
 
   create_table "ads", force: :cascade do |t|
     t.string "title"
@@ -18,6 +28,8 @@ ActiveRecord::Schema.define(version: 2021_10_17_035721) do
     t.integer "hops"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "peer_id"
+    t.index ["peer_id"], name: "index_ads_on_peer_id"
   end
 
   create_table "peers", force: :cascade do |t|
@@ -27,4 +39,7 @@ ActiveRecord::Schema.define(version: 2021_10_17_035721) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "ad_peers", "ads"
+  add_foreign_key "ad_peers", "peers"
+  add_foreign_key "ads", "peers"
 end

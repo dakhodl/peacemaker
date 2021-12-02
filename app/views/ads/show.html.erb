@@ -13,3 +13,12 @@
     <%= link_to 'Back to ads', ads_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
   </div>
 </div>
+
+
+<% @ad.ad_peers.includes(:peer).find_each do |ad_peer| %>
+  <div>
+    <%= ad_peer.peer_name %> | <%= ad_peer.status %>
+  </div>
+
+  <hr />
+<% end %>
