@@ -1,15 +1,14 @@
 class Api::V1::AdsController < Api::V1::BaseController
   def create
     # TODO: authenticate message signature with peer's pubkey
-
-    peer = Peer.find_by(onion: params[:from])
+    peer = Peer.find_by(onion_address: params[:from])
     ad = peer.ads.build(ad_params)
     if ad.save
       head :ok
     else
       render json: {
         errors: ad.errors
-      }, :unprocessable_entity
+      }, status: :unprocessable_entity
     end
   end
 

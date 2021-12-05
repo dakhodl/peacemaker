@@ -14,6 +14,25 @@ services:
       - test
     volumes:
       - shared_data:/var/shared/redis
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: peacemaker_worker
+    volumes:
+      - .:/var/app
+      - shared_data:/var/shared
+      - gem_cache:/usr/local/bundle/gems
+    networks:
+      - development
+    stdin_open: true
+    tty: true
+    command: ["bundle", "exec", "sidekiq"]
+    environment:
+      RAILS_ENV: development
+      REDIS_URL_SIDEKIQ: "redis://redis:6379/1"
+      SOCKS_PROXY_URL: "web"
+
   web:
     build:
       context: .
@@ -33,24 +52,6 @@ services:
     command: ['rails', 'server', '-p', '3000', '-b', '0.0.0.0']
     environment:
       RAILS_ENV: development
+      REDIS_URL_SIDEKIQ: "redis://redis:6379/1"
     depends_on:
       - redis
-  test:
-    build:
-      context: .
-      dockerfile: Dockerfile.dev
-    container_name: peacemaker_test
-    volumes:
-      - .:/var/app
-      - shared_data:/var/shared
-      - gem_cache:/usr/local/bundle/gems
-    networks:
-      - test
-    ports:
-      - 3001:3000
-    stdin_open: true
-    tty: true
-    entrypoint: test-entrypoint.sh
-    command: ["rspec", "spec"]
-    environment:
-      RAILS_ENV: test

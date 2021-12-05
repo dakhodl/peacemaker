@@ -35,3 +35,10 @@ This will boot a test environment and run the rspec suite.
 * ~~I can post an Ad~~ that gets propagated to my peers
 * I can propagate Ads from my peers to my other peers
 * I can fine tune an Ad to say how far I want it to hop to other peers.
+
+### Technical roadmap
+
+* Sidekiq/worker container - ads propagated in a background worker so Ad create does not timeout
+* tor service container extracted out of web
+  *  still learning Docker
+* webpack install/manifest.json not part of every boot

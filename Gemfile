@@ -24,7 +24,7 @@ gem 'redis', '~> 4.0'
 # gem 'image_processing', '~> 1.2'
 
 # Talking to other nodes
-gem 'tor_requests'
+gem 'tor_requests', github: 'dakhodl/tor_requests'
 
 # CSS framework
 gem 'tailwindcss-rails'
@@ -35,6 +35,9 @@ gem 'bootsnap', '>= 1.4.4', require: false
 # How long can we get away with sqlite instead of postgres
 # This is a one-machine, one-user application. Probably a while if not forever.
 gem 'sqlite3', '~> 1.4'
+
+# background job processing
+gem 'sidekiq'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

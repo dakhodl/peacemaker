@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/dakhodl/tor_requests.git
+  revision: 2604481384f72b81cbcb901c8900c2925154aec2
+  specs:
+    tor_requests (0.6.0)
+      socksify
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -77,6 +84,7 @@ GEM
       regexp_parser (>= 1.5, < 3.0)
       xpath (~> 3.2)
     concurrent-ruby (1.1.9)
+    connection_pool (2.2.5)
     crass (1.0.6)
     diff-lcs (1.4.4)
     erubi (1.10.0)
@@ -177,6 +185,10 @@ GEM
       sprockets-rails
       tilt
     semantic_range (3.0.0)
+    sidekiq (6.3.1)
+      connection_pool (>= 2.2.2)
+      rack (~> 2.0)
+      redis (>= 4.2.0)
     socksify (1.7.1)
     spring (3.0.0)
     sprockets (4.0.2)
@@ -191,8 +203,6 @@ GEM
       rails (>= 6.0.0)
     thor (1.1.0)
     tilt (2.0.10)
-    tor_requests (0.6.0)
-      socksify
     turbolinks (5.2.1)
       turbolinks-source (~> 5.2)
     turbolinks-source (5.2.0)
@@ -230,10 +240,11 @@ DEPENDENCIES
   redis (~> 4.0)
   rspec-rails
   sass-rails (>= 6)
+  sidekiq
   spring
   sqlite3 (~> 1.4)
   tailwindcss-rails
-  tor_requests
+  tor_requests!
   turbolinks (~> 5)
   tzinfo-data
   web-console (>= 4.1.0)

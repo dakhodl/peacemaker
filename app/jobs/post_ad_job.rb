@@ -1,21 +1,17 @@
 class PostAdJob < ApplicationJob
   queue_as :default
 
-  def perform(ad)
+  def perform(ad, peer)
     post_body = {
       ad: ad.as_json,
-      from: my_onion,
+      from: File.read("hidden_service/hostname").to_s.strip,
       signature: 'TODO'
     }
-    Peer.find_each do |peer|
-      res = Tor::HTTP.post("http://#{peer.onion}/api/v1/ads.json", post_body, 3000)
-      
-      AdPeer.create!(peer: peer, ad: ad, status: res.code)
-    end
-  end
-
-  # this will live somewhere more global soon enough. maybe configatron
-  def my_onion
-    @my_onion ||= File.read("hidden_service/hostname").to_s.strip
+    res = Tor::HTTP.post(peer.onion_address, post_body.to_json, "/api/v1/ads.json")
+  rescue SOCKSError::HostUnreachable => e
+    # TODO: write offline peer response
+    raise e
+  ensure
+    AdPeer.create!(peer: peer, ad: ad, status: res.code)
   end
 end
