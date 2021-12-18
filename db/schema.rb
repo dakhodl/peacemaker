@@ -10,7 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_02_022832) do
+ActiveRecord::Schema.define(version: 2021_12_12_221754) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "ad_peers", force: :cascade do |t|
     t.integer "peer_id", null: false
@@ -39,7 +42,35 @@ ActiveRecord::Schema.define(version: 2021_12_02_022832) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "webhook_receipts", force: :cascade do |t|
+    t.integer "peer_id", null: false
+    t.string "token"
+    t.string "resource_type"
+    t.integer "resource_id"
+    t.integer "status"
+    t.string "action"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["peer_id"], name: "index_webhook_receipts_on_peer_id"
+    t.index ["resource_type", "resource_id"], name: "index_webhook_receipts_on_resource"
+  end
+
+  create_table "webhook_sends", force: :cascade do |t|
+    t.integer "peer_id", null: false
+    t.string "token"
+    t.string "action"
+    t.string "resource_type"
+    t.integer "resource_id"
+    t.integer "status"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["peer_id"], name: "index_webhook_sends_on_peer_id"
+    t.index ["resource_type", "resource_id"], name: "index_webhook_sends_on_resource"
+  end
+
   add_foreign_key "ad_peers", "ads"
   add_foreign_key "ad_peers", "peers"
   add_foreign_key "ads", "peers"
+  add_foreign_key "webhook_receipts", "peers"
+  add_foreign_key "webhook_sends", "peers"
 end

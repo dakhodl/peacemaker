@@ -42,3 +42,4 @@ This will boot a test environment and run the rspec suite.
 * tor service container extracted out of web
   *  still learning Docker
 * webpack install/manifest.json not part of every boot
+* tor onboarding automated with https://github.com/RubyCrypto/ed25519 ?

@@ -36,5 +36,9 @@ module Peacekeeper
     config.generators.system_tests = nil
 
     config.active_job.queue_adapter = :sidekiq
+    
+    # Support onion hostname
+    config.hosts << '127.0.0.1'
+    config.hosts << File.read("hidden_service/hostname").to_s.strip
   end
 end

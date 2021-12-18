@@ -25,9 +25,14 @@ gem 'redis', '~> 4.0'
 
 # Talking to other nodes
 gem 'tor_requests', github: 'dakhodl/tor_requests'
+gem 'ed25519' # for signing requests to other nodes
 
 # CSS framework
-gem 'tailwindcss-rails'
+gem "tailwindcss-rails",
+    github: "dorianmariefr/tailwindcss-rails",
+    branch: "minimal" # see https://stackoverflow.com/questions/68898511/tailwindcss-typography-sasscsyntaxerror-error-unterminated-attribute-select
+
+# TODO: Fork this for now
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
@@ -35,16 +40,28 @@ gem 'bootsnap', '>= 1.4.4', require: false
 # How long can we get away with sqlite instead of postgres
 # This is a one-machine, one-user application. Probably a while if not forever.
 gem 'sqlite3', '~> 1.4'
+gem 'pg' # for test only
 
 # background job processing
 gem 'sidekiq'
 
+# easy environment configuration
+gem 'configatron'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'pry'
   
   gem 'rspec-rails'
   gem 'capybara'
+  gem 'selenium-webdriver'
+  gem 'webmock'
+  gem 'factory_bot'
+end
+
+group :test do
+  gem 'rspec-sidekiq'
 end
 
 group :development do

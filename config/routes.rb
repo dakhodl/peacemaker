@@ -4,7 +4,8 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :ads, only: [:create]
+      resources :ads, only: [:get]
+      post 'webhook', to: 'webhook#create'
     end
   end
 

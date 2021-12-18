@@ -10,7 +10,9 @@ bundle check || bundle install --jobs 20 --retry 5
 # Remove pre-existing puma/passenger server.pid
 rm -f $APP_PATH/tmp/pids/server.pid
 
-bundle exec rake webpacker:install
+# TODO: move this out of start, is just for easy onboarding.
+# needed quick solution to manifest.json missing
+# bundle exec rake webpacker:install
 
 
 #!/usr/bin/env bash

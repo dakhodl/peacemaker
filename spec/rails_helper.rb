@@ -6,6 +6,15 @@ require File.expand_path('../config/environment', __dir__)
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
+require 'capybara/rspec'
+require 'sidekiq/testing' 
+require 'webmock/rspec'
+
+Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
+
+WebMock.disable_net_connect!(allow_localhost: true)
+ActiveJob::Base.queue_adapter = :test
+Capybara.server = :puma
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -31,6 +40,11 @@ rescue ActiveRecord::PendingMigrationError => e
   exit 1
 end
 RSpec.configure do |config|
+  config.include FactoryBot::Syntax::Methods
+  config.before(:suite) do
+    FactoryBot.find_definitions
+  end
+
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
@@ -61,4 +75,19 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
+
+  config.before :each, :js do
+    Capybara.current_driver = :selenium_chrome
+  end
 end
+
+# RSpec::Sidekiq.configure do |config|
+#   # Clears all job queues before each example
+#   config.clear_all_enqueued_jobs = true # default => true
+
+#   # Whether to use terminal colours when outputting messages
+#   config.enable_terminal_colours = true # default => true
+
+#   # Warn when jobs are not enqueued to Redis but to a job array
+#   config.warn_when_jobs_not_processed_by_sidekiq = false # default => true
+# end

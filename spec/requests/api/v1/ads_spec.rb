@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe "Api::V1::Ads", type: :request do
-  describe "GET /index" do
-    pending "add some examples (or delete) #{__FILE__}"
+describe "Api::V1::Ads", type: :request do
+  describe "POST /api/v1/web" do
+    it ""
   end
 end
