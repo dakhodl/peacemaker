@@ -29,10 +29,9 @@ gem 'ed25519' # for signing requests to other nodes
 
 # CSS framework
 gem "tailwindcss-rails",
-    github: "dorianmariefr/tailwindcss-rails",
+    github: "dakhodl/tailwindcss-rails",
     branch: "minimal" # see https://stackoverflow.com/questions/68898511/tailwindcss-typography-sasscsyntaxerror-error-unterminated-attribute-select
-
-# TODO: Fork this for now
+    # this will upgrade with rails 7
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
