@@ -1,5 +1,5 @@
 class AdsController < ApplicationController
-  before_action :set_ad, only: %i[ show edit update destroy ]
+  before_action :set_ad, only: %i[show edit update destroy]
 
   # GET /ads or /ads.json
   def index
@@ -7,8 +7,7 @@ class AdsController < ApplicationController
   end
 
   # GET /ads/1 or /ads/1.json
-  def show
-  end
+  def show; end
 
   # GET /ads/new
   def new
@@ -16,8 +15,7 @@ class AdsController < ApplicationController
   end
 
   # GET /ads/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /ads or /ads.json
   def create
@@ -25,7 +23,7 @@ class AdsController < ApplicationController
 
     respond_to do |format|
       if @ad.save
-        format.html { redirect_to @ad, notice: "Ad was successfully created." }
+        format.html { redirect_to @ad, notice: 'Ad was successfully created.' }
         format.json { render :show, status: :created, location: @ad }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -38,7 +36,7 @@ class AdsController < ApplicationController
   def update
     respond_to do |format|
       if @ad.update(ad_params)
-        format.html { redirect_to @ad, notice: "Ad was successfully updated." }
+        format.html { redirect_to @ad, notice: 'Ad was successfully updated.' }
         format.json { render :show, status: :ok, location: @ad }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -51,19 +49,20 @@ class AdsController < ApplicationController
   def destroy
     @ad.destroy
     respond_to do |format|
-      format.html { redirect_to ads_url, notice: "Ad was successfully destroyed." }
+      format.html { redirect_to ads_url, notice: 'Ad was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_ad
-      @ad = Ad.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def ad_params
-      params.require(:ad).permit(:title, :message)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_ad
+    @ad = Ad.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def ad_params
+    params.require(:ad).permit(:title, :message)
+  end
 end

@@ -1,5 +1,4 @@
 class Api::V1::WebhookController < Api::V1::BaseController
-
   # POST /api/v1/webhook
   # Used to tell peer of new message with token, to be retreived from sender in second request
   #   until re-using the tor private key to sign requests eliminates this second hop.

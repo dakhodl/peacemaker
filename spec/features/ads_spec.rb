@@ -5,7 +5,7 @@ feature 'viewing and managing ads', :js, :perform_jobs do
     Capybara.current_driver = :selenium_chrome_headless
     create_peer
     click_on 'Marketplace'
-    expect(page).to have_content("Ads")
+    expect(page).to have_content('Ads')
     click_on 'New ad'
 
     fill_in 'Title', with: 'Farm fresh eggs'
@@ -28,13 +28,14 @@ feature 'viewing and managing ads', :js, :perform_jobs do
     fill_in 'Name', with: 'Bob'
     fill_in 'Onion address', with: '123abc.onion'
     click_on 'Create Peer'
-    expect(page).to have_content("Peer was successfully created")
+    expect(page).to have_content('Peer was successfully created')
   end
 
   def stub_onion_peer_propagation
-    stub_request(:post, "http://123abc.onion/api/v1/webhook.json").
-      with(
-        headers: { 'X-Peacemaker-From'=> configatron.my_onion }).
-      to_return(status: 200, body: "", headers: {})
+    stub_request(:post, 'http://123abc.onion/api/v1/webhook.json')
+      .with(
+        headers: { 'X-Peacemaker-From' => configatron.my_onion }
+      )
+      .to_return(status: 200, body: '', headers: {})
   end
 end

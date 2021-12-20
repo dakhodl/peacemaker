@@ -19,6 +19,6 @@ class Peer < ApplicationRecord
   end
 
   def send_request(body)
-    Tor::HTTP.post(onion_address, body, "/api/v1/webhook.json")
+    Tor::HTTP.post(onion_address, body, '/api/v1/webhook.json')
   end
 end

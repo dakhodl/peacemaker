@@ -1,5 +1,5 @@
 class PeersController < ApplicationController
-  before_action :set_peer, only: %i[ show edit update destroy ]
+  before_action :set_peer, only: %i[show edit update destroy]
 
   # GET /peers or /peers.json
   def index
@@ -7,8 +7,7 @@ class PeersController < ApplicationController
   end
 
   # GET /peers/1 or /peers/1.json
-  def show
-  end
+  def show; end
 
   # GET /peers/new
   def new
@@ -16,8 +15,7 @@ class PeersController < ApplicationController
   end
 
   # GET /peers/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /peers or /peers.json
   def create
@@ -25,7 +23,7 @@ class PeersController < ApplicationController
 
     respond_to do |format|
       if @peer.save
-        format.html { redirect_to @peer, notice: "Peer was successfully created." }
+        format.html { redirect_to @peer, notice: 'Peer was successfully created.' }
         format.json { render :show, status: :created, location: @peer }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -38,7 +36,7 @@ class PeersController < ApplicationController
   def update
     respond_to do |format|
       if @peer.update(peer_params)
-        format.html { redirect_to @peer, notice: "Peer was successfully updated." }
+        format.html { redirect_to @peer, notice: 'Peer was successfully updated.' }
         format.json { render :show, status: :ok, location: @peer }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -51,19 +49,20 @@ class PeersController < ApplicationController
   def destroy
     @peer.destroy
     respond_to do |format|
-      format.html { redirect_to peers_url, notice: "Peer was successfully destroyed." }
+      format.html { redirect_to peers_url, notice: 'Peer was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_peer
-      @peer = Peer.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def peer_params
-      params.require(:peer).permit(:name, :onion_address)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_peer
+    @peer = Peer.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def peer_params
+    params.require(:peer).permit(:name, :onion_address)
+  end
 end

@@ -1,1 +1,1 @@
-json.array! @peers, partial: "peers/peer", as: :peer
+json.array! @peers, partial: 'peers/peer', as: :peer

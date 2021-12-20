@@ -1,1 +1,1 @@
-json.partial! "peers/peer", peer: @peer
+json.partial! 'peers/peer', peer: @peer
