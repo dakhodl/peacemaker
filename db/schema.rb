@@ -12,9 +12,6 @@
 
 ActiveRecord::Schema.define(version: 2021_12_12_221754) do
 
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-
   create_table "ad_peers", force: :cascade do |t|
     t.integer "peer_id", null: false
     t.integer "ad_id", null: false
