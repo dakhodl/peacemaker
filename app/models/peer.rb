@@ -7,7 +7,7 @@ class Peer < ApplicationRecord
     webhook_send = webhook_sends.create!(
       resource: resource,
       action: :created,
-      token: SecureRandom.base64
+      token: SecureRandom.hex(24)
     )
 
     post_body = {
