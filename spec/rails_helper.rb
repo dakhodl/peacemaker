@@ -45,6 +45,10 @@ RSpec.configure do |config|
     FactoryBot.find_definitions
   end
 
+  config.before(:each, type: :request) do
+    host! '127.0.0.1'
+  end
+
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
@@ -78,6 +82,13 @@ RSpec.configure do |config|
 
   config.before :each, :js do
     Capybara.current_driver = :selenium_chrome
+  end
+
+  config.before :each do
+    # Stub all status checks as 200
+    stub_request(:get, %r{api/v1/status})
+      .with(headers: { 'X-Peacemaker-From' => configatron.my_onion })
+      .to_return(status: 200, body: '', headers: {})
   end
 end
 

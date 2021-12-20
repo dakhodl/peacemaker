@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 describe 'Webhooks', type: :request do
-  before(:each) { host! '127.0.0.1' }
-
   let!(:peer) { create(:peer) }
 
   let!(:webhook_send) do

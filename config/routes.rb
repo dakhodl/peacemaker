@@ -7,10 +7,9 @@ Rails.application.routes.draw do
       resources :ads, only: [:get]
       post 'webhook', to: 'webhook#create'
       get 'webhook/:token', to: 'webhook#show'
+      get 'status', to: 'status#show'
     end
   end
 
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
-  get '/ping', to: 'static#index'
   root to: 'peers#index'
 end

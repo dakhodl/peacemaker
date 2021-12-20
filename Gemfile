@@ -9,7 +9,7 @@ gem 'rails'
 gem 'puma'
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
-gem "sprockets-rails"
+gem 'sprockets-rails'
 
 # Use SCSS for stylesheets
 # gem 'sassc-rails'
@@ -27,13 +27,13 @@ gem 'redis'
 # gem 'image_processing', '~> 1.2'
 
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
-gem "importmap-rails"
+gem 'importmap-rails'
 
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
-gem "turbo-rails"
+gem 'turbo-rails'
 
 # Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
-gem "stimulus-rails"
+gem 'stimulus-rails'
 
 # Talking to other nodes
 gem 'ed25519' # for signing requests to other nodes
@@ -51,6 +51,7 @@ gem 'sqlite3'
 
 # background job processing
 gem 'sidekiq'
+gem 'sidekiq-cron'
 
 # easy environment configuration
 gem 'configatron'

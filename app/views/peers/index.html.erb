@@ -50,7 +50,7 @@
 <div class="flex flex-col hidden md:block">
   <div class="">
     <div class="py-2 align-middle inline-block min-w-full">
-      <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+      <div class="shadow border-b border-gray-200 sm:rounded-lg">
         <table class="min-w-full divide-y divide-gray-200">
           <thead class="bg-gray-50">
             <tr>
@@ -79,12 +79,7 @@
                   <%= peer.onion_address %>
                 </td>
                 <td>
-                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-green-100 text-green-800">
-                    <svg class="-ml-0.5 mr-1.5 h-2 w-2 text-green-400" fill="currentColor" viewBox="0 0 8 8">
-                      <circle cx="4" cy="4" r="3" />
-                    </svg>
-                    Online
-                  </span>
+                  <%= peer_online_status(peer) %>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                   <%= link_to 'Edit', edit_peer_path(peer), class: "text-indigo-600 hover:text-indigo-900" %>

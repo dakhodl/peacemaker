@@ -17,6 +17,8 @@ class Api::V1::WebhookController < Api::V1::BaseController
 
   def show
     # find_by 404s for mismatch.
+    # if GUUIDs are used, need to find by GUUID in one query, then validate token on separate line
+    # to prevent timing attacks
     webhook_send = Webhook::Send.find_by(token: params[:token])
 
     render json: webhook_send.as_json(include: [:resource])
