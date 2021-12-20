@@ -22,4 +22,8 @@ module PeersHelper
       concat status
     end
   end
+
+  def peer_ads_in(timeframe: 30.days.ago..Time.current)
+    @peer.ads.where(created_at: timeframe).count
+  end
 end

@@ -26,8 +26,6 @@ TOR_HOSTNAME=$(cat "${APP_PATH}/hidden_service/hostname")
 echo ""
 echo "[TOR] ==================================================================="
 echo "[TOR] Starting onion service at ${TOR_HOSTNAME}"
-echo "[TOR] You may dangerously print your hs_ed25519_secret_key by running this command:"
-echo "[TOR] heroku ps:exec --dyno=${DYNO} 'cat \"${APP_PATH}/hidden_service/hs_ed25519_secret_key\"'"
 echo "[TOR] ==================================================================="
 echo ""
 
