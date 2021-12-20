@@ -39,7 +39,6 @@ gem 'bootsnap', '>= 1.4.4', require: false
 # How long can we get away with sqlite instead of postgres
 # This is a one-machine, one-user application. Probably a while if not forever.
 gem 'sqlite3', '~> 1.4'
-gem 'pg' # for test only
 
 # background job processing
 gem 'sidekiq'
