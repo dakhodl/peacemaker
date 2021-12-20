@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_12_221754) do
+ActiveRecord::Schema.define(version: 2021_12_20_170155) do
 
   create_table "ad_peers", force: :cascade do |t|
     t.integer "peer_id", null: false
