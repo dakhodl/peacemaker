@@ -35,18 +35,6 @@ if [ ! -f "${APP_PATH}/hidden_service/hs_ed25519_secret_key" ] || [ ! -f "${APP_
     echo "[TOR] Successfully generated new hs_ed25519_secret_key, hs_ed25519_public_key, and hostname"
 fi
 
-
-# Validate Tor config
-
-TOR_HOSTNAME=$(cat "${APP_PATH}/hidden_service/hostname")
-
-# Print some useful info
-echo ""
-echo "[TOR] ==================================================================="
-echo "[TOR] Starting onion service at ${TOR_HOSTNAME}"
-echo "[TOR] ==================================================================="
-echo ""
-
 #!/usr/bin/env bash
 set -eo pipefail
 
