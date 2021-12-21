@@ -1,38 +1,27 @@
-# README
+# Getting started
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-But instead we use Docker.
-
-(Otherwise it's a pretty vanilla rails 7 app still using sqlite)
+We aim to make this as simple as possible with Docker. So you have to have Docker and docker-compose installed on your system.
 
 ```
 git clone https://github.com/dakhodl/peacemaker.git
 cd peacemaker
 docker-compose up --build -d
+docker-compose exec web bundle exec rake print_onion:address
 ```
 
-and then on subsequent app boots, just call `up`
+Copy/paste your shiny new `.onion` address from the last command above into your Tor browser and start adding peers & ads from there.
 
+Visit 127.0.0.1:3000 in a normal browser on the machine running this for a snappier UI since it won't route through Tor network for page loads.
+
+On subsequent app boots, just call `up` with no build.
 ```
 docker-compose up -d
 ```
 
-### What is your Peacemaker identity?
-The app auto-generates a new tor idenity for you on first boot.
+#### Backing up your identity
 
-You can print out your new .onion address with this command.
+The .onion hostname and its public and private keys _are your Peacemaker identity_. Guard them well.
 
-```
-docker-compose exec web bundle exec rake print_onion:address
-```
-
-Copy/paste the output from thatinto your Tor browser to view your instance from anywhere. It will look like `abc123zycwhatever.onion`
-
-Visit 127.0.0.1:3000 in a normal browser on your main machine for a snappier UI since it won't route through Tor network for page loads.
-
-#### Backing up your keys
 Your tor keys are persisted to hidden_service/ folder in the app directly. Back up as you see prudent.
 
 ### Running tests
