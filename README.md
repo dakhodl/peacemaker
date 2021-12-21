@@ -28,10 +28,9 @@ You can print out your new .onion address with this command.
 docker-compose exec web bundle exec rake print_onion:address
 ```
 
-Copy/paste that into your Tor browser to view your
-instance from anywhere.
+Copy/paste the output from thatinto your Tor browser to view your instance from anywhere. It will look like `abc123zycwhatever.onion`
 
-Visit 127.0.0.1:3000 in a normal browser on your main machine for a quicker experience.
+Visit 127.0.0.1:3000 in a normal browser on your main machine for a snappier UI since it won't route through Tor network for page loads.
 
 #### Backing up your keys
 Your tor keys are persisted to hidden_service/ folder in the app directly. Back up as you see prudent.
