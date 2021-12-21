@@ -35,6 +35,10 @@ RUN gem install bundler --version "$BUNDLE_VERSION" \
 # navigate to app directory
 WORKDIR $APP_PATH
 
+COPY Gemfile $APP_PATH/Gemfile
+COPY Gemfile.lock $APP_PATH/Gemfile.lock
+RUN bundle install
+
 ENV YARN_CACHE_FOLDER=/usr/local/yarn-cache
 VOLUME /usr/local/yarn-cache
 RUN yarn install
