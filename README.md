@@ -10,16 +10,7 @@ But instead we use Docker.
 ```
 git clone https://github.com/dakhodl/peacemaker.git
 cd peacemaker
-brew install tor // or apt-get install tor - whatever you use
-chmod 0700 hidden_service/ // tor will complain in next line if you don't do this
-tor -f config/torrc-dev // generate some onion keys for yourself, into hidden_service/
-<< Kill with Ctrl+C >> // kill tor service
-cat hidden_service/hostname // here's your new .onion
-docker-compose build
-// grab a coffee - first bundle could take a while
-docker-compose up web // starts the server in development
-// browse to the .onion you saw in hidden_service/hostname
-// first load will compile JS assets, grab another coffee
+docker-compose up --build
 ```
 
 ### Running tests
@@ -48,7 +39,8 @@ Probably unit tests will come around at some point as complexity mandates.
 ### Technical roadmap
 
 * ~~Sidekiq/worker container - ads propagated in a background worker so Ad create does not timeout~~
-* tor service container extracted out of web
-  *  still learning Docker
+* ~~tor service container extracted out of web~~
+* ~~keys auto-generated on first boot~~
 * ~~webpack install/manifest.json not part of every boot (upgraded to rails 7)~~
-* tor onboarding automated with https://github.com/RubyCrypto/ed25519 (and requests signed with tor keys)?
+
+Moving to github issues/projects for roadmap.
