@@ -13,6 +13,18 @@ cd peacemaker
 docker-compose up --build
 ```
 
+### What is your Peacemaker identity?
+The app auto-generates a new tor idenity for you on first boot.
+
+```
+docker-compose exec web rake print_onion:address
+```
+
+Copy/paste that into your Tor browser to view your
+instance from anywhere.
+
+Visit localhost:3000 in a normal browser from your main machine for a quicker experience.
+
 ### Running tests
 
 Right now this is run outside of docker. So you'll have to set up a vanilla rails environment the old fashioned way.
