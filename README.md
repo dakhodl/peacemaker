@@ -10,7 +10,13 @@ But instead we use Docker.
 ```
 git clone https://github.com/dakhodl/peacemaker.git
 cd peacemaker
-docker-compose up --build
+docker-compose build
+```
+
+and then on subsequent app boots, simply call
+
+```
+docker-compose up
 ```
 
 ### What is your Peacemaker identity?
