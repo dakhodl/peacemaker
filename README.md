@@ -10,17 +10,19 @@ But instead we use Docker.
 ```
 git clone https://github.com/dakhodl/peacemaker.git
 cd peacemaker
-docker-compose build
+docker-compose up --build -d
 ```
 
-and then on subsequent app boots, simply call
+and then on subsequent app boots, just call `up`
 
 ```
-docker-compose up
+docker-compose up -d
 ```
 
 ### What is your Peacemaker identity?
 The app auto-generates a new tor idenity for you on first boot.
+
+You can print out your new .onion address with this command.
 
 ```
 docker-compose exec web bundle exec rake print_onion:address
@@ -29,7 +31,7 @@ docker-compose exec web bundle exec rake print_onion:address
 Copy/paste that into your Tor browser to view your
 instance from anywhere.
 
-Visit localhost:3000 in a normal browser from your main machine for a quicker experience.
+Visit 127.0.0.1:3000 in a normal browser on your main machine for a quicker experience.
 
 #### Backing up your keys
 Your tor keys are persisted to hidden_service/ folder in the app directly. Back up as you see prudent.
