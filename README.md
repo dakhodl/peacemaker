@@ -17,13 +17,16 @@ docker-compose up --build
 The app auto-generates a new tor idenity for you on first boot.
 
 ```
-docker-compose exec web rake print_onion:address
+docker-compose exec web bundle exec rake print_onion:address
 ```
 
 Copy/paste that into your Tor browser to view your
 instance from anywhere.
 
 Visit localhost:3000 in a normal browser from your main machine for a quicker experience.
+
+#### Backing up your keys
+Your tor keys are persisted to hidden_service/ folder in the app directly. Back up as you see prudent.
 
 ### Running tests
 
