@@ -1,4 +1,4 @@
-HiddenServiceDir  ./hidden_service
+HiddenServiceDir  hidden_service
 HiddenServicePort 80 web:3000
 SocksPort 0.0.0.0:9050
 Log notice stdout

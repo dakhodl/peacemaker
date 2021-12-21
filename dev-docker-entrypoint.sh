@@ -29,5 +29,5 @@ echo ""
 bundle exec rails db:migrate
 
 # Start Tor
-"tor" -f "${APP_PATH}/config/torrc-dev" & bundle exec ${@}
+bundle exec ${@}
 # run passed commands

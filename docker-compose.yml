@@ -14,6 +14,20 @@ services:
       - test
     volumes:
       - shared_data:/var/shared/redis
+  tor:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: peacemaker_tor
+    volumes:
+      - .:/var/app
+      - shared_data:/var/shared
+    networks:
+      - development
+    entrypoint: tor-entrypoint.sh
+    command: ["tor", "-f", "/var/app/config/torrc-dev"]
+    depends_on:
+      - web
   worker:
     build:
       context: .
@@ -32,7 +46,9 @@ services:
       RAILS_ENV: development
       REDIS_URL_SIDEKIQ: "redis://redis:6379/1"
       SOCKS_PROXY_URL: "web"
-
+    depends_on:
+      - tor
+      - redis
   web:
     build:
       context: .

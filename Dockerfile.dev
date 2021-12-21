@@ -10,7 +10,10 @@ ENV RAILS_PORT 3000
 # copy entrypoint scripts and grant execution permissions
 COPY ./dev-docker-entrypoint.sh /usr/local/bin/dev-entrypoint.sh
 COPY ./test-docker-entrypoint.sh /usr/local/bin/test-entrypoint.sh
-RUN chmod +x /usr/local/bin/dev-entrypoint.sh && chmod +x /usr/local/bin/test-entrypoint.sh
+COPY ./tor-entrypoint.sh /usr/local/bin/tor-entrypoint.sh
+RUN chmod +x /usr/local/bin/dev-entrypoint.sh && chmod +x /usr/local/bin/test-entrypoint.sh && chmod +x /usr/local/bin/tor-entrypoint.sh
+
+# COPY ./config/torrc-dev /var/app/config/torrc-dev
 
 # install dependencies for application
 RUN apk -U add --no-cache \
