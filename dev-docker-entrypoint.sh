@@ -7,10 +7,8 @@ echo "Environment: $RAILS_ENV"
 # Remove pre-existing puma/passenger server.pid
 rm -f $APP_PATH/tmp/pids/server.pid
 
-# TODO: move this out of start, is just for easy onboarding.
-# needed quick solution to manifest.json missing
-# bundle exec rake webpacker:install
-
+# ensure hidden service folder has correct perms for tor
+chmod 0700 /var/app/hidden_service/
 
 # Generate a new hs_ed25519_secret_key, hs_ed5519_public_key, and hostname if both were not specified
 if [ ! -f "${APP_PATH}/hidden_service/hs_ed25519_secret_key" ] || [ ! -f "${APP_PATH}/hidden_service/hs_ed25519_public_key" ] || [ ! -f "${APP_PATH}/hidden_service/hostname" ]; then
@@ -38,6 +36,16 @@ if [ ! -f "${APP_PATH}/hidden_service/hs_ed25519_secret_key" ] || [ ! -f "${APP_
 fi
 
 
+# Validate Tor config
+
+TOR_HOSTNAME=$(cat "${APP_PATH}/hidden_service/hostname")
+
+# Print some useful info
+echo ""
+echo "[TOR] ==================================================================="
+echo "[TOR] Starting onion service at ${TOR_HOSTNAME}"
+echo "[TOR] ==================================================================="
+echo ""
 
 #!/usr/bin/env bash
 set -eo pipefail
