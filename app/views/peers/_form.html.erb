@@ -21,7 +21,37 @@
     <%= form.text_field :onion_address, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
 
-  <div class="inline">
+  <div>
+    <label class="text-base font-medium text-gray-900">Level of trust</label>
+    <p class="text-sm leading-5 text-gray-500">How much do you trust this person?</p>
+    <fieldset class="mt-4">
+      <legend class="sr-only">Notification method</legend>
+      <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-10">
+        <div class="flex items-center">
+          <input id="email" name="notification-method" type="radio" checked class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+          <label for="email" class="ml-3 block text-sm font-medium text-gray-700">
+            Low
+          </label>
+        </div>
+
+        <div class="flex items-center">
+          <input id="sms" name="notification-method" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+          <label for="sms" class="ml-3 block text-sm font-medium text-gray-700">
+            Medium
+          </label>
+        </div>
+
+        <div class="flex items-center">
+          <input id="push" name="notification-method" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+          <label for="push" class="ml-3 block text-sm font-medium text-gray-700">
+            High
+          </label>
+        </div>
+      </div>
+    </fieldset>
+  </div>
+
+  <div class="mt-4">
     <%= form.submit class: "rounded-lg py-3 px-5 bg-indigo-700 text-white inline-block font-medium" %>
   </div>
 <% end %>

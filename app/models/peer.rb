@@ -1,9 +1,13 @@
 class Peer < ApplicationRecord
+  TRUST_LEVELS = [0,1,2].freeze
+
   has_many :ads, dependent: :destroy
   has_many :webhook_sends, dependent: :destroy, class_name: 'Webhook::Send'
   has_many :webhook_receipts, dependent: :destroy, class_name: 'Webhook::Receipt'
 
   after_commit -> { Webhook::StatusCheckJob.perform_later(self) }, on: :create
+
+  validates :trust_level, presence: true, inclusion: TRUST_LEVELS
 
   def post_webhook(resource)
     webhook_send = webhook_sends.create!(

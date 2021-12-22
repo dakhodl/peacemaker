@@ -66,6 +66,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'selenium-webdriver'
   gem 'webmock'
+  gem 'shoulda-matchers'
 end
 
 group :test do

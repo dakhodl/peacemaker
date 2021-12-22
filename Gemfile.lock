@@ -219,6 +219,8 @@ GEM
       childprocess (>= 0.5, < 5.0)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2)
+    shoulda-matchers (5.0.0)
+      activesupport (>= 5.2.0)
     sidekiq (6.3.1)
       connection_pool (>= 2.2.2)
       rack (~> 2.0)
@@ -288,6 +290,7 @@ DEPENDENCIES
   rspec-sidekiq
   rubocop
   selenium-webdriver
+  shoulda-matchers
   sidekiq
   sidekiq-cron
   spring

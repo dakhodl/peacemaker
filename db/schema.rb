@@ -31,12 +31,13 @@ ActiveRecord::Schema.define(version: 20_211_220_185_553) do
     t.index ['peer_id'], name: 'index_ads_on_peer_id'
   end
 
-  create_table 'peers', force: :cascade do |t|
-    t.string 'name'
-    t.string 'onion_address'
-    t.datetime 'created_at', precision: 6, null: false
-    t.datetime 'updated_at', precision: 6, null: false
-    t.datetime 'last_online_at'
+  create_table "peers", force: :cascade do |t|
+    t.string "name"
+    t.string "onion_address"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "last_online_at"
+    t.integer "trust_level", default: 0, null: false
   end
 
   create_table 'webhook_receipts', force: :cascade do |t|
