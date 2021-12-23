@@ -13,7 +13,7 @@ feature 'viewing and managing peers', :js, :perform_jobs do
     click_on 'Create Peer'
     expect(page).to have_content('Peer was successfully created')
 
-    click_on 'Back to peers'
+    click_on 'Peers'
 
     # at first, we can't reach the status endpoint for some reason.
     expect(connection_status_for('Bob')).to have_content('Unknown')

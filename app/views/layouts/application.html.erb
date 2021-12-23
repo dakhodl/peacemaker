@@ -56,10 +56,10 @@
               </svg>
             </div>
             <div class="hidden md:ml-6 md:flex md:space-x-8">
-              <%= nav_link_to peers_path do %>
+              <%= nav_link_to peers_path, "peers" do %>
                 Peers
               <% end %>
-              <%= nav_link_to ads_path do %>
+              <%= nav_link_to ads_path, "ads" do %>
                 Marketplace
               <% end %>
             </div>
@@ -151,6 +151,9 @@
     </nav>
 
     <main class="container mx-auto mt-10 flex-col">
+      <% if notice.present? %>
+        <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
+      <% end %>
       <%= yield %>
     </main>
   </body>
