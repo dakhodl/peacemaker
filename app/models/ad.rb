@@ -4,13 +4,11 @@ class Ad < ApplicationRecord
   has_many :webhook_sends, as: :resource, dependent: :destroy, class_name: 'Webhook::Send'
   has_many :webhook_receipts, as: :resource, dependent: :destroy, class_name: 'Webhook::Receipt'
 
-  after_commit :propagate_to_peers, on: :create
+  after_commit :propagate_to_peers
 
   def propagate_to_peers
-    return if peer_id.present? # only support one-hop propagation for now
-
-    Peer.find_each do |peer|
-      PostAdJob.perform_later(self, peer)
+    Peer.where.not(id: peer_id).find_each do |peer|
+      Webhook::ResourceSendJob.perform_later(self, peer)
     end
   end
 end
