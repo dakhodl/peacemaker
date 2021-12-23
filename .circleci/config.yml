@@ -13,10 +13,17 @@ jobs:
     steps:
       - checkout
 
+      - run:
+          name: Install latest version of ChromeDriver Sample
+          command: |
+            sudo wget https://chromedriver.storage.googleapis.com/2.31/chromedriver_linux64.zip
+            sudo unzip chromedriver_linux64.zip
+            sudo rm chromedriver_linux64.zip
+            sudo mv chromedriver /usr/bin/
+            sudo chmod 777 /usr/bin/chromedriver
+
       # Bundle install dependencies
       - run: bundle install --path vendor/bundle
-
-      - run: gem install webdrivers
 
       # Setup the database
       - run: bundle exec rake db:setup
