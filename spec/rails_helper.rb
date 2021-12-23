@@ -81,11 +81,11 @@ RSpec.configure do |config|
   # config.filter_gems_from_backtrace("gem name")
 
   config.before :each, :js do
-    if ENV['FULL_CHROME']
-      Capybara.current_driver = :selenium_chrome
-    else
-      Capybara.current_driver = :selenium_chrome_headless
-    end
+    Capybara.current_driver = if ENV['FULL_CHROME']
+                                :selenium_chrome
+                              else
+                                :selenium_chrome_headless
+                              end
   end
 
   config.before :each do

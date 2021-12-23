@@ -1,5 +1,6 @@
 class Webhook::ResourceSendJob < ApplicationJob
   attr_accessor :peer
+
   def perform(resource, peer)
     self.peer = peer
     webhook_send = peer.webhook_sends.create!(
