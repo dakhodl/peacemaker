@@ -3,9 +3,7 @@ require 'rails_helper'
 feature 'viewing and managing ads', :js, :perform_jobs do
   let!(:peer) { create(:peer) }
 
-  scenario 'creating an ad that to a peer' do
-    Capybara.current_driver = :selenium_chrome_headless
-
+  scenario 'creating an ad that propagations to a peer' do
     visit root_path
     click_on 'Marketplace'
     expect(page).to have_content('Marketplace')
