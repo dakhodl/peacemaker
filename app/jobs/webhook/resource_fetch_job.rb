@@ -5,12 +5,12 @@ class Webhook::ResourceFetchJob < ApplicationJob
     peer = webhook_receipt.peer
     res = Tor::HTTP.get(peer.onion_address, "/api/v1/webhook/#{webhook_receipt.token}.json")
     response = JSON.parse(res.body)
-    resource_type(response).create!(
+    resource = resource_type(response).create!(
       response['resource']
         .merge(peer: webhook_receipt.peer) # set peer so malicious peer cannot masquerade as another
         .except('id') # do not copy pkey from peer
     )
-    webhook_receipt
+    webhook_receipt.update resource: resource
   end
 
   def resource_type(response)

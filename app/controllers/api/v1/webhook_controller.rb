@@ -6,12 +6,12 @@ class Api::V1::WebhookController < Api::V1::BaseController
   def create
     peer = Peer.find_by(onion_address: params[:from])
 
-    peer.webhook_receipts.build(token: params[:token])
+    receipt = peer.webhook_receipts.build(token: params[:token])
 
-    if peer.save
+    if receipt.save
       head :ok
     else
-      render json: peer.errors, status: :unprocessable_entity
+      render json: receipt.errors, status: :unprocessable_entity
     end
   end
 
