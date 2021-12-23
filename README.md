@@ -1,3 +1,4 @@
+[![Pacemaker](https://circleci.com/gh/dakhodl/peacemaker.svg?style=svg)](https://circleci.com/gh/dakhodl/peacemaker)
 # Getting started
 
 We aim to make this as simple as possible with Docker. So you have to have Docker and docker-compose installed on your system.
