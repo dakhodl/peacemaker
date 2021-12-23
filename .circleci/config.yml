@@ -16,9 +16,6 @@ jobs:
       # Bundle install dependencies
       - run: bundle install --path vendor/bundle
 
-      # enforce sensible syntax patterns
-      - run: bundle exec rubocop
-
       # Setup the database
       - run: bundle exec rake db:setup
 
