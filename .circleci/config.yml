@@ -14,7 +14,7 @@ jobs:
       - checkout
       # Restore Cached Dependencies
       - restore_cache:
-        keys: 
+        keys:
           - gem-cache-v1-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
           - gem-cache-v1-{{ arch }}-{{ .Branch }}
           - gem-cache-v1
