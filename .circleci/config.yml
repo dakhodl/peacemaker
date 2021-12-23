@@ -16,6 +16,8 @@ jobs:
       # Bundle install dependencies
       - run: bundle install --path vendor/bundle
 
+      - run: gem install webdrivers
+
       # Setup the database
       - run: bundle exec rake db:setup
 
