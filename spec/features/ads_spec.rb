@@ -8,7 +8,7 @@ feature 'viewing and managing ads', :js, :perform_jobs do
 
     visit root_path
     click_on 'Marketplace'
-    expect(page).to have_content('Ads')
+    expect(page).to have_content('Marketplace')
     click_on 'New ad'
 
     fill_in 'Title', with: 'Farm fresh eggs'
