@@ -12,19 +12,43 @@ orbs:
 jobs:
   build:
     docker:
-      - image: circleci/ruby:2.7.5-stretch-node
+      - image: circleci/ruby:2.7.5
     executor: ruby/default
+    environment:
+      RAILS_ENV: test
     steps:
       - checkout
-      - run:
-          name: Which bundler?
-          command: bundle -v
-      - ruby/bundle-install
+      # Restore Cached Dependencies
+      - type: cache-restore
+        name: Restore bundle cache
+        key: peacemaker-{{ checksum "Gemfile.lock" }}
+
+      # Bundle install dependencies
+      - run: bundle install --path vendor/bundle
+
+      # Cache Dependencies
+      - type: cache-save
+        name: Store bundle cache
+        key: peacemaker-{{ checksum "Gemfile.lock" }}
+        paths:
+          - vendor/bundle
+
+      # Wait for DB
+      # - run: dockerize -wait tcp://localhost:5432 -timeout 1m
+
+      # # Setup the environment
+      # - run: cp .sample.env .env
+
+      # Setup the database
+      - run: bundle exec rake db:setup
+
+      # Run the tests
+      - run: bundle exec rake
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
-  sample: # This is the name of the workflow, feel free to change it to better match your workflow.
+  all_tests: # This is the name of the workflow, feel free to change it to better match your workflow.
     # Inside the workflow, you define the jobs you want to run.
     jobs:
       - build
