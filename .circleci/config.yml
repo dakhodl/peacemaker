@@ -13,25 +13,29 @@ jobs:
     steps:
       - checkout
       # Restore Cached Dependencies
-      - type: cache-restore
-        name: Restore bundle cache
-        key: peacemaker-{{ checksum "Gemfile.lock" }}
+      - restore_cache:
+        keys: 
+          - gem-cache-v1-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+          - gem-cache-v1-{{ arch }}-{{ .Branch }}
+          - gem-cache-v1
 
       # Bundle install dependencies
       - run: bundle install --path vendor/bundle
 
       # Cache Dependencies
-      - type: cache-save
-        name: Store bundle cache
+      - save_cache:
         key: peacemaker-{{ checksum "Gemfile.lock" }}
         paths:
           - vendor/bundle
+
+      # enforce sensible syntax patterns
+      - run: bundle exec rubocop
 
       # Setup the database
       - run: bundle exec rake db:setup
 
       # Run the tests
-      - run: bundle exec rake
+      - run: bundle exec rspec
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
