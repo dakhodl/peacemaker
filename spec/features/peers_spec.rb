@@ -2,8 +2,6 @@ require 'rails_helper'
 
 feature 'viewing and managing peers', :js, :perform_jobs do
   scenario 'creating a peer and seeing its network status' do
-    Capybara.current_driver = :selenium_chrome_headless
-
     visit root_path
 
     click_on 'New peer'
