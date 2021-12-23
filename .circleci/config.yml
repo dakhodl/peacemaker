@@ -12,19 +12,9 @@ jobs:
           RAILS_ENV: test
     steps:
       - checkout
-      # Restore Cached Dependencies
-      - restore_cache:
-        keys:
-          - gem-cache-v1-{{ checksum "Gemfile.lock" }}
 
       # Bundle install dependencies
       - run: bundle install --path vendor/bundle
-
-      # Cache Dependencies
-      - save_cache:
-        key: peacemaker-{{ checksum "Gemfile.lock" }}
-        paths:
-          - vendor/bundle
 
       # enforce sensible syntax patterns
       - run: bundle exec rubocop
