@@ -7,12 +7,6 @@ ENV TMP_PATH /tmp/
 ENV RAILS_LOG_TO_STDOUT true
 ENV RAILS_PORT 3000
 
-# copy entrypoint scripts and grant execution permissions
-COPY ./dev-docker-entrypoint.sh /usr/local/bin/dev-entrypoint.sh
-COPY ./test-docker-entrypoint.sh /usr/local/bin/test-entrypoint.sh
-COPY ./tor-entrypoint.sh /usr/local/bin/tor-entrypoint.sh
-RUN chmod +x /usr/local/bin/dev-entrypoint.sh && chmod +x /usr/local/bin/test-entrypoint.sh && chmod +x /usr/local/bin/tor-entrypoint.sh
-
 # COPY ./config/torrc-dev /var/app/config/torrc-dev
 
 # install dependencies for application
@@ -45,6 +39,14 @@ RUN bundle install
 ENV YARN_CACHE_FOLDER=/usr/local/yarn-cache
 VOLUME /usr/local/yarn-cache
 RUN yarn install
+
+
+# copy entrypoint scripts and grant execution permissions
+COPY ./dev-docker-entrypoint.sh /usr/local/bin/dev-entrypoint.sh
+COPY ./test-docker-entrypoint.sh /usr/local/bin/test-entrypoint.sh
+COPY ./tor-entrypoint.sh /usr/local/bin/tor-entrypoint.sh
+RUN chmod +x /usr/local/bin/dev-entrypoint.sh && chmod +x /usr/local/bin/test-entrypoint.sh && chmod +x /usr/local/bin/tor-entrypoint.sh
+
 
 EXPOSE $RAILS_PORT
 
