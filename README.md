@@ -56,3 +56,4 @@ Probably unit tests will come around at some point as complexity mandates.
 * ~~webpack install/manifest.json not part of every boot (upgraded to rails 7)~~
 
 Moving to github issues/projects for roadmap.
+https://github.com/users/dakhodl/projects/1
