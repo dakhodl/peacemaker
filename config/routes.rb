@@ -6,7 +6,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :ads, only: [:get]
       post 'webhook', to: 'webhook#create'
-      get 'webhook/:token', to: 'webhook#show'
+      get 'webhook/:uuid/:token', to: 'webhook#show'
       get 'status', to: 'status#show'
     end
   end

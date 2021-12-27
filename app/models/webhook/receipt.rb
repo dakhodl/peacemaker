@@ -4,7 +4,7 @@ class Webhook::Receipt < ApplicationRecord
 
   after_commit :fetch_resource, on: :create
 
-  validates_presence_of :peer, :token
+  validates_presence_of :peer, :token, :uuid
 
   def fetch_resource
     Webhook::ResourceFetchJob.perform_later(self)

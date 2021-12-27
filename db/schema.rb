@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_20_185553) do
+ActiveRecord::Schema.define(version: 2021_12_26_185821) do
 
   create_table "ad_peers", force: :cascade do |t|
     t.integer "peer_id", null: false
@@ -29,7 +29,9 @@ ActiveRecord::Schema.define(version: 2021_12_20_185553) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "peer_id"
+    t.string "uuid"
     t.index ["peer_id"], name: "index_ads_on_peer_id"
+    t.index ["uuid"], name: "index_ads_on_uuid", unique: true
   end
 
   create_table "peers", force: :cascade do |t|
@@ -49,6 +51,7 @@ ActiveRecord::Schema.define(version: 2021_12_20_185553) do
     t.string "action"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "uuid"
     t.index ["peer_id"], name: "index_webhook_receipts_on_peer_id"
     t.index ["resource_type", "resource_id"], name: "index_webhook_receipts_on_resource"
   end
@@ -62,6 +65,7 @@ ActiveRecord::Schema.define(version: 2021_12_20_185553) do
     t.integer "status"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "uuid"
     t.index ["peer_id"], name: "index_webhook_sends_on_peer_id"
     t.index ["resource_type", "resource_id"], name: "index_webhook_sends_on_resource"
   end

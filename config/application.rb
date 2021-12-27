@@ -22,6 +22,10 @@ module Peacekeeper
 
     # Support onion hostname
     config.hosts << '127.0.0.1'
-    config.hosts << (File.read('hidden_service/hostname').to_s.strip rescue 'test.onion')
+    config.hosts << begin
+      File.read('hidden_service/hostname').to_s.strip
+    rescue StandardError
+      'test.onion'
+    end
   end
 end
