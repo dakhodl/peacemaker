@@ -16,6 +16,19 @@ WebMock.disable_net_connect!(allow_localhost: true)
 ActiveJob::Base.queue_adapter = :test
 Capybara.server = :puma
 
+def stub_onion_peer_propagation(ad: nil)
+  stub_request(:post, "http://#{peer.onion_address}/api/v1/webhook.json")
+    .with(
+      body: {
+        from: configatron.my_onion,
+        token: a_kind_of(String),
+        uuid: ad.present? ? ad.uuid : a_kind_of(String)
+      },
+      headers: { 'X-Peacemaker-From' => configatron.my_onion }
+    )
+    .to_return(status: 200, body: '', headers: {})
+end
+
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
 # run as spec files by default. This means that files in spec/support that end

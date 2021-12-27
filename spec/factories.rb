@@ -7,11 +7,13 @@ FactoryBot.define do
   factory :ad do
     title { 'Farm fresh eggs' }
     message { 'What else do you need to know' }
+    uuid { SecureRandom.uuid }
   end
 
   factory :webhook_send, class: Webhook::Send do
     association :resource, factory: :ad
     sequence(:token) { |n| "token-#{n}" }
+    uuid { resource.uuid }
     action { :created }
     peer
   end

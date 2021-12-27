@@ -21,11 +21,14 @@ feature 'viewing and managing ads', :js, :perform_jobs do
     expect(page).to have_content('Farm fresh eggs')
   end
 
-  def stub_onion_peer_propagation
-    stub_request(:post, "http://#{peer.onion_address}/api/v1/webhook.json")
-      .with(
-        headers: { 'X-Peacemaker-From' => configatron.my_onion }
-      )
-      .to_return(status: 200, body: '', headers: {})
+  scenario 'deleting an ad propagates to peer' do
+    peer_propagation = stub_onion_peer_propagation
+    ad = create(:ad)
+
+    visit ad_path(ad)
+    delete_propagation = stub_onion_peer_propagation(ad: ad)
+    click_on 'Delete this ad'
+    expect(page).to have_content('Ad was successfully destroyed.')
+    expect(peer_propagation).to have_been_requested.twice # once for create, and then delete
   end
 end
