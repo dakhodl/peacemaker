@@ -17,6 +17,7 @@ class Webhook::ResourceSendJob < ApplicationJob
     )
 
     post_body = {
+      resource_type: resource_type,
       from: configatron.my_onion,
       token: webhook_send.token,
       uuid: uuid
