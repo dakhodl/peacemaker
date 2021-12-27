@@ -8,7 +8,8 @@ class Api::V1::WebhookController < Api::V1::BaseController
 
     receipt = peer.webhook_receipts.build(
       uuid: params[:uuid],
-      token: params[:token]
+      token: params[:token],
+      resource_type: params[:resource_type]
     )
 
     if receipt.save

@@ -22,7 +22,8 @@ def stub_onion_peer_propagation(ad: nil)
       body: {
         from: configatron.my_onion,
         token: a_kind_of(String),
-        uuid: ad.present? ? ad.uuid : a_kind_of(String)
+        uuid: ad.present? ? ad.uuid : a_kind_of(String),
+        resource_type: 'Ad'
       },
       headers: { 'X-Peacemaker-From' => configatron.my_onion }
     )
