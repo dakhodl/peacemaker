@@ -7,7 +7,7 @@ class Ad < ApplicationRecord
   after_initialize :generate_uuid
   after_commit :propagate_to_peers
 
-  validates_presence_of :uuid
+  validates :uuid, presence: true, uniqueness: true
 
   def generate_uuid
     self[:uuid] ||= SecureRandom.uuid
