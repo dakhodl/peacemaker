@@ -27,14 +27,19 @@ Your tor keys are persisted to hidden_service/ folder in the app directly. Back 
 
 ### Running tests
 
-Right now this is run outside of docker. So you'll have to set up a vanilla rails environment the old fashioned way.
+Currently these are run from the `web` container.
 
-`rspec spec`
+```
+docker-compose exec web bundle exec rspec
+```
 
 We have two types of tests.
 
-* request specs - these test api endpoints from routing layer to database.
-* feature specs - these end to end test the UI as best as possible, not fully p2p e2e tests since the p2p calls are stubbed out.
+* spec/requests - these test api endpoints from routing layer to database changes.
+* spec/features - these end to end test the UI as best as possible, not fully p2p e2e tests since the p2p calls are stubbed out.
+
+Only request specs run through docker. You'll need to stand up your own rails env locally to run Feature specs with chromedriver.
+Or open a PR and let CircleCI run them for you.
 
 If I could, I'd only have feature specs. It wasn't clear how to orchestrate N peers in an automated test environment and selenium through them all.
 
