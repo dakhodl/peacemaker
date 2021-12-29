@@ -21,10 +21,10 @@ class Api::V1::WebhookController < Api::V1::BaseController
 
   def show
     # find_by 404s for mismatch.
-    webhook_send = Webhook::Send.find_by(uuid: params[:uuid])
+    webhook_send = Webhook::Send.find_by(token: params[:token])
 
-    # compare token outside of db query to mitigate timing attacks
-    if webhook_send.token == params[:token]
+    # compare uuid outside of db query to mitigate timing attacks
+    if webhook_send.uuid == params[:uuid]
       render json: webhook_send.as_json(include: [:resource])
     else
       render json: {}, status: :unauthorized
