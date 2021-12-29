@@ -13,6 +13,8 @@ class Webhook::ResourceFetchJob < ApplicationJob
     # TODO: if original peer is offline for X days, take an update from another?
 
     res = Tor::HTTP.get(peer.onion_address, "/api/v1/webhook/#{webhook_receipt.uuid}/#{webhook_receipt.token}.json")
+    return if res.code != "200"
+
     response = JSON.parse(res.body)
     if response['action'] == 'upsert'
       upsert(response)
