@@ -7,6 +7,7 @@ class Webhook::Receipt < ApplicationRecord
   validates_presence_of :peer, :token, :uuid, :resource_type
 
   validates_inclusion_of :resource_type, in: ['Ad']
+  validates_inclusion_of :action, in: [:upsert, :delete], allow_nil: true
 
   def fetch_resource
     Webhook::ResourceFetchJob.perform_later(self)

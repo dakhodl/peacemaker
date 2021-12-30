@@ -17,16 +17,21 @@ class Webhook::ResourceFetchJob < ApplicationJob
 
     response = JSON.parse(res.body)
     if response['action'] == 'upsert'
-      upsert(response)
+      upsert!(response)
     else
-      resource.destroy
+      destroy!
     end
   end
 
-  def upsert(response)
+  def upsert!(response)
     resource.update!(response['resource']
       .merge(peer: peer) # set peer so malicious peer cannot masquerade as another
       .except('id')) # do not copy pkey from peer
-    webhook_receipt.update resource: resource
+    webhook_receipt.update resource: resource, action: :upsert
+  end
+
+  def destroy!
+    resource.destroy if resource.persisted?
+    webhook_receipt.update action: :delete
   end
 end
