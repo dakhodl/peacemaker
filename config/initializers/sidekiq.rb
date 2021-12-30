@@ -3,7 +3,7 @@ Sidekiq.configure_server do |config|
 
   Sidekiq::Cron::Job.create(
     name: 'Peer status check - every 5min',
-    cron: '*/1 * * * *',
+    cron: '*/5 * * * *',
     class: 'PeerStatusCheckJob'
   ) # execute at every 10 minutes, ex: 12:00, 12:10, 12:20...etc
 end
