@@ -58,7 +58,7 @@ class AdsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_ad
-    @ad = Ad.find(params[:id])
+    @ad = Ad.find_by(uuid: params[:id])
   end
 
   # Only allow a list of trusted parameters through.

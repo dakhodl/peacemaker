@@ -9,6 +9,10 @@ class Ad < ApplicationRecord
 
   validates :uuid, presence: true, uniqueness: true
 
+  def to_param
+    uuid
+  end
+
   def generate_uuid
     self[:uuid] ||= SecureRandom.uuid
   end
