@@ -167,17 +167,6 @@ describe 'Webhooks', type: :request do
       ad = create(:ad, peer: peer, uuid: uuid)
       original_ad_count = Ad.count
 
-      # simulate receipt of webhook from peer1
-      expect do
-        post '/api/v1/webhook.json', params: {
-          from: peer.onion_address,
-          token: peer_token_stub,
-          uuid: uuid,
-          resource_type: 'Ad',
-        }
-      end.to change { peer.webhook_receipts.count }.by(1)
-      expect(response).to be_successful
-
       # simulate receipt of webhook from peer2
       expect do
         post '/api/v1/webhook.json', params: {
@@ -186,47 +175,11 @@ describe 'Webhooks', type: :request do
           uuid: uuid,
           resource_type: 'Ad',
         }
-      end.to change { peer_2.webhook_receipts.count }.by(1)
-      expect(response).to be_successful
+      end.to_not change { peer_2.webhook_receipts.count }
+      expect(response).to_not be_successful
+      expect(response.status).to eql(422)
 
-      # Incoming ad writes new ad record to db
-      expect(Webhook::ResourceFetchJob).to have_been_enqueued.twice
-      stub_request(:get, "http://#{peer.onion_address}/api/v1/webhook/#{uuid}/#{peer_token_stub}.json")
-        .with(headers: { 'X-Peacemaker-From' => configatron.my_onion })
-        .to_return(status: 200, body: {
-          action: 'upsert',
-          uuid: uuid,
-          resource_type: 'Ad',
-          resource: {
-            title: "New title for existing uuid",
-            message: 'This is an updated message also'
-          }
-        }.to_json, headers: {})
-
-      # and ad upsert from peer 1 propagates to peer 2
-      n_hop_propagation = stub_request(:post, "http://#{peer_2.onion_address}/api/v1/webhook.json")
-                          .with(
-                            body: {
-                              from: configatron.my_onion,
-                              token: a_kind_of(String),
-                              resource_type: 'Ad',
-                              uuid: uuid # uuid passes through network
-                            },
-                            headers: { 'X-Peacemaker-From' => configatron.my_onion }
-                          )
-                          .to_return(status: 200, body: '', headers: {})
-
-      # once to fetch the ad resource
-      expect do
-        perform_enqueued_jobs
-      end.to change { ad.reload.message }.from(ad.message).to('This is an updated message also')
-
-      expect do
-        perform_enqueued_jobs # again to propagate to peer 2
-      end.to change { Webhook::Send.count }.by(1)
-
-      expect(n_hop_propagation).to have_been_requested.twice # once for the stubby create, once for the delete
-      expect(Ad.count).to eql(original_ad_count) # second peer telling us does not result in duplicate ad
+      expect(Webhook::ResourceFetchJob).to_not have_been_enqueued
     end
   end
 
