@@ -1,0 +1,26 @@
+version: '3'
+networks:
+  test:
+volumes:
+  gem_cache:
+  shared_data:
+services:
+  app_1:
+    build:
+      context: .
+      dockerfile: Dockerfile.integration
+    container_name: peacemaker_test_peer_1
+    volumes:
+      - .:/var/app
+      - shared_data:/var/shared
+      - gem_cache:/usr/local/bundle/gems
+    networks:
+      - test
+    ports:
+      - 3010:3000
+    stdin_open: true
+    tty: true
+    entrypoint: test-entrypoint.sh
+    environment:
+      RAILS_ENV: test
+      REDIS_URL_SIDEKIQ: "redis://127.0.0.1:6379/1"
