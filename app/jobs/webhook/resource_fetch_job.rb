@@ -12,7 +12,7 @@ class Webhook::ResourceFetchJob < ApplicationJob
     return if resource.peer_id.present? && resource.peer != peer # rely on original peer for updates for now
     # TODO: if original peer is offline for X days, take an update from another?
 
-    res = Tor::HTTP.get(peer.onion_address, "/api/v1/webhook/#{webhook_receipt.uuid}/#{webhook_receipt.token}.json")
+    res = PeaceNet.get(peer.onion_address, "/api/v1/webhook/#{webhook_receipt.uuid}/#{webhook_receipt.token}.json")
     return if res.code != "200"
 
     response = JSON.parse(res.body)

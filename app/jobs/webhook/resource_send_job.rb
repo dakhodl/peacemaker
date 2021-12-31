@@ -29,6 +29,6 @@ class Webhook::ResourceSendJob < ApplicationJob
   end
 
   def send_webhook(body)
-    Tor::HTTP.post(peer.onion_address, body, '/api/v1/webhook.json')
+    PeaceNet.post(peer.onion_address, '/api/v1/webhook.json', body)
   end
 end
