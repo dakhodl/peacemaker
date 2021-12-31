@@ -6,6 +6,7 @@ Sidekiq.configure_server do |config|
     cron: '*/5 * * * *',
     class: 'PeerStatusCheckJob'
   ) # execute at every 10 minutes, ex: 12:00, 12:10, 12:20...etc
+  Sidekiq::Testing.disable! if ENV['INTEGRATION_SPECS']
 end
 
 Sidekiq.configure_client do |config|

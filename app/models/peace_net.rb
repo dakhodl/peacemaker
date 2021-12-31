@@ -1,7 +1,12 @@
 class PeaceNet
   def self.get(peer_host, path)
     if Rails.env.test? && ENV['INTEGRATION_SPECS']
-      Net::HTTP.get(peer_host, path)
+      uri = URI("http://#{peer_host}")
+      req = Net::HTTP::Get.new(uri)
+      
+      Net::HTTP.start(uri.hostname, uri.port) {|http|
+        http.request(req)
+      }
     else
       Tor::HTTP.get(peer_host, path)
     end
