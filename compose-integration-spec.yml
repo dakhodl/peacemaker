@@ -24,7 +24,7 @@ services:
     environment:
       RAILS_ENV: test
       REDIS_URL_SIDEKIQ: "redis://127.0.0.1:6379/1"
-      INTEGRATION_SPECS: true
+      INTEGRATION_SPECS: '1'
   peer_2:
     build:
       context: .
@@ -44,7 +44,7 @@ services:
     environment:
       RAILS_ENV: test
       REDIS_URL_SIDEKIQ: "redis://127.0.0.1:6379/1"
-      INTEGRATION_SPECS: true
+      INTEGRATION_SPECS: '1'
   peer_3:
     build:
       context: .
@@ -64,7 +64,7 @@ services:
     environment:
       RAILS_ENV: test
       REDIS_URL_SIDEKIQ: "redis://127.0.0.1:6379/1"
-      INTEGRATION_SPECS: true
+      INTEGRATION_SPECS: '1'
   peer_4:
     build:
       context: .
@@ -84,4 +84,27 @@ services:
     environment:
       RAILS_ENV: test
       REDIS_URL_SIDEKIQ: "redis://127.0.0.1:6379/1"
-      INTEGRATION_SPECS: true
+      INTEGRATION_SPECS: '1'
+  spec_runner:
+    build:
+      context: .
+      dockerfile: Dockerfile.integration
+    container_name: peacemaker_test_specs
+    volumes:
+      - .:/var/app
+      - gem_cache:/usr/local/bundle/gems
+    networks:
+      - test
+    stdin_open: true
+    tty: true
+    command: "bundle exec rspec spec/integrations"
+    environment:
+      RAILS_ENV: test
+      REDIS_URL_SIDEKIQ: "redis://127.0.0.1:6379/1"
+      INTEGRATION_SPECS: '1'
+    depends_on:
+      - peer_1
+      - peer_2
+      - peer_3
+      - peer_4
+  
