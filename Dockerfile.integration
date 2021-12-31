@@ -1,4 +1,4 @@
-FROM ruby:2.7.5-alpine
+FROM --platform=linux/amd64 ruby:2.7.5-buster
 
 ENV APP_PATH /var/app
 ENV BUNDLE_VERSION 2.1.4
@@ -7,9 +7,10 @@ ENV TMP_PATH /tmp/
 ENV RAILS_LOG_TO_STDOUT true
 ENV RAILS_PORT 3000
 
+RUN apt-get update && apt-get upgrade -y
+
 # install dependencies for application
-RUN apk -U add --no-cache \
-build-base \
+RUN apt-get install \
 git \
 libxml2-dev \
 libxslt-dev \
@@ -18,13 +19,28 @@ yarn \
 imagemagick \
 tzdata \
 less \
-sqlite-dev \
+libsqlite3-dev \
 tor \
-redis \
-openrc \
-&& rm -rf /var/cache/apk/* \
+redis -y\
 && mkdir -p $APP_PATH 
 
+
+# Install chrome/driver dependencies.
+RUN apt-get install unzip libxi6 libgconf-2-4 libasound2 libatk1.0-0 libgtk-3-0 libnspr4 libxcomposite1 libxcursor1 libxrandr2 libxss1 libxtst6 fonts-liberation libappindicator1 libnss3 xdg-utils lsof -y
+
+# Install chrome.
+RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+RUN echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list
+RUN apt-get update -y
+RUN apt-get install -y google-chrome-stable
+
+# Install chromedriver.
+RUN curl -sSO https://chromedriver.storage.googleapis.com/2.41/chromedriver_linux64.zip
+RUN unzip chromedriver_linux64.zip
+RUN rm chromedriver_linux64.zip
+RUN mv -f chromedriver /usr/local/bin/chromedriver
+RUN chown root:root /usr/local/bin/chromedriver
+RUN chmod 0755 /usr/local/bin/chromedriver
 
 RUN gem install bundler --version "$BUNDLE_VERSION" \
 && rm -rf $GEM_HOME/cache/*
@@ -35,6 +51,14 @@ WORKDIR $APP_PATH
 COPY Gemfile $APP_PATH/Gemfile
 COPY Gemfile.lock $APP_PATH/Gemfile.lock
 RUN bundle install
+
+# https://stackoverflow.com/questions/46013544/yarn-install-command-error-no-such-file-or-directory-install
+RUN apt remove cmdtest -y
+RUN apt remove yarn -y
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+RUN apt-get update
+RUN apt-get install yarn -y
 
 ENV YARN_CACHE_FOLDER=/usr/local/yarn-cache
 VOLUME /usr/local/yarn-cache
