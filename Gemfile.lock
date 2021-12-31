@@ -100,6 +100,7 @@ GEM
     factory_bot (6.2.0)
       activesupport (>= 5.0.0)
     ffi (1.15.4)
+    foreman (0.87.2)
     fugit (1.5.2)
       et-orbi (~> 1.1, >= 1.1.8)
       raabro (~> 1.4)
@@ -276,6 +277,7 @@ DEPENDENCIES
   configatron
   ed25519
   factory_bot
+  foreman
   importmap-rails
   jbuilder
   listen

@@ -70,6 +70,7 @@ end
 
 group :test do
   gem 'rspec-sidekiq'
+  gem 'foreman'
 end
 
 group :development do
