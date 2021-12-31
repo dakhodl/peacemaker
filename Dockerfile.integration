@@ -38,9 +38,9 @@ RUN apt-get install -y google-chrome-stable
 RUN curl -sSO https://chromedriver.storage.googleapis.com/2.41/chromedriver_linux64.zip
 RUN unzip chromedriver_linux64.zip
 RUN rm chromedriver_linux64.zip
-RUN mv -f chromedriver /usr/local/bin/chromedriver
-RUN chown root:root /usr/local/bin/chromedriver
-RUN chmod 0755 /usr/local/bin/chromedriver
+RUN mv -f chromedriver /usr/bin/chromedriver
+# RUN chown root:root /usr/local/bin/chromedriver
+RUN chmod 0755 /usr/bin/chromedriver
 
 RUN gem install bundler --version "$BUNDLE_VERSION" \
 && rm -rf $GEM_HOME/cache/*

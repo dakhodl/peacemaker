@@ -1,10 +1,10 @@
-require 'rails_helper'
+require 'integration_helper'
 
-feature 'viewing and managing ads', :js, :perform_jobs do
+feature 'viewing and managing ads', :js, :perform_jobs, :integration do
   let!(:peer) { create(:peer) }
 
   scenario 'creating an ad that propagations to a peer' do
-    visit "peacemaker_test_peer_1"
+    visit "google.com"
     click_on 'Marketplace'
     expect(page).to have_content('Marketplace')
     click_on 'New ad'
