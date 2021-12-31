@@ -7,6 +7,6 @@ class Peer < ApplicationRecord
   after_commit -> { Webhook::StatusCheckJob.perform_later(self) }, on: :create
 
   def get_status
-    Tor::HTTP.get(onion_address, '/api/v1/status.json')
+    PeaceNet.get(onion_address, '/api/v1/status.json')
   end
 end
