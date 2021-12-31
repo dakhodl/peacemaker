@@ -70,7 +70,7 @@ end
 
 group :test do
   gem 'rspec-sidekiq'
-  gem 'foreman'
+  gem 'foreman' # to run a hive of dockerized peers for end to end test
 end
 
 group :development do
