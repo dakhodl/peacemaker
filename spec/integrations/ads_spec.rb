@@ -1,7 +1,7 @@
 require 'integration_helper'
 
 feature 'viewing and managing ads', :js, :perform_jobs, :integration do
-  let!(:peer) { create(:peer) }
+  # let!(:peer) { create(:peer) }
 
   scenario 'creating an ad that propagations to a peer' do
     visit "google.com"
@@ -20,10 +20,10 @@ feature 'viewing and managing ads', :js, :perform_jobs, :integration do
   end
 
   scenario 'deleting an ad propagates to peer' do
-    ad = create(:ad)
+    # ad = create(:ad)
 
-    visit ad_path(ad)
-    click_on 'Delete this ad'
-    expect(page).to have_content('Ad was successfully destroyed.')
+    # visit ad_path(ad)
+    # click_on 'Delete this ad'
+    # expect(page).to have_content('Ad was successfully destroyed.')
   end
 end
