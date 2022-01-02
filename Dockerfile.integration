@@ -35,7 +35,7 @@ RUN apt-get update -y
 RUN apt-get install -y google-chrome-stable
 
 # Install chromedriver.
-RUN curl -sSO https://chromedriver.storage.googleapis.com/2.41/chromedriver_linux64.zip
+RUN curl -sSO https://chromedriver.storage.googleapis.com/96.0.4664.45/chromedriver_linux64.zip
 RUN unzip chromedriver_linux64.zip
 RUN rm chromedriver_linux64.zip
 RUN mv -f chromedriver /usr/bin/chromedriver
@@ -68,5 +68,7 @@ RUN yarn install
 COPY ./test-docker-entrypoint.sh /usr/local/bin/test-entrypoint.sh
 RUN chmod +x /usr/local/bin/test-entrypoint.sh
 
+COPY ./test-capybara-entrypoint.sh /usr/local/bin/test-capybara-entrypoint.sh
+RUN chmod +x /usr/local/bin/test-capybara-entrypoint.sh
 
 EXPOSE $RAILS_PORT

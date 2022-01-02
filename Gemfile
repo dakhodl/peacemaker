@@ -71,6 +71,7 @@ end
 group :test do
   gem 'rspec-sidekiq'
   gem 'foreman' # to run a hive of dockerized peers for end to end test
+  gem 'capybara-screenshot'
 end
 
 group :development do
