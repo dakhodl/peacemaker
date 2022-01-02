@@ -36,14 +36,25 @@ docker-compose exec web bundle exec rspec
 We have two types of tests.
 
 * spec/requests - these test api endpoints from routing layer to database changes.
-* spec/features - these end to end test the UI as best as possible, not fully p2p e2e tests since the p2p calls are stubbed out.
+* spec/integrations - these end to end test the UI on a peer network within several containers
 
-Only request specs run through docker. You'll need to stand up your own rails env locally to run Feature specs with chromedriver.
-Or open a PR and let CircleCI run them for you.
+Only request specs run through docker. You'll need to stand up your own rails env locally to run Integration specs with chromedriver.
 
-If I could, I'd only have feature specs. It wasn't clear how to orchestrate N peers in an automated test environment and selenium through them all.
+To run peer to peer end to end integration specs, first boot up the peer network and selenium container. (Apple m1 not supported yet.)
 
-Probably unit tests will come around at some point as complexity mandates.
+```
+docker-compose -f compose-integration-spec.yml up
+```
+
+You will see the `spec_runner` container fail because selenium isn't ready yet. That's fine.
+
+Then run the spec_runner:
+
+```
+bin/integration_specs
+```
+
+That script ensures the DB is reset before booting capybara to drive UI tests.
 
 ### Roadmap
 

@@ -1,7 +1,7 @@
 class PeaceNet
   def self.get(peer_host, path)
     if Rails.env.test? && ENV['INTEGRATION_SPECS']
-      uri = URI("http://#{peer_host}")
+      uri = URI("http://#{peer_host}#{path}")
       req = Net::HTTP::Get.new(uri)
       
       Net::HTTP.start(uri.hostname, uri.port) {|http|
@@ -12,9 +12,16 @@ class PeaceNet
     end
   end
 
-  def self.post(peer_host, path, body_params = {})
+  def self.post(peer_host, path, body_params = "")
     if Rails.env.test? && ENV['INTEGRATION_SPECS']
-      Net::HTTP.post(URI("http://#{peer_host}#{path}"), body_params.to_json)
+      uri = URI("http://#{peer_host}#{path}")
+      http = Net::HTTP.new(uri.host, uri.port)
+      request = Net::HTTP::Post.new(
+        uri.request_uri,
+        'Content-type': 'application/json'
+      )
+      request.body = body_params
+      http.request(request)
     else
       Tor::HTTP.post(peer_host, body_params, path)
     end

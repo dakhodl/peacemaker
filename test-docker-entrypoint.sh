@@ -16,8 +16,7 @@ bundle check || bundle install --jobs 20 --retry 5
 redis-server &
 
 bundle exec rake db:migrate
-
-ps -A
+bundle exec rake db:seed
 
 # Then run any passed command
-bundle exec foreman s -f Procfile.integration
+exec "$@"
