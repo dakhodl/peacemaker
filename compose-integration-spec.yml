@@ -123,5 +123,4 @@ services:
       RAILS_ENV: test
       REDIS_URL_SIDEKIQ: "redis://localhost:6379/1"
       INTEGRATION_SPECS: '5'
-      SE_BIND_HOST: true
       JAVA_OPTS: -Dwebdriver.chrome.whitelistedIps=
