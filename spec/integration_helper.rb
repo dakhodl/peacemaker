@@ -91,14 +91,14 @@ end
 
 Capybara.register_driver :chrome do |app|
   options = Selenium::WebDriver::Chrome::Options.new
- options.add_argument('--headless')
- #options.add_argument('--disable-dev-shm-usage')
- options.add_argument('--start-maximized')
-  options.add_argument('--no-sandbox')
-  options.add_argument('--allow-insecure-localhost')
-  options.add_argument('--ignore-certificate-errors')
-  #options.add_argument('--privileged')
-  options.add_argument('--shm-size="2g"')
+#   options.add_argument('--headless')
+#   options.add_argument('--disable-dev-shm-usage')
+#   options.add_argument('--start-maximized')
+#   options.add_argument('--no-sandbox')
+#   options.add_argument('--allow-insecure-localhost')
+#   options.add_argument('--ignore-certificate-errors')
+#   options.add_argument('--privileged')
+#   options.add_argument('--shm-size="2g"')
 
   Capybara::Selenium::Driver.new(
     app,
@@ -108,6 +108,7 @@ Capybara.register_driver :chrome do |app|
     url: "http://#{ENV['SELENIUM_HOST']}:#{ENV['SELENIUM_PORT']}/wd/hub",
   )
 end
+Capybara.save_path = "tmp/"
 
 Capybara::Screenshot.register_driver(:chrome) do |driver, path|
   driver.browser.save_screenshot path
