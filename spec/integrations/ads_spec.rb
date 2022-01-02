@@ -3,8 +3,10 @@ require 'integration_helper'
 feature 'viewing and managing ads', :js, :perform_jobs, :integration do
   # let!(:peer) { create(:peer) }
 
-  scenario 'creating an ad that propagations to a peer' do
-    visit "https://google.com"
+  scenario 'creating an ad that propagates to a peer' do
+    visit "http://peer_1:3000/"
+    expect(page).to have_content('Peer 2')
+    expect(page).to have_content('peer_2:3000')
     click_on 'Marketplace'
     expect(page).to have_content('Marketplace')
     click_on 'New ad'
@@ -17,13 +19,37 @@ feature 'viewing and managing ads', :js, :perform_jobs, :integration do
     click_on 'Back to ads'
 
     expect(page).to have_content('Farm fresh eggs')
+    sleep 2
+
+    expect_ad_to_have_propagated_to_all_peers("Farm fresh eggs")
+
+    visit_peer(1)
+    click_on 'Edit'
+    fill_in 'Title', with: 'Farm fresh dogs'
+    click_on 'Update Ad'
+    expect(page).to have_content('Ad was successfully updated.')
+    sleep 2
+
+    expect_ad_to_have_propagated_to_all_peers("Farm fresh dogs")
+
+    visit_peer(1)
+    click_on 'Farm fresh dogs'
+    click_on 'Delete this ad'
+    expect(page).to have_content('Ad was successfully destroyed.')
+
+    # deletes propagate
+    expect_ad_to_have_propagated_to_all_peers("Farm fresh dogs", :to_not)
   end
 
-  scenario 'deleting an ad propagates to peer' do
-    # ad = create(:ad)
+  def visit_peer(number)
+    visit "http://peer_#{number}:3000/ads"
+  end
 
-    # visit ad_path(ad)
-    # click_on 'Delete this ad'
-    # expect(page).to have_content('Ad was successfully destroyed.')
+  def expect_ad_to_have_propagated_to_all_peers(ad_title, expectation = :to)
+    [2,3,4].each do |number|
+      sleep 2
+      visit_peer(number)
+      expect(page).send(expectation, have_content(ad_title))
+    end
   end
 end

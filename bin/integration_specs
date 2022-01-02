@@ -1,0 +1,6 @@
+#!/bin/sh
+
+
+docker-compose -f compose-integration-spec.yml restart peer_1 peer_2 peer_3 peer_4
+wait 10
+docker-compose -f compose-integration-spec.yml up spec_runner

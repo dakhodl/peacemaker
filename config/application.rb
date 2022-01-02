@@ -27,5 +27,9 @@ module Peacekeeper
     rescue StandardError
       'test.onion'
     end
+
+    if ENV['INTEGRATION_SPECS']
+      config.hosts << "peer_#{ENV['INTEGRATION_SPECS']}"
+    end
   end
 end

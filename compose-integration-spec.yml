@@ -18,10 +18,11 @@ services:
     networks:
       - test
     ports:
-      - 3010:3000
+      - 3001:3000
     stdin_open: true
     tty: true
     entrypoint: test-entrypoint.sh
+    command: bundle exec foreman s -f Procfile.integration
     environment:
       RAILS_ENV: test
       REDIS_URL_SIDEKIQ: "redis://localhost:6379/1"
@@ -38,10 +39,11 @@ services:
     networks:
       - test
     ports:
-      - 3011:3000
+      - 3002:3000
     stdin_open: true
     tty: true
     entrypoint: test-entrypoint.sh
+    command: bundle exec foreman s -f Procfile.integration
     environment:
       RAILS_ENV: test
       REDIS_URL_SIDEKIQ: "redis://localhost:6379/1"
@@ -58,10 +60,11 @@ services:
     networks:
       - test
     ports:
-      - 3012:3000
+      - 3003:3000
     stdin_open: true
     tty: true
     entrypoint: test-entrypoint.sh
+    command: bundle exec foreman s -f Procfile.integration
     environment:
       RAILS_ENV: test
       REDIS_URL_SIDEKIQ: "redis://localhost:6379/1"
@@ -78,10 +81,11 @@ services:
     networks:
       - test
     ports:
-      - 3013:3000
+      - 3004:3000
     stdin_open: true
     tty: true
     entrypoint: test-entrypoint.sh
+    command: bundle exec foreman s -f Procfile.integration
     environment:
       RAILS_ENV: test
       REDIS_URL_SIDEKIQ: "redis://localhost:6379/1"
