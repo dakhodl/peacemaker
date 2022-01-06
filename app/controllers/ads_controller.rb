@@ -3,7 +3,7 @@ class AdsController < ApplicationController
 
   # GET /ads or /ads.json
   def index
-    @ads = Ad.includes(:peer).all
+    @ads = Ad.includes(:peer).where(peer: nil)
   end
 
   # GET /ads/1 or /ads/1.json

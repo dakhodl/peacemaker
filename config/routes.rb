@@ -3,6 +3,7 @@ require 'sidekiq/web'
 Rails.application.routes.draw do
   resources :ads
   resources :peers
+  get '/marketplace', to: "marketplace#index"
 
   namespace :api do
     namespace :v1 do
