@@ -1,7 +1,21 @@
+<% content_for :page_title, 'Your ads' %>
+
+<% content_for :mobile_nav_cta do %>
+  <div class="flex-shrink-0 md:hidden">
+    <%= link_to new_ad_path, class: "btn relative inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" do %>
+      <!-- Heroicon name: solid/plus-sm -->
+      <svg class="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
+      </svg>
+      <span>New Ad</span>
+    <% end %>
+  </div>
+<% end %>
+
 <div class="w-full">
-  <div class="flex justify-between items-center">
+  <div class="flex justify-between items-center hidden md:flex">
     <h1 class="font-bold text-4xl">Your ads</h1>
-    <%= link_to 'New ad', new_ad_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
+    <%= link_to 'New ad', new_ad_path, class: "rounded-lg py-3 px-5 bg-indigo-600 text-white block font-medium" %>
   </div>
 </div>
 
