@@ -19,6 +19,11 @@ case ENV['INTEGRATION_SPECS']
     Peer.find_or_create_by!(name: 'Peer 3', onion_address: 'peer_3:3000')
   else
     # Dev seeds, tbd
+    peer_1 = Peer.find_or_create_by!(name: 'Bobby McGee', onion_address: 'abc123.onion')
+    peer_1.ads.find_or_create_by!(title: "Fresh eggs", message: "Delivery by fee")
+    peer_1.ads.find_or_create_by!(title: "73 ford 150", message: "250k miles, fresh rubber in feb, runs like new")
+    peer_1.ads.find_or_create_by!(title: "40s-50s model tractor parts", message: "You name it we'll pull it from the junkyard and ship it.")
+
 end
 
 if ENV['INTEGRATION_SPECS']
