@@ -43,10 +43,8 @@ Only request specs run through docker. You'll need to stand up your own rails en
 To run peer to peer end to end integration specs, first boot up the peer network and selenium container. (Apple m1 not supported yet.)
 
 ```
-docker-compose -f compose-integration-spec.yml up
+bin/integration_testnet
 ```
-
-You will see the `spec_runner` container fail because selenium isn't ready yet. That's fine.
 
 Then run the spec_runner:
 

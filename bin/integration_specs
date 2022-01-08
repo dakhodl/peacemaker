@@ -1,6 +1,10 @@
 #!/bin/sh
 
+# reset peer dbs
+docker-compose -f compose-integration-spec.yml exec peer_1 bundle exec rails db:seed
+docker-compose -f compose-integration-spec.yml exec peer_2 bundle exec rails db:seed
+docker-compose -f compose-integration-spec.yml exec peer_3 bundle exec rails db:seed
+docker-compose -f compose-integration-spec.yml exec peer_4 bundle exec rails db:seed
 
-docker-compose -f compose-integration-spec.yml restart peer_1 peer_2 peer_3 peer_4
-wait 10
+# run the suite
 docker-compose -f compose-integration-spec.yml up spec_runner

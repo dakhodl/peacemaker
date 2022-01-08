@@ -15,8 +15,8 @@ bundle check || bundle install --jobs 20 --retry 5
 # systemctl start redis
 redis-server &
 
-bundle exec rake db:migrate
-bundle exec rake db:seed
+bundle exec rails db:migrate
+bundle exec rails db:seed
 
 # Then run any passed command
 exec "$@"

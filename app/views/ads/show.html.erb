@@ -27,14 +27,16 @@
         </dd>
       </div>
 
-      <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
-        <dt class="text-sm font-medium text-gray-500">
-          Through
-        </dt>
-        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-          <%= link_to @ad.peer_name, peer_path(@ad.peer) %>
-        </dd>
-      </div>
+      <% if @ad.peer %>
+        <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+          <dt class="text-sm font-medium text-gray-500">
+            Through
+          </dt>
+          <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+            <%= link_to @ad.peer_name, peer_path(@ad.peer) %>
+          </dd>
+        </div>
+      <% end %>
     </dl>
   </div>
 </div>

@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+docker-compose -f compose-integration-spec.yml up peer_1 peer_2 peer_3 peer_4 selenium
