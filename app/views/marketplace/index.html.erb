@@ -1,28 +1,50 @@
-<section aria-labelledby="product-heading" class="mt-6 lg:mt-0 lg:col-span-2 xl:col-span-3">
-  <h2 id="product-heading" class="sr-only">Marketplace</h2>
 
-  <div class="grid grid-cols-1 gap-y-4 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 lg:gap-x-8 xl:grid-cols-3">
-    <%= @ads.find_each do |ad| %>
-      <div class="group relative bg-white border border-gray-200 rounded-lg flex flex-col overflow-hidden">
-        <div class="flex align-items-center bg-gray-200 group-hover:opacity-75 sm:aspect-none sm:h-40">
-          <img src="https://tailwindui.com/img/ecommerce-images/category-page-02-image-card-01.jpg" alt="Eight shirts arranged on table in black, olive, grey, blue, white, red, mustard, and green." class="w-full h-full  sm:w-full sm:h-full">
-        </div>
-        <div class="flex-1 p-4 space-y-2 flex flex-col">
-          <h3 class="text-sm font-medium text-gray-900">
-            <a href="#">
-              <span aria-hidden="true" class="absolute inset-0"></span>
-              <%= ad.title %>
-            </a>
-          </h3>
-          <p class="text-sm text-gray-500"><%= ad.message %></p>
-          <div class="flex-1 flex flex-col justify-end">
-            <p class="text-sm italic text-gray-500">
-              <%= link_to ad.peer&.name, ad.peer %>
-            </p>
-            <p class="text-base font-medium text-gray-900">$256</p>
-          </div>
-        </div>
-      </div>
+<!-- Peer list (smallest breakpoint only) -->
+<div class="shadow ">
+  <ul role="list" class="mt-2 divide-y divide-gray-200 overflow-hidden shadow">
+    <% @ads.find_each do |ad| %>
+      <li>
+        <%= link_to ad, class: "block px-4 py-6 bg-white hover:bg-gray-50" do %>
+          <span class="flex items-center space-x-4">
+            <span class="flex-1 flex space-x-2 truncate items-center">
+              <!-- Heroicon name: solid/cash -->
+              <svg class="flex-shrink-0 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+              </svg>
+              <span class="flex flex-col text-gray-500 text-sm truncate">
+                <span class="truncate text-lg text-black font-bold"><%= ad.title %></span>
+                <span class="text-gray-900 font-medium text-xs flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                  <%= ad.peer_name %>
+                </span>
+                <time datetime="<%= ad.created_at.to_date %>"><%= ad.created_at.to_date %></time>
+              </span>
+            </span>
+        
+            <span class="truncate flex-1 hidden md:block text-right">
+              <%= ad.message %>
+            </span>
+
+            <!-- Heroicon name: solid/chevron-right -->
+            <svg class="flex-0 flex-shrink-0 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+            </svg>
+          </span>
+        <% end %>
+      </li>
     <% end %>
-  </div>
-</section>
+  </ul>
+
+  <nav class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200" aria-label="Pagination">
+    <div class="flex-1 flex justify-between">
+      <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:text-gray-500">
+        Previous
+      </a>
+      <a href="#" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:text-gray-500">
+        Next
+      </a>
+    </div>
+  </nav>
+</div>
