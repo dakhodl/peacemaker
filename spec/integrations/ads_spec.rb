@@ -23,6 +23,11 @@ feature 'viewing and managing ads', :js, :perform_jobs, :integration do
 
     expect_ad_to_have_propagated_to_all_peers("Farm fresh eggs")
 
+    visit_peer(4, 'marketplace')
+    # hop distance is shown next to connecting peer.
+    # the arrow visual is an svg, harder to test. So the below line reads funny here
+    expect(page).to have_content("3 peers\nPeer 3")
+
     visit_peer(1, 'ads')
     click_on 'Edit'
     fill_in 'Title', with: 'Farm fresh dogs'
