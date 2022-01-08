@@ -5,7 +5,9 @@
       <%= @peer.name %>
     </h2>
     <div class="mt-2 flex items-center text-sm text-gray-500">
-      <%= @peer.onion_address %>
+      <p class="break-words w-full">
+        <%= @peer.onion_address %>
+      </p>
     </div>
   </div>
   <div class="mt-4 flex md:mt-0 md:ml-4">
