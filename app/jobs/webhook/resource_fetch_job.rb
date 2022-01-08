@@ -26,6 +26,7 @@ class Webhook::ResourceFetchJob < ApplicationJob
   def upsert!(response)
     resource.update!(response['resource']
       .merge(peer: peer) # set peer so malicious peer cannot masquerade as another
+      .merge(hops: response.dig('resource', 'hops') + 1)
       .except('id')) # do not copy pkey from peer
     webhook_receipt.update resource: resource, action: :upsert
   end
