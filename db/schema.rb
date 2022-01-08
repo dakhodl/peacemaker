@@ -12,16 +12,6 @@
 
 ActiveRecord::Schema.define(version: 2021_12_26_185821) do
 
-  create_table "ad_peers", force: :cascade do |t|
-    t.integer "peer_id", null: false
-    t.integer "ad_id", null: false
-    t.integer "status", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["ad_id"], name: "index_ad_peers_on_ad_id"
-    t.index ["peer_id"], name: "index_ad_peers_on_peer_id"
-  end
-
   create_table "ads", force: :cascade do |t|
     t.string "title"
     t.text "message"
@@ -70,8 +60,6 @@ ActiveRecord::Schema.define(version: 2021_12_26_185821) do
     t.index ["resource_type", "resource_id"], name: "index_webhook_sends_on_resource"
   end
 
-  add_foreign_key "ad_peers", "ads"
-  add_foreign_key "ad_peers", "peers"
   add_foreign_key "ads", "peers"
   add_foreign_key "webhook_receipts", "peers"
   add_foreign_key "webhook_sends", "peers"
