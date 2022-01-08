@@ -7,8 +7,8 @@ feature 'viewing and managing ads', :js, :perform_jobs, :integration do
     visit "http://peer_1:3000/"
     expect(page).to have_content('Peer 2')
     expect(page).to have_content('peer_2:3000')
-    click_on 'Marketplace'
-    expect(page).to have_content('Marketplace')
+    click_on 'Ads'
+    expect(page).to have_content('Your ads')
     click_on 'New ad'
 
     fill_in 'Title', with: 'Farm fresh eggs'
@@ -16,14 +16,14 @@ feature 'viewing and managing ads', :js, :perform_jobs, :integration do
 
     click_on 'Create Ad'
     expect(page).to have_content('Ad was successfully created.')
-    click_on 'Back to ads'
+    click_on 'Back to Ads'
 
     expect(page).to have_content('Farm fresh eggs')
     sleep 2
 
     expect_ad_to_have_propagated_to_all_peers("Farm fresh eggs")
 
-    visit_peer(1)
+    visit_peer(1, 'ads')
     click_on 'Edit'
     fill_in 'Title', with: 'Farm fresh dogs'
     click_on 'Update Ad'
@@ -32,7 +32,7 @@ feature 'viewing and managing ads', :js, :perform_jobs, :integration do
 
     expect_ad_to_have_propagated_to_all_peers("Farm fresh dogs")
 
-    visit_peer(1)
+    visit_peer(1, "ads")
     click_on 'Farm fresh dogs'
     click_on 'Delete this ad'
     expect(page).to have_content('Ad was successfully destroyed.')
@@ -41,8 +41,8 @@ feature 'viewing and managing ads', :js, :perform_jobs, :integration do
     expect_ad_to_have_propagated_to_all_peers("Farm fresh dogs", :to_not)
   end
 
-  def visit_peer(number)
-    visit "http://peer_#{number}:3000/ads"
+  def visit_peer(number, path = "marketplace")
+    visit "http://peer_#{number}:3000/#{path}"
   end
 
   def expect_ad_to_have_propagated_to_all_peers(ad_title, expectation = :to)

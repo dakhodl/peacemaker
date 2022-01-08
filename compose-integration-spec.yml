@@ -27,6 +27,7 @@ services:
       RAILS_ENV: test
       REDIS_URL_SIDEKIQ: "redis://localhost:6379/1"
       INTEGRATION_SPECS: '1'
+      DISABLE_BOOTSNAP: '1'
   peer_2:
     build:
       context: .
@@ -48,6 +49,7 @@ services:
       RAILS_ENV: test
       REDIS_URL_SIDEKIQ: "redis://localhost:6379/1"
       INTEGRATION_SPECS: '2'
+      DISABLE_BOOTSNAP: '1'
   peer_3:
     build:
       context: .
@@ -69,6 +71,7 @@ services:
       RAILS_ENV: test
       REDIS_URL_SIDEKIQ: "redis://localhost:6379/1"
       INTEGRATION_SPECS: '3'
+      DISABLE_BOOTSNAP: '1'
   peer_4:
     build:
       context: .
@@ -90,6 +93,7 @@ services:
       RAILS_ENV: test
       REDIS_URL_SIDEKIQ: "redis://localhost:6379/1"
       INTEGRATION_SPECS: '4'
+      DISABLE_BOOTSNAP: '1'
 
   spec_runner:
     build:
