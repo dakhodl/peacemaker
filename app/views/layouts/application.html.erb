@@ -94,11 +94,11 @@
             Peers
           <% end %>
           
-          <%= mobile_nav_link_to marketplace_path, "marketplace" do %>
+          <%= mobile_nav_link_to marketplace_path, @ad&.peer.present? ? "ads" : "marketplace" do %>
             Marketplace
           <% end %>
 
-          <%= mobile_nav_link_to ads_path, "ads" do %>
+          <%= mobile_nav_link_to ads_path, @ad&.peer.present? ? "marketplace" : "ads" do %>
             Ads
           <% end %>
         </div>
