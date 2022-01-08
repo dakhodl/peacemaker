@@ -9,6 +9,8 @@ class Ad < ApplicationRecord
 
   validates :uuid, presence: true, uniqueness: true
 
+  delegate :name, to: :peer, prefix: true
+
   def to_param
     uuid
   end
