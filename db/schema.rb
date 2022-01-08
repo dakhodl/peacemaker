@@ -10,12 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_26_185821) do
+ActiveRecord::Schema.define(version: 2022_01_08_151105) do
 
   create_table "ads", force: :cascade do |t|
     t.string "title"
     t.text "message"
-    t.integer "hops"
+    t.integer "hops", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "peer_id"
