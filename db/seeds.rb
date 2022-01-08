@@ -5,6 +5,8 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+require 'sidekiq/api'
+
 
 case ENV['INTEGRATION_SPECS']
   when '1'
@@ -24,6 +26,10 @@ if ENV['INTEGRATION_SPECS']
   Ad.destroy_all
   Webhook::Send.destroy_all
   Webhook::Receipt.destroy_all
+  Sidekiq::Queue.all.each(&:clear)
+  Sidekiq::RetrySet.new.clear
+  Sidekiq::ScheduledSet.new.clear
+  Sidekiq::DeadSet.new.clear
 end
 
 if Rails.env.development?
