@@ -49,11 +49,3 @@
   <% end %>
   <%= link_to "Back to #{@ad.peer.present? ? 'Marketplace' : 'Ads'}", @ad.peer.present? ? marketplace_path : ads_path, class: "inline-flex items-center px-6 py-3 border border-gray-300 shadow-sm text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
 </div>
-
-<% @ad.ad_peers.includes(:peer).find_each do |ad_peer| %>
-  <div>
-    <%= ad_peer.peer_name %> | <%= ad_peer.status %>
-  </div>
-
-  <hr />
-<% end %>
