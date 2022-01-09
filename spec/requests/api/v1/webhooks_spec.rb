@@ -32,7 +32,8 @@ describe 'Webhooks', type: :request do
           resource: {
             title: 'Incoming ad from Peer 1',
             message: 'cool desc',
-            uuid: uuid
+            uuid: uuid,
+            hops: 3
           }
         }.to_json, headers: {})
 
@@ -133,7 +134,8 @@ describe 'Webhooks', type: :request do
           uuid: uuid,
           resource_type: 'Ad',
           resource: {
-            message: 'This is an updated message'
+            message: 'This is an updated message',
+            hops: 4,
           }
         }.to_json, headers: {})
 
