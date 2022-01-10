@@ -7,7 +7,9 @@ class PeersController < ApplicationController
   end
 
   # GET /peers/1 or /peers/1.json
-  def show; end
+  def show; 
+    @peers = Peer.all
+  end
 
   # GET /peers/new
   def new

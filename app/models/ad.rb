@@ -1,5 +1,6 @@
 class Ad < ApplicationRecord
   belongs_to :peer, optional: true # set if the ad comes from a peer
+  has_many :messages
   has_many :webhook_sends, as: :resource, class_name: 'Webhook::Send'
   has_many :webhook_receipts, as: :resource, class_name: 'Webhook::Receipt'
 

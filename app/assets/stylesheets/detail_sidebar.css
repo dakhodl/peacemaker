@@ -1,0 +1,3 @@
+.DetailSidebar__item.DetailSidebar__item--selected .chevron {
+  visibility: hidden !important;
+}

@@ -1,7 +1,12 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
-  resources :ads
+  resources :messages
+  resources :ads do
+    member do
+      resources :messages, as: :ad_messages
+    end
+  end
   resources :peers
   get '/marketplace', to: "marketplace#index"
 

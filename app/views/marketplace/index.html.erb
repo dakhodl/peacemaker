@@ -1,7 +1,9 @@
 <% content_for :page_title, 'Marketplace' %>
-
+<div class="flex flex-col md:min-h-screen grow-0 overflow-y-scroll">
+  
+</div>
 <!-- Peer list (smallest breakpoint only) -->
-<div class="shadow ">
+<div id="detail_view" class="grow p-4">
   <ul role="list" class="mt-2 divide-y divide-gray-200 overflow-hidden shadow">
     <% @ads.find_each do |ad| %>
       <li>
