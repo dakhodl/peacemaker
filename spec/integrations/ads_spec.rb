@@ -6,9 +6,8 @@ feature 'viewing and managing ads', :js, :perform_jobs, :integration do
   scenario 'creating an ad that propagates to a peer' do
     visit "http://peer_1:3000/"
     expect(page).to have_content('Peer 2')
-    expect(page).to have_content('peer_2:3000')
     click_on 'Ads'
-    expect(page).to have_content('Your ads')
+    expect(page).to have_content("You have no ads.\nMake one")
     click_on 'New ad'
 
     fill_in 'Title', with: 'Farm fresh eggs'
@@ -19,7 +18,7 @@ feature 'viewing and managing ads', :js, :perform_jobs, :integration do
     click_on 'Back to Ads'
 
     expect(page).to have_content('Farm fresh eggs')
-    sleep 2
+    sleep 5
 
     expect_ad_to_have_propagated_to_all_peers("Farm fresh eggs")
 
@@ -33,7 +32,7 @@ feature 'viewing and managing ads', :js, :perform_jobs, :integration do
     fill_in 'Title', with: 'Farm fresh dogs'
     click_on 'Update Ad'
     expect(page).to have_content('Ad was successfully updated.')
-    sleep 2
+    sleep 5
 
     expect_ad_to_have_propagated_to_all_peers("Farm fresh dogs")
 

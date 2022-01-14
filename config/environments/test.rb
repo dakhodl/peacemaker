@@ -9,7 +9,9 @@ Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Turn false under Spring and add config.action_view.cache_template_loading = true
-  config.cache_classes = true
+  # usually this is true - but for spec/integrations p2p e2e specs this is quite useful 
+  # for rapid iteration, not needing to restart server
+  config.cache_classes = ENV['CI'].present?
 
   # Eager loading loads your whole application. When running a single test locally,
   # this probably isn't necessary. It's a good idea to do in a continuous integration

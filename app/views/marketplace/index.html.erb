@@ -1,53 +1,75 @@
 <% content_for :page_title, 'Marketplace' %>
-<div class="flex flex-col md:min-h-screen grow-0 overflow-y-scroll">
-  
-</div>
-<!-- Peer list (smallest breakpoint only) -->
-<div id="detail_view" class="grow p-4">
-  <ul role="list" class="mt-2 divide-y divide-gray-200 overflow-hidden shadow">
-    <% @ads.find_each do |ad| %>
-      <li>
-        <%= link_to ad, class: "block px-4 py-6 bg-white hover:bg-gray-50" do %>
-          <span class="flex items-center space-x-4">
-            <span class="flex-1 flex space-x-2 truncate items-center">
-              <span class="flex flex-col text-gray-500 text-sm truncate">
-                <span class="truncate text-lg text-black font-bold"><%= ad.title %></span>
-                <span class="text-gray-900 font-medium text-xs flex items-center">
-                  <% if ad.hops > 0 %>
-                    <div class="flex items-center" data-tooltip="This came through <%= ad.peer_name %>">
-                      <%= pluralize ad.hops, 'peer' %>
-                      <%= icon_right_arrow_small %>
-                    </div>
-                  <% end %>
-                  <%= ad.peer_name %>
-                  <%= icon_right_arrow_small %>
-                </span>
-                <time datetime="<%= ad.created_at.to_date %>"><%= ad.created_at.to_date %></time>
-              </span>
-            </span>
-        
-            <span class="truncate flex-1 hidden md:block text-right">
-              <%= ad.message %>
-            </span>
 
-            <!-- Heroicon name: solid/chevron-right -->
-            <svg class="flex-0 flex-shrink-0 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-              <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-            </svg>
-          </span>
-        <% end %>
-      </li>
+<% if @ads.empty? %>
+  <%= empty_state_container do %>
+    <h2 class="text-4xl">
+      Your market is empty.
+    </h2>
+
+    <h3 class="text-lg mt-4">
+      Connect with peers to search ads from their network.
+    </h3>
+
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-44 w-44" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636a9 9 0 010 12.728m0 0l-2.829-2.829m2.829 2.829L21 21M15.536 8.464a5 5 0 010 7.072m0 0l-2.829-2.829m-4.243 2.829a4.978 4.978 0 01-1.414-2.83m-1.414 5.658a9 9 0 01-2.167-9.238m7.824 2.167a1 1 0 111.414 1.414m-1.414-1.414L3 3m8.293 8.293l1.414 1.414" />
+    </svg>
+
+    <%= link_to new_peer_path, class: "btn relative inline-flex items-center justify-center my-2 mx-4 rounded-lg py-3 px-5 bg-indigo-700 text-white block font-medium hover:bg-blue-500" do %>
+      <!-- Heroicon name: solid/plus-sm -->
+      <%= icon_plus %>
+      <span>
+        New peer
+      </span>
     <% end %>
-  </ul>
+  <% end %>
+<% else %>
+  <!-- Peer list (smallest breakpoint only) -->
+  <div id="detail_view" class="grow p-4">
+    <ul role="list" class="mt-2 divide-y divide-gray-200 overflow-hidden shadow">
+      <% @ads.find_each do |ad| %>
+        <li>
+          <%= link_to ad, class: "block px-4 py-6 bg-white hover:bg-gray-50" do %>
+            <span class="flex items-center space-x-4">
+              <span class="flex-1 flex space-x-2 truncate items-center">
+                <span class="flex flex-col text-gray-500 text-sm truncate">
+                  <span class="truncate text-lg text-black font-bold"><%= ad.title %></span>
+                  <span class="text-gray-900 font-medium text-xs flex items-center">
+                    <% if ad.hops > 0 %>
+                      <div class="flex items-center" data-tooltip="This came through <%= ad.peer_name %>">
+                        <%= pluralize ad.hops, 'peer' %>
+                        <%= icon_right_arrow_small %>
+                      </div>
+                    <% end %>
+                    <%= ad.peer_name %>
+                    <%= icon_right_arrow_small %>
+                  </span>
+                  <time datetime="<%= ad.created_at.to_date %>"><%= ad.created_at.to_date %></time>
+                </span>
+              </span>
+          
+              <span class="truncate flex-1 hidden md:block text-right">
+                <%= ad.message %>
+              </span>
 
-  <nav class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200" aria-label="Pagination">
-    <div class="flex-1 flex justify-between">
-      <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:text-gray-500">
-        Previous
-      </a>
-      <a href="#" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:text-gray-500">
-        Next
-      </a>
-    </div>
-  </nav>
-</div>
+              <!-- Heroicon name: solid/chevron-right -->
+              <svg class="flex-0 flex-shrink-0 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+              </svg>
+            </span>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+
+    <nav class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200" aria-label="Pagination">
+      <div class="flex-1 flex justify-between">
+        <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:text-gray-500">
+          Previous
+        </a>
+        <a href="#" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:text-gray-500">
+          Next
+        </a>
+      </div>
+    </nav>
+  </div>
+<% end %>

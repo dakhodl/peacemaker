@@ -12,9 +12,9 @@ class Peer < ApplicationRecord
     high_trust: 3, # receive and propagate ads, message
   }
 
-  MESSAGING_TRUST_LEVELS = %s(low_trust medium_trust high_trust)
-  AD_RECEIVE_TRUST_LEVELS = %s(medium_trust high_trust)
-  AD_PROPAGATE_TRUST_LEVEL = %s(high_trust)
+  MESSAGING_TRUST_LEVELS = %w(low_trust medium_trust high_trust)
+  AD_RECEIVE_TRUST_LEVELS = %w(medium_trust high_trust)
+  AD_PROPAGATE_TRUST_LEVEL = %w(high_trust)
 
   before_create :set_defaults
 

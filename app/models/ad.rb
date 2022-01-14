@@ -28,4 +28,9 @@ class Ad < ApplicationRecord
       .merge(hops: response.dig('resource', 'hops') + 1)
       .except('id')) # do not copy pkey from peer
   end
+
+  # ResourceSendJob#from_name_for_resource API
+  def ad
+    self
+  end
 end

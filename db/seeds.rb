@@ -10,15 +10,15 @@ require 'sidekiq/api'
 
 case ENV['INTEGRATION_SPECS']
   when '1'
-    Peer.find_or_create_by!(name: 'Peer 2', onion_address: 'peer_2:3000')
+    Peer.find_or_create_by!(name: 'Peer 2', onion_address: 'peer_2:3000', trust_level: :high_trust)
   when '2'
-    Peer.find_or_create_by!(name: 'Peer 1', onion_address: 'peer_1:3000')
-    Peer.find_or_create_by!(name: 'Peer 3', onion_address: 'peer_3:3000')
+    Peer.find_or_create_by!(name: 'Peer 1', onion_address: 'peer_1:3000', trust_level: :high_trust)
+    Peer.find_or_create_by!(name: 'Peer 3', onion_address: 'peer_3:3000', trust_level: :high_trust)
   when '3'
-    Peer.find_or_create_by!(name: 'Peer 2', onion_address: 'peer_2:3000')
-    Peer.find_or_create_by!(name: 'Peer 4', onion_address: 'peer_4:3000')
+    Peer.find_or_create_by!(name: 'Peer 2', onion_address: 'peer_2:3000', trust_level: :high_trust)
+    Peer.find_or_create_by!(name: 'Peer 4', onion_address: 'peer_4:3000', trust_level: :high_trust)
   when '4'
-    Peer.find_or_create_by!(name: 'Peer 3', onion_address: 'peer_3:3000')
+    Peer.find_or_create_by!(name: 'Peer 3', onion_address: 'peer_3:3000', trust_level: :high_trust)
   else
 end
 
