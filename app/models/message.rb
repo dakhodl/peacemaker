@@ -28,7 +28,7 @@ class Message < ApplicationRecord
   end
 
   def ordinalized_peer_name
-    "#{ad.hops.ordinalize} degree connection through #{ad.peer_name}"
+    "#{ad.hops.ordinalize}˚ peer via #{ad.peer_name}"
   end
 
   def send_to_peer
