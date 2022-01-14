@@ -19,16 +19,25 @@ class Webhook::ResourceSendJob < ApplicationJob
     post_body = {
       resource_type: resource_type,
       from: configatron.my_onion,
+      from_name: from_name_for_resource(webhook_send.resource),
       token: webhook_send.token,
       uuid: uuid
       # we make peer fetch to determine action that was taken.
       # to prevent bad peer from spamming deletes
     }.to_json
 
-    send_webhook(post_body)
+    PeaceNet.post(peer.onion_address, '/api/v1/webhook.json', post_body)
   end
 
-  def send_webhook(body)
-    PeaceNet.post(peer.onion_address, '/api/v1/webhook.json', body)
+  def from_name_for_resource(resource)
+    ad = resource.ad
+    if resource.is_a?(Message) && ad.present? && ad.hops == 2
+      "Direct peer of #{ad.peer.onion_address}" # TODo: how is this verified receiver side?
+    elsif resource.is_a?(Message) && ad.present?
+      "#{ad.hops.ordinalize} degree connection" # TODO: how is this verified receiver side? 
+      # Does it need to be or is that part of the 'direct comms' Ad choice tradeoff? If receiver cares, they should choose Private.
+    else
+      "Does not matter - this should never be rendered to users"
+    end
   end
 end

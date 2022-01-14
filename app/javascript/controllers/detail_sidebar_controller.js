@@ -6,7 +6,7 @@ export default class extends Controller {
 
   connect() {
     // TODO support back button
-
+    console.log('connected');
     this.selectedItem = document.getElementsByClassName('DetailSidebar__item--selected')[0];
   }
   choose (e) {
@@ -15,5 +15,23 @@ export default class extends Controller {
     }
     e.currentTarget.classList.add(...this.selectedClasses)
     this.selectedItem = e.currentTarget;
+  }
+
+  delete(e) {
+    const { currentTarget, params: { recordId, endpoint } } = e;
+    e.stopPropagation();
+    e.preventDefault();
+    
+    if (window.confirm("Are you sure want to delete this?")) {
+      fetch(`/${endpoint}/${recordId}`, {
+        method: 'DELETE',
+        headers: {
+          "X-CSRF-Token": document.head.querySelector(`meta[name="csrf-token"]`).getAttribute("content")
+        },
+      }).then(() => Turbo.visit(`/${endpoint}`));
+
+      
+      currentTarget.parentElement.parentElement.remove();
+    }
   }
 }

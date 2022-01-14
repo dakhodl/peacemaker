@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_09_042519) do
+ActiveRecord::Schema.define(version: 2022_01_11_024244) do
 
   create_table "ads", force: :cascade do |t|
     t.string "title"
@@ -20,19 +20,22 @@ ActiveRecord::Schema.define(version: 2022_01_09_042519) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "peer_id"
     t.string "uuid"
+    t.string "onion_address"
     t.index ["peer_id"], name: "index_ads_on_peer_id"
     t.index ["uuid"], name: "index_ads_on_uuid", unique: true
   end
 
-  create_table "messages", force: :cascade do |t|
+  create_table "message_threads", force: :cascade do |t|
     t.integer "ad_id"
     t.integer "peer_id"
-    t.text "body"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["ad_id"], name: "index_messages_on_ad_id"
-    t.index ["peer_id"], name: "index_messages_on_peer_id"
+    t.index ["ad_id"], name: "index_message_threads_on_ad_id"
+    t.index ["peer_id"], name: "index_message_threads_on_peer_id"
   end
+
+# Could not dump table "messages" because of following StandardError
+#   Unknown type '' for column 'message_thread'
 
   create_table "peers", force: :cascade do |t|
     t.string "name"
@@ -40,6 +43,7 @@ ActiveRecord::Schema.define(version: 2022_01_09_042519) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "last_online_at"
+    t.integer "trust_level", default: 1
   end
 
   create_table "webhook_receipts", force: :cascade do |t|
@@ -71,6 +75,8 @@ ActiveRecord::Schema.define(version: 2022_01_09_042519) do
   end
 
   add_foreign_key "ads", "peers"
+  add_foreign_key "message_threads", "ads"
+  add_foreign_key "message_threads", "peers"
   add_foreign_key "messages", "ads"
   add_foreign_key "messages", "peers"
   add_foreign_key "webhook_receipts", "peers"

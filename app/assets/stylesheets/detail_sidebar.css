@@ -1,3 +1,24 @@
-.DetailSidebar__item.DetailSidebar__item--selected .chevron {
+.DetailSidebar__item.DetailSidebar__item--selected {
+  cursor: unset;
+  min-height: 7rem;
+  display: flex;
+  align-content: center;
+}
+
+.DetailSidebar__item.DetailSidebar__item--selected .icon--chevron {
   visibility: hidden !important;
+}
+
+.DetailSidebar__item:not(.DetailSidebar__item--selected) .icon--trash {
+  visibility: hidden !important;
+  pointer-events: none;
+}
+
+.DetailSidebar__item.DetailSidebar__item--selected .icon--trash {
+  visibility: visible !important;
+  cursor: pointer;
+}
+
+.DetailSidebar__item.DetailSidebar__item--selected .DetailSidebar__item__title {
+  font-size: 24px;
 }

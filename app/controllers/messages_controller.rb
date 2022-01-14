@@ -3,11 +3,13 @@ class MessagesController < ApplicationController
 
   # GET /messages or /messages.json
   def index
-    @messages = Message.all
+    @threads = MessageThread.includes(:ad, :peer, :messages).order(updated_at: :desc).all
   end
 
   # GET /messages/1 or /messages/1.json
   def show
+    @threads = MessageThread.includes(:ad, :peer, :messages).order(updated_at: :desc).all
+    @thread = @message.message_thread
   end
 
   # GET /messages/new or /ads/:id/messages/new
@@ -25,7 +27,7 @@ class MessagesController < ApplicationController
 
     respond_to do |format|
       if @message.save
-        format.html { redirect_to message_url(@message), notice: "Message was successfully created." }
+        format.html { redirect_to message_url(@message) }
         format.json { render :show, status: :created, location: @message }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -38,7 +40,7 @@ class MessagesController < ApplicationController
   def update
     respond_to do |format|
       if @message.update(message_params)
-        format.html { redirect_to message_url(@message), notice: "Message was successfully updated." }
+        format.html { redirect_to message_url(@message) }
         format.json { render :show, status: :ok, location: @message }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -49,10 +51,11 @@ class MessagesController < ApplicationController
 
   # DELETE /messages/1 or /messages/1.json
   def destroy
+    @message ||= MessageThread.find(params[:id])
     @message.destroy
 
     respond_to do |format|
-      format.html { redirect_to messages_url, notice: "Message was successfully destroyed." }
+      format.html { redirect_to messages_url }
       format.json { head :no_content }
     end
   end
@@ -60,7 +63,7 @@ class MessagesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_message
-      @message = Message.find(params[:id])
+      @message = Message.find_by(uuid: params[:id])
     end
 
     # Only allow a list of trusted parameters through.

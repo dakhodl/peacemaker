@@ -1,7 +1,7 @@
 <%= render partial: 'peers', locals: { selected_peer: @peer } %>
 
 <!-- This example requires Tailwind CSS v2.0+ -->
-<turbo-frame id="detail_view" data-turbo-action="advance" class="p-4 md:border-l">
+<turbo-frame id="detail_view" data-turbo-action="advance" class="DetailSidebar__body h-full overflow-y-scroll p-4 md:border-l">
   <div class="md:flex md:items-center md:justify-between">
     <div class="flex-1 min-w-0">
       <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">

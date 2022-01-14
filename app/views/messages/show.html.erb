@@ -1,15 +1,27 @@
-<div class="mx-auto md:w-2/3 w-full flex">
-  <div class="mx-auto">
-    <% if notice.present? %>
-      <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
+<%= render partial: 'messages' %>
+
+<turbo-frame id="detail_view" data-turbo-action="advance" class="DetailSidebar__body h-full overflow-y-scroll p-4 w-full md:bg-gray-50">
+  <%= form_with(model: @thread.messages.build(ad: @thread.ad, peer: @thread.peer), class: "rounded m-6 lg:m-8 pr-10 flex") do |form| %>
+    <%= form.hidden_field :ad_id %>
+    <%= form.hidden_field :peer_id %>
+    <%= form.text_area :body, rows: 2, class: "block shadow rounded-md border border-gray-200 outline-none px-3 w-full" %>
+    <%= form.submit 'Send', class: "rounded-lg ml-2 py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
+  <%end %>
+
+  <!-- Thread section-->
+  <ul role="list" class="py-4 space-y-2 sm:px-6 sm:space-y-4 lg:px-8">
+    <% @thread.messages.order(created_at: :desc).each do |message| %>
+      <li class="<%= message.from_peer? ? 'bg-blue-100 ml-32' : 'bg-white mr-32' %> px-4 py-6 shadow sm:rounded-lg sm:px-6">
+        <div class="sm:flex sm:justify-between sm:items-baseline">
+          <p class="mt-1 text-sm text-gray-600 whitespace-nowrap sm:mt-0">
+            <time datetime="2021-01-28T19:24"><%= local_time_ago message.created_at %></time>
+          </p>
+        </div>
+        <div class="mt-4 space-y-6 text-sm text-gray-800">
+          <p><%= message.body %></p>
+        </div>
+      </li>
     <% end %>
+  </ul>
 
-    <%= render @message %>
-
-    <%= link_to 'Edit this message', edit_message_path(@message), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-    <div class="inline-block ml-2">
-      <%= button_to 'Destroy this message', message_path(@message), method: :delete, class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 font-medium" %>
-    </div>
-    <%= link_to 'Back to messages', messages_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-  </div>
-</div>
+</turbo-frame>

@@ -2,7 +2,7 @@ module ApplicationHelper
   def nav_link_to(link_path, path_controller_name, &block)
     current_page_style = controller_name == path_controller_name ? 'bg-white text-gray-900' : 'text-white'
     link_to link_path,
-            class: "#{current_page_style} flex grow lg:grow-0 lg:py-12 justify-center p-5 items-center font-medium", &block 
+            class: "#{current_page_style} flex flex-col grow lg:grow-0 lg:py-12 justify-center p-5 items-center font-medium", &block 
   end
 
   def marketplace_nav_controller
