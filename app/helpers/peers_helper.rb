@@ -26,4 +26,8 @@ module PeersHelper
   def peer_ads_in(timeframe: 30.days.ago..Time.current)
     @peer.ads.where(created_at: timeframe).count
   end
+
+  def peer_onion_short(peer)
+    "#{peer.onion_address[..5]}...#{peer.onion_address[-13..]}"
+  end
 end

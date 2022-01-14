@@ -1,3 +1,7 @@
+.DetailSidebar__item {
+  overflow-x: hidden;
+}
+
 .DetailSidebar__item.DetailSidebar__item--selected {
   cursor: unset;
   min-height: 7rem;

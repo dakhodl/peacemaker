@@ -16,7 +16,7 @@
       
           <span class="flex flex-col text-gray-500 text-sm text-ellipsis overflow-hidden">
             <span class="DetailSidebar__item__title truncate font-bold text-gray-800"><%= peer.name %></span>
-            <span class="DetailSidebar__item__subtitle text-gray-900 text-xs"><%= peer.onion_address %></span>
+            <span class="DetailSidebar__item__subtitle break-words text-gray-900 text-xs"><%= peer_onion_short(peer) %></span>
             <time class="DetailSidebar__item__timestamp text-xs" datetime="<%= peer.created_at.to_date %>">since <%= peer.created_at.to_date %></time>
           </span>
         </span>
