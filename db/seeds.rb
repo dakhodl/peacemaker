@@ -67,8 +67,8 @@ IPSUM = [%q{
 
 if Rails.env.development?
   peer_1 = Peer.find_or_create_by!(name: 'Bobby McGee', onion_address: 'abc123.onion', trust_level: :high_trust)
-  ad_1 = peer_1.ads.find_or_create_by!(title: "Fresh eggs", message: "Delivery by fee", hops: 0)
-  ad_2 = peer_1.ads.find_or_create_by!(title: "73 ford 150", message: "250k miles, fresh rubber in feb, runs like new", hops: 1)
+  ad_1 = peer_1.ads.find_or_create_by!(title: "Fresh eggs", message: "Delivery by fee", hops: 0, onion_address: peer_1.onion_address)
+  ad_2 = peer_1.ads.find_or_create_by!(title: "73 ford 150", message: "250k miles, fresh rubber in feb, runs like new", hops: 1, onion_address: '2nddegree.onion')
   ad_3 = peer_1.ads.find_or_create_by!(title: "40s-50s model tractor parts", message: "You name it we'll pull it from the junkyard and ship it.", hops: 2, onion_address: '3rddegree.onion')
 
   peer_2 = Peer.find_or_create_by!(name: "3˚ peer via Bobby McGee", onion_address: "3rddegree.onion", trust_level: :low_trust)
