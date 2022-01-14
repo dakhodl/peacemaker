@@ -34,8 +34,19 @@ ActiveRecord::Schema.define(version: 2022_01_11_024244) do
     t.index ["peer_id"], name: "index_message_threads_on_peer_id"
   end
 
-# Could not dump table "messages" because of following StandardError
-#   Unknown type '' for column 'message_thread'
+  create_table "messages", force: :cascade do |t|
+    t.integer "ad_id"
+    t.integer "peer_id"
+    t.text "body"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "uuid"
+    t.integer "author", default: 0, null: false
+    t.integer "message_thread_id"
+    t.index ["ad_id"], name: "index_messages_on_ad_id"
+    t.index ["peer_id"], name: "index_messages_on_peer_id"
+    t.index ["uuid"], name: "index_messages_on_uuid", unique: true
+  end
 
   create_table "peers", force: :cascade do |t|
     t.string "name"
