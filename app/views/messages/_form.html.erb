@@ -25,10 +25,10 @@
         <%= icon_right_arrow_small %>
 
         <%= message.ad.peer_name %>
-        <% if message.ad.hops > 0 %>
+        <% if message.ad.hops > 1 %>
           <div class="flex items-center" data-tooltip="This came through <%= message.ad.peer_name %>">
             <%= icon_right_arrow_small %>
-            <%= pluralize ad.hops, 'peer' %> away
+            <%= pluralize message.ad.hops, 'peer' %> away
           </div>
         <% end %>
       </div>
