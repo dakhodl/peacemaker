@@ -1,28 +1,29 @@
 .DetailSidebar__item {
-  overflow-x: hidden;
+  white-space: break-space;
 }
 
 .DetailSidebar__item.DetailSidebar__item--selected {
   cursor: unset;
   min-height: 7rem;
   display: flex;
-  align-content: center;
+  justify-content: space-between;
 }
 
 .DetailSidebar__item.DetailSidebar__item--selected .icon--chevron {
   visibility: hidden !important;
+  display: none;
 }
 
 .DetailSidebar__item:not(.DetailSidebar__item--selected) .icon--trash {
-  visibility: hidden !important;
+  display: none;
   pointer-events: none;
 }
 
 .DetailSidebar__item.DetailSidebar__item--selected .icon--trash {
-  visibility: visible !important;
+  display: block;
   cursor: pointer;
 }
 
 .DetailSidebar__item.DetailSidebar__item--selected .DetailSidebar__item__title {
-  font-size: 24px;
+  font-size: 18px;
 }

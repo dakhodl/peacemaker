@@ -12,7 +12,7 @@
   <% @peers.find_each do |peer| %>
     <%= link_to peer,class: "DetailSidebar__item block px-4 py-4 bg-white border-b #{selected_peer == peer ? 'border-r-4 border-r-rose-700 DetailSidebar__item--selected' : 'hover:bg-gray-50'}", data: { "turbo-frame": "detail_view" , action: "detail-sidebar#choose"} do %>
       <span class="flex items-center space-x-4">
-        <span class="flex-1 flex space-x-2 truncate">
+        <span class="flex-1 flex space-x-2 w-full truncate">
       
           <span class="flex flex-col text-gray-500 text-sm text-ellipsis overflow-hidden">
             <span class="DetailSidebar__item__title truncate font-bold text-gray-800"><%= peer.name %></span>
