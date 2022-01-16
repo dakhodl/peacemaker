@@ -18,7 +18,7 @@ class Message < ApplicationRecord
   before_validation :initialize_thread
 
   def initialize_peer
-    self.peer = Peer.find_or_initialize_by(onion_address: ad.onion_address)
+    self.peer = Peer.find_or_initialize_by(onion_address: ad.self_authored? ? peer.onion_address : ad.onion_address)
     self.peer.name ||= ordinalized_peer_name
     self.peer.save
   end
@@ -32,12 +32,15 @@ class Message < ApplicationRecord
   end
 
   def send_to_peer
+    return if from_peer? # dont send back to peer, they just sent it
+
     Webhook::ResourceSendJob.perform_later('Message', id, uuid, peer)
   end
 
   def upsert_from_peer!(response, peer)
     update!(response['resource']
       .merge(peer: peer) # set peer so malicious peer cannot masquerade as another
+      .merge(author: :from_peer)
       .except('id')) # do not copy pkey from peer
   end
 end

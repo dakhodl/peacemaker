@@ -33,4 +33,8 @@ class Ad < ApplicationRecord
   def ad
     self
   end
+
+  def self_authored?
+    peer_id.nil?
+  end
 end

@@ -19,7 +19,7 @@ class AdsController < ApplicationController
 
   # POST /ads or /ads.json
   def create
-    @ad = Ad.new(ad_params)
+    @ad = Ad.new(ad_params.merge(onion_address: configatron.my_onion))
 
     respond_to do |format|
       if @ad.save

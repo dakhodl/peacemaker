@@ -13,6 +13,7 @@ class Api::V1::WebhookController < Api::V1::BaseController
     if receipt.save
       head :ok
     else
+      Rails.logger.info receipt.errors.to_a
       render json: receipt.errors, status: :unprocessable_entity
     end
   end
@@ -33,9 +34,9 @@ class Api::V1::WebhookController < Api::V1::BaseController
 
   def peer
     if params['resource_type'] == 'Message'
-      Peer.find_or_initialize_by!(onion_address: params[:from]).tap do |peer|
+      Peer.find_or_initialize_by(onion_address: params[:from]).tap do |peer|
         peer.name ||= params[:from_name]
-        peer.save
+        peer.save!
       end
     else
       Peer.find_by(onion_address: params[:from])

@@ -53,7 +53,7 @@ ActiveRecord::Schema.define(version: 2022_01_11_024244) do
     t.string "onion_address"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.datetime "last_online_at"
+    t.datetime "last_online_at", precision: 6
     t.integer "trust_level", default: 1
   end
 

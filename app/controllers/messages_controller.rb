@@ -23,7 +23,7 @@ class MessagesController < ApplicationController
 
   # POST /messages or /messages.json
   def create
-    @message = Message.new(message_params)
+    @message = Message.new(message_params.merge(author: :from_self))
 
     respond_to do |format|
       if @message.save
@@ -68,6 +68,6 @@ class MessagesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def message_params
-      params.require(:message).permit(:ad_id, :peer_id, :body)
+      params.require(:message).permit(:ad_id, :peer_id, :message_thread_id, :body)
     end
 end

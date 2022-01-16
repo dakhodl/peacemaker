@@ -4,6 +4,7 @@
   <%= form_with(model: @thread.messages.build(ad: @thread.ad, peer: @thread.peer), class: "rounded m-6 lg:m-8 pr-10 flex") do |form| %>
     <%= form.hidden_field :ad_id %>
     <%= form.hidden_field :peer_id %>
+    <%= form.hidden_field :message_thread_id %>
     <%= form.text_area :body, rows: 2, class: "block shadow rounded-md border border-gray-200 outline-none px-3 w-full" %>
     <%= form.submit 'Send', class: "rounded-lg ml-2 py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
   <%end %>
