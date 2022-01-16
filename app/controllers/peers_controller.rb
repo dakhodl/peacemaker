@@ -3,7 +3,7 @@ class PeersController < ApplicationController
 
   # GET /peers or /peers.json
   def index
-    @peers = Peer.all
+    @peers = Peer.order(trust_level: :desc).all
   end
 
   # GET /peers/1 or /peers/1.json
@@ -13,7 +13,7 @@ class PeersController < ApplicationController
 
   # GET /peers/new
   def new
-    @peer = Peer.new
+    @peer = Peer.new(trust_level: 'high_trust')
   end
 
   # GET /peers/1/edit

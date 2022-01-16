@@ -20,7 +20,7 @@ class Message < ApplicationRecord
   def initialize_peer
     self.peer = Peer.find_or_initialize_by(onion_address: ad.self_authored? ? peer.onion_address : ad.onion_address)
     self.peer.name ||= ordinalized_peer_name
-    self.peer.save
+    self.peer.save!
   end
 
   def initialize_thread

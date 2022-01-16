@@ -19,6 +19,31 @@
   <div class="my-5">
     <%= form.label :onion_address %>
     <%= form.text_field :onion_address, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+    <p class="text-sm text-gray-400 ml-7 mt-2">
+      Have your friend add you as a peer to access each others markets.
+      <br />
+      You address is <%= configatron.my_onion %>
+    </p>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :trust_level, class: "mb-2" %>
+    <div class="mt-5">
+      <%= form.collection_radio_buttons :trust_level, peer_trust_levels, :second, :first, html_options: { class: 'mt-2' } do |b| %>
+        <%= b.label do %>
+          <div class="relative flex items-start">
+            <div class="flex items-center h-5">
+              <%= b.radio_button checked: b.text == form.object.trust_level,html_options: { class: "focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300" } %>
+            </div>
+            <div class="ml-3 text-sm">
+              <label for="small" class="font-medium text-gray-700"><%= b.text.humanize %></label>
+              <p id="small-description" class="text-gray-500"><%= peer_trust_level_description(b.text) %></p>
+            </div>
+          </div>
+          <br>
+        <% end %>
+      <% end %>
+    </div>
   </div>
 
   <div class="inline">
