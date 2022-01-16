@@ -1,6 +1,6 @@
 <%= form_with(model: peer, class: "contents") do |form| %>
   <% if peer.errors.any? %>
-    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+    <div id="error_explanation" class="bg-rose-50 text-rose-500 px-3 py-2 font-medium rounded-lg mt-3">
       <h2><%= pluralize(peer.errors.count, "error") %> prohibited this peer from being saved:</h2>
 
       <ul>
