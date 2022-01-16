@@ -3,6 +3,7 @@ class Peer < ApplicationRecord
   has_many :webhook_sends, dependent: :destroy, class_name: 'Webhook::Send'
   has_many :webhook_receipts, dependent: :destroy, class_name: 'Webhook::Receipt'
   has_many :message_threads, dependent: :destroy
+  has_many :messages, dependent: :destroy
 
   after_commit -> { Webhook::StatusCheckJob.perform_later(self) }, on: :create
 
@@ -18,6 +19,8 @@ class Peer < ApplicationRecord
   AD_PROPAGATE_TRUST_LEVEL = %w(high_trust)
 
   before_create :set_defaults
+
+  validates_presence_of :onion_address
 
   def set_defaults
     self.trust_level ||= :low_trust
