@@ -22,6 +22,9 @@ module.exports = {
       fontFamily: {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
       },
+      height: {
+        'screen-w-nav': '88vh',
+      }
     },
   },
   plugins: [
