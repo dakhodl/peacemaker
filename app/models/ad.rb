@@ -5,6 +5,12 @@ class Ad < ApplicationRecord
   has_many :messages
   has_many :webhook_sends, as: :resource, class_name: 'Webhook::Send'
   has_many :webhook_receipts, as: :resource, class_name: 'Webhook::Receipt'
+  
+
+  enum :messaging_type, {
+    direct: 0,
+    secure: 1
+  }
 
   after_commit :propagate_to_peers
 

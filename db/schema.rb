@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_11_024244) do
+ActiveRecord::Schema.define(version: 2022_01_17_170754) do
 
   create_table "ads", force: :cascade do |t|
     t.string "title"
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 2022_01_11_024244) do
     t.integer "peer_id"
     t.string "uuid"
     t.string "onion_address"
+    t.integer "messaging_type", default: 0, null: false
     t.index ["peer_id"], name: "index_ads_on_peer_id"
     t.index ["uuid"], name: "index_ads_on_uuid", unique: true
   end
