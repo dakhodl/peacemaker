@@ -31,11 +31,9 @@ class Webhook::ResourceSendJob < ApplicationJob
 
   def from_name_for_resource(resource)
     ad = resource&.ad
-    if resource.is_a?(Message) && ad.present? && ad.hops <= 1
-      "Direct peer of #{resource.message_thread.peer.onion_address}" # TODo: how is this verified receiver side?
-    elsif resource.is_a?(Message) && ad.present?
+    if resource.is_a?(Message) && ad.present?
       Rails.logger.info "using peer for ad:#{ad.id} = #{ad.peer}"
-      "#{ad.hops.ordinalize}˚ peer via #{resource.message_thread.peer.name}" # TODO: how is this verified receiver side? 
+      "#{ad.hops.ordinalize}˚ peer" # TODO: how is this verified receiver side? 
       # Does it need to be or is that part of the 'direct comms' Ad choice tradeoff? If receiver cares, they should choose Private.
     else
       "Does not matter - this should never be rendered to users"

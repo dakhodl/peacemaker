@@ -4,10 +4,10 @@ feature 'viewing and managing ads', :js, :perform_jobs, :integration do
   # let!(:peer) { create(:peer) }
 
   scenario 'creating an ad that propagates to a peer' do
-    visit "http://peer_1:3000/"
+    visit_peer(1, 'peers')
     expect(page).to have_content('Peer 2')
     click_on 'Ads'
-    expect(page).to have_content("You have no ads.\nMake one")
+    expect(page).to have_content("You have no ads.\nCreate an ad")
     click_on 'New ad'
 
     fill_in 'Title', with: 'Farm fresh eggs'
@@ -29,7 +29,28 @@ feature 'viewing and managing ads', :js, :perform_jobs, :integration do
 
     sleep 2
 
-    visit "http://peer_1:3000/"
+    visit_peer(1, 'messages')
+    click_on "Farm fresh eggs"
+    expect(page).to have_content("Is this still available?")
+    fill_in 'message_body', with: 'Yes.'
+    click_on 'Send'
+
+    sleep 2
+    visit_peer(4, 'messages')
+    click_on 'Farm fresh eggs'
+    expect(page).to have_content('Yes.')
+    fill_in 'message_body', with: "I'll take a dozen weekly. Are you in DFW area?"
+    click_on 'Send'
+
+    sleep 2
+    visit_peer(1, 'messages')
+    click_on "Farm fresh eggs"
+    expect(page).to have_content("Is this still available?")
+    expect(page).to have_content("Yes.")
+    expect(page).to have_content("I'll take a dozen weekly. Are you in DFW area?")
+    fill_in 'message_body', with: 'Yes, have dropoff at south end of IKEA parking lot in Grand Prairie every Tuesday at 1pm.'
+    click_on 'Send'
+
 
   end
 

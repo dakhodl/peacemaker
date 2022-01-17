@@ -13,4 +13,4 @@ echo "deleted $APP_PATH/tmp/pids/server-$INTEGRATION_SPECS.pid"
 bundle check || bundle install --jobs 20 --retry 5
 
 # Then run any passed command
-bundle exec rspec spec/integrations
+bundle exec $@

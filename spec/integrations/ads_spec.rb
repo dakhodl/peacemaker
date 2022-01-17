@@ -7,7 +7,7 @@ feature 'viewing and managing ads', :js, :perform_jobs, :integration do
     visit "http://peer_1:3000/"
     expect(page).to have_content('Peer 2')
     click_on 'Ads'
-    expect(page).to have_content("You have no ads.\nMake one")
+    expect(page).to have_content("You have no ads.\nCreate an ad")
     click_on 'New ad'
 
     fill_in 'Title', with: 'Farm fresh eggs'
