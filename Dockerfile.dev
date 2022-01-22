@@ -20,6 +20,8 @@ yarn \
 imagemagick \
 tzdata \
 less \
+libffi-dev \
+libsodium-dev \
 sqlite-dev \
 tor \
 gcompat \

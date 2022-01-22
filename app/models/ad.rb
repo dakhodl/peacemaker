@@ -16,6 +16,28 @@ class Ad < ApplicationRecord
 
   delegate :name, to: :peer, prefix: true, allow_nil: true
 
+  before_validation :initialize_keys, if: :secure?
+  validates :secret_key, :public_key, presence: true, if: :secure?
+
+  before_validation :initialize_onion_address, if: :direct?
+  validates :onion_address, presence: true, if: :direct?
+
+  def initialize_keys
+    # secret key is set if I own this ad.
+    # only public key is set if this came from someone else
+    return if secret_key.present? || public_key.present?
+
+    skey = RbNaCl::PrivateKey.generate
+    pkey = skey.public_key
+
+    self.secret_key = skey.to_bytes
+    self.public_key = pkey.to_bytes
+  end
+
+  def initialize_onion_address
+    self.onion_address ||= configatron.my_onion
+  end
+
   def propagate_to_peers
     Peer.where.not(id: peer_id).find_each do |peer|
       Webhook::ResourceSendJob.perform_later(
@@ -42,5 +64,14 @@ class Ad < ApplicationRecord
 
   def self_authored?
     peer_id.nil?
+  end
+
+  # sanitize json version of secret key globally
+  def as_json
+    super(except: :secret_key)
+  end
+
+  def needs_message_propagation?
+    secure? && peer_id.present?
   end
 end
