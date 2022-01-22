@@ -12,7 +12,7 @@
   <!-- Thread section-->
   <ul role="list" class="py-4 space-y-2 sm:px-6 sm:space-y-4 lg:px-8">
     <% @thread.messages.order(created_at: :desc).each do |message| %>
-      <li class="<%= message.from_peer? ? 'bg-blue-100 ml-32' : 'bg-white mr-32' %> px-4 py-6 shadow sm:rounded-lg sm:px-6">
+      <li class="<%= message.lead? ? 'bg-blue-100 ml-32' : 'bg-white mr-32' %> px-4 py-6 shadow sm:rounded-lg sm:px-6">
         <div class="sm:flex sm:justify-between sm:items-baseline">
           <p class="mt-1 text-sm text-gray-600 whitespace-nowrap sm:mt-0">
             <time datetime="2021-01-28T19:24"><%= local_time_ago message.created_at %></time>

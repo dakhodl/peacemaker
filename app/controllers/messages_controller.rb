@@ -23,7 +23,9 @@ class MessagesController < ApplicationController
 
   # POST /messages or /messages.json
   def create
-    @message = Message.new(message_params.merge(author: :from_self))
+    ad = Ad.find(params[:message][:ad_id])
+    message_class = ad.secure? ? Messages::SecureMessage : Messages::DirectMessage
+    @message = message_class.new(message_params.merge(author: :lead))
 
     respond_to do |format|
       if @message.save

@@ -5,6 +5,13 @@ GIT
     tor_requests (0.6.0)
       socksify
 
+GIT
+  remote: https://github.com/ffi/ffi.git
+  revision: 447845cb3030194c79700c86fb388a12e6f81386
+  submodules: true
+  specs:
+    ffi (1.15.5)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -102,7 +109,6 @@ GEM
       tzinfo
     factory_bot (6.2.0)
       activesupport (>= 5.0.0)
-    ffi (1.15.4)
     foreman (0.87.2)
     fugit (1.5.2)
       et-orbi (~> 1.1, >= 1.1.8)
@@ -187,6 +193,8 @@ GEM
     rb-fsevent (0.11.0)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
+    rbnacl (7.1.1)
+      ffi
     redis (4.5.1)
     regexp_parser (2.2.0)
     rexml (3.2.5)
@@ -285,6 +293,7 @@ DEPENDENCIES
   configatron
   ed25519
   factory_bot
+  ffi!
   foreman
   importmap-rails
   jbuilder
@@ -294,6 +303,7 @@ DEPENDENCIES
   puma
   rack-mini-profiler
   rails
+  rbnacl
   redis
   rspec-rails
   rspec-sidekiq

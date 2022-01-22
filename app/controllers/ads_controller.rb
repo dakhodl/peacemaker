@@ -19,7 +19,7 @@ class AdsController < ApplicationController
 
   # POST /ads or /ads.json
   def create
-    @ad = Ad.new(ad_params.merge(onion_address: configatron.my_onion))
+    @ad = Ad.new(ad_params)
 
     respond_to do |format|
       if @ad.save
@@ -63,6 +63,6 @@ class AdsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def ad_params
-    params.require(:ad).permit(:title, :message)
+    params.require(:ad).permit(:title, :message, :messaging_type)
   end
 end

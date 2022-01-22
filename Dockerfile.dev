@@ -20,6 +20,8 @@ yarn \
 imagemagick \
 tzdata \
 less \
+libffi-dev \
+libsodium-dev \
 sqlite-dev \
 tor \
 gcompat \
@@ -50,5 +52,7 @@ RUN chmod +x /usr/local/bin/dev-entrypoint.sh && chmod +x /usr/local/bin/test-en
 
 
 EXPOSE $RAILS_PORT
+
+ENV DISABLE_BOOTSNAP true
 
 ENTRYPOINT [ "bundle", "exec" ]
