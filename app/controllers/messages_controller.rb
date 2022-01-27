@@ -22,12 +22,14 @@ class MessagesController < ApplicationController
   end
 
   # POST /messages or /messages.json
-  def create
-    @message = Message.new(message_params.merge(author: :from_self))
+  def create    
+    @message_thread = MessageThread.find_by(uuid: params[:uuid])
+    @message = message_class.new(message_params.merge(author: :lead))
+    @message.encrypt_body! if @message_thread.secure?
 
     respond_to do |format|
       if @message.save
-        format.html { redirect_to message_url(@message) }
+        format.html { redirect_to message_thread_url(@message_thread) }
         format.json { render :show, status: :created, location: @message }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -69,5 +71,15 @@ class MessagesController < ApplicationController
     # Only allow a list of trusted parameters through.
     def message_params
       params.require(:message).permit(:ad_id, :peer_id, :message_thread_id, :body)
+    end
+
+    def message_class
+      if @message_thread.secure? && @message_thread.ad.self_authored? 
+        Messages::AdvertiserMessage
+      elsif @message_thread.secure? && !@message_thread.ad.self_authored?
+        Messages::LeadMessage
+      else
+        Messages::DirectMessage
+      end
     end
 end

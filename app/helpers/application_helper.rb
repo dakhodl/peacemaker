@@ -8,8 +8,8 @@ module ApplicationHelper
   def marketplace_nav_controller
     if @ad&.peer.present?
       "ads"
-    elsif controller_name == 'messages' && action_name == 'new' && @message.ad.present?
-      "messages"
+    elsif controller_name == 'message_threads' && action_name == 'new' && @message_thread&.ad.present?
+      "message_threads"
     else
       "marketplace"
     end
@@ -24,10 +24,10 @@ module ApplicationHelper
   end
 
   def messages_nav_controller
-    if controller_name == 'messages' && action_name == 'new' && @message.ad.present?
+    if controller_name == 'message_threads' && action_name == 'new' && @message_thread&.ad.present?
       "unselected"
     else
-      "messages"
+      "message_threads"
     end
   end
 end

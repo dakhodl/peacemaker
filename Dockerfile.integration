@@ -21,6 +21,8 @@ tzdata \
 less \
 libsqlite3-dev \
 tor \
+libffi-dev \
+libsodium-dev \
 redis -y\
 && mkdir -p $APP_PATH 
 

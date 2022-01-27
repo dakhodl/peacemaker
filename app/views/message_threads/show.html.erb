@@ -1,7 +1,7 @@
 <%= render partial: 'messages' %>
 
 <turbo-frame id="detail_view" data-turbo-action="advance" class="DetailSidebar__body md:h-screen-w-nav lg:h-screen overflow-y-scroll p-4 w-full md:bg-gray-50">
-  <%= form_with(model: @thread.messages.build(ad: @thread.ad, peer: @thread.peer), class: "rounded m-6 lg:m-8 pr-10 lg:pr-0 flex") do |form| %>
+  <%= form_with(model: [@thread, @thread.messages.build], class: "rounded m-6 lg:m-8 pr-10 lg:pr-0 flex") do |form| %>
     <%= form.hidden_field :ad_id %>
     <%= form.hidden_field :peer_id %>
     <%= form.hidden_field :message_thread_id %>
@@ -12,7 +12,7 @@
   <!-- Thread section-->
   <ul role="list" class="py-4 space-y-2 sm:px-6 sm:space-y-4 lg:px-8">
     <% @thread.messages.order(created_at: :desc).each do |message| %>
-      <li class="<%= message.from_peer? ? 'bg-blue-100 ml-32' : 'bg-white mr-32' %> px-4 py-6 shadow sm:rounded-lg sm:px-6">
+      <li class="<%= message.lead? ? 'bg-blue-100 ml-32' : 'bg-white mr-32' %> px-4 py-6 shadow sm:rounded-lg sm:px-6">
         <div class="sm:flex sm:justify-between sm:items-baseline">
           <p class="mt-1 text-sm text-gray-600 whitespace-nowrap sm:mt-0">
             <time datetime="2021-01-28T19:24"><%= local_time_ago message.created_at %></time>

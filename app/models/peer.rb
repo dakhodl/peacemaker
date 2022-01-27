@@ -32,7 +32,7 @@ class Peer < ApplicationRecord
 
   def fetching_allowed?(resource_type)
     case resource_type
-    when 'Message'
+    when 'Message', 'Messages::DirectMessage', 'Messages::LeadMessage', 'Messages::AdvertiserMessage'
       MESSAGING_TRUST_LEVELS.include?(trust_level)
     when 'Ad'
       AD_RECEIVE_TRUST_LEVELS.include?(trust_level)

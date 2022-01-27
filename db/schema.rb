@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_17_170754) do
+ActiveRecord::Schema.define(version: 2022_01_26_214535) do
 
   create_table "ads", force: :cascade do |t|
     t.string "title"
@@ -22,6 +22,8 @@ ActiveRecord::Schema.define(version: 2022_01_17_170754) do
     t.string "uuid"
     t.string "onion_address"
     t.integer "messaging_type", default: 0, null: false
+    t.binary "secret_key"
+    t.binary "public_key"
     t.index ["peer_id"], name: "index_ads_on_peer_id"
     t.index ["uuid"], name: "index_ads_on_uuid", unique: true
   end
@@ -31,6 +33,9 @@ ActiveRecord::Schema.define(version: 2022_01_17_170754) do
     t.integer "peer_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.binary "secret_key"
+    t.binary "public_key"
+    t.string "uuid"
     t.index ["ad_id"], name: "index_message_threads_on_ad_id"
     t.index ["peer_id"], name: "index_message_threads_on_peer_id"
   end
@@ -44,6 +49,8 @@ ActiveRecord::Schema.define(version: 2022_01_17_170754) do
     t.string "uuid"
     t.integer "author", default: 0, null: false
     t.integer "message_thread_id"
+    t.binary "encrypted_body"
+    t.string "type"
     t.index ["ad_id"], name: "index_messages_on_ad_id"
     t.index ["peer_id"], name: "index_messages_on_peer_id"
     t.index ["uuid"], name: "index_messages_on_uuid", unique: true

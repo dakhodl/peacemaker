@@ -8,6 +8,10 @@ FactoryBot.define do
     title { 'Farm fresh eggs' }
     message { 'What else do you need to know' }
     uuid { SecureRandom.uuid }
+
+    trait :secure do
+      messaging_type { :secure }
+    end
   end
 
   factory :webhook_send, class: Webhook::Send do

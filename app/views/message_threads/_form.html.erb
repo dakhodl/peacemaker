@@ -1,34 +1,30 @@
-<%= form_with(model: message, class: "contents") do |form| %>
-  <% if message.errors.any? %>
+<%= form_with(model: message_thread, class: "contents") do |form| %>
+  <% if message_thread.errors.any? %>
     <div id="error_explanation" class="bg-rose-50 text-rose-500 px-3 py-2 font-medium rounded-lg mt-3">
-      <h2><%= pluralize(message.errors.count, "error") %> prohibited this message from being saved:</h2>
+      <h2><%= pluralize(message_thread.errors.count, "error") %> prohibited this message_thread from being saved:</h2>
 
       <ul>
-        <% message.errors.each do |error| %>
+        <% message_thread.errors.each do |error| %>
           <li><%= error.full_message %></li>
         <% end %>
       </ul>
     </div>
   <% end %>
 
-  <% if @message.ad.present? %>
+  <% if @message_thread.ad.present? %>
     <div class="my-5">
       <%= form.hidden_field :ad_id %>
+      <%= form.hidden_field :peer_id %>
       <%= label_tag 'To' %>
 
-      <%
-=begin%>
- <%= text_field_tag :subject, "#{@message.ad.title}" ,class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full opacity-70", disabled: true %> 
-<%
-=end%>
       <div class="flex">
         <%= icon_right_arrow_small %>
 
-        <%= message.ad.peer_name %>
-        <% if message.ad.hops > 1 %>
-          <div class="flex items-center" data-tooltip="This came through <%= message.ad.peer_name %>">
+        <%= message_thread.ad.peer_name %>
+        <% if message_thread.ad.hops > 1 %>
+          <div class="flex items-center" data-tooltip="This came through <%= message_thread.ad.peer_name %>">
             <%= icon_right_arrow_small %>
-            <%= pluralize message.ad.hops, 'peer' %> away
+            <%= pluralize message_thread.ad.hops, 'peer' %> away
           </div>
         <% end %>
       </div>
@@ -37,7 +33,7 @@
       <%= form.hidden_field :ad_id %>
       <%= label_tag 'Subject' %>
 
-      <%= text_field_tag :subject, "Re: #{@message.ad.title}" ,class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full opacity-70", disabled: true %>
+      <%= text_field_tag :subject, "Re: #{@message_thread.ad.title}" ,class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full opacity-70", disabled: true %>
 
     </div>
   <% else %>
