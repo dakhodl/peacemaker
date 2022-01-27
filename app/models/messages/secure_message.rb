@@ -1,12 +1,7 @@
 #
-# The peer is always a link back and an ad.peer is the link forward.
+# The peer is always a link to lead and an ad.peer is the link to advertiser
 #   in intermediaries.
-
-# for terminal message endpoints, sender/receiver,
-#   peer is ad.peer for ad respondent
-#   peer is message_thread.peer for ad creator
 #
-
 module Messages::SecureMessage
   extend ActiveSupport::Concern
 
@@ -17,10 +12,10 @@ module Messages::SecureMessage
   end
 
   def serializable_hash(*args)
-    # where does my response public key live?
-    # feels like it should live on the MessageThread, which is kind of a psuedo object rn.
-    # encryp
-    super(only: [:created_at, :uuid, :encrypted_body], methods: [:base64_public_key, :ad_uuid, :message_thread_uuid])
+    super(
+      only: [:created_at, :uuid, :encrypted_body], 
+      methods: [:base64_public_key, :ad_uuid, :message_thread_uuid, :message_thread_hops]
+    )
   end
 
   def ad_uuid
@@ -29,6 +24,10 @@ module Messages::SecureMessage
 
   def message_thread_uuid
     message_thread.uuid
+  end
+
+  def message_thread_hops
+    message_thread.hops
   end
 
   def send_to_peer

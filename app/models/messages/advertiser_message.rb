@@ -30,7 +30,11 @@ class Messages::AdvertiserMessage < Message
   def upsert_from_peer!(response, peer)
     Rails.logger.info response
     message_thread = MessageThread.find_by!(uuid: response['resource']['message_thread_uuid'])
-    update!(response['resource'].merge(message_thread: message_thread).except('peer_id', 'base64_public_key', 'ad_uuid', 'message_thread_uuid'))
+    update!(
+      response['resource']
+      .merge(message_thread: message_thread)
+      .except('peer_id', 'base64_public_key', 'ad_uuid', 'message_thread_uuid', 'message_thread_hops')
+    )
     decrypt_body! if final_destination?
   end
 end

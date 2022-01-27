@@ -12,10 +12,6 @@ class Message < ApplicationRecord
 
   delegate :peer, :ad, to: :message_thread
 
-  def ordinalized_peer_name
-    "#{ad.hops.ordinalize}˚ peer via #{ad.peer_name}"
-  end
-
   def upsert_from_peer!(*args)
     raise 'to be implemented in subclass'
   end

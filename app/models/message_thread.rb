@@ -35,4 +35,25 @@ class MessageThread < ApplicationRecord
     self.peer.name ||= ordinalized_peer_name
     self.peer.save!
   end
+
+  def lead_view?
+    secret_key.present?
+  end
+
+  def ordinalized_peer_name
+    peer_name, distance = if lead_view?
+      [ad.peer_name, ad.hops]
+    else # advertiser's pov
+      [peer.name, hops]
+    end
+
+    # is an immediate peer, just show their name
+    return peer_name if (hops || ad.hops) == 1
+
+    "#{distance.ordinalize}˚ peer via #{peer.name}"
+  end
+
+  def multi_hop?
+    hops.blank? || hops > 1
+  end
 end

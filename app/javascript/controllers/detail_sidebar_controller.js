@@ -26,7 +26,7 @@ export default class extends Controller {
       fetch(`/${endpoint}/${recordId}`, {
         method: 'DELETE',
         headers: {
-          "X-CSRF-Token": document.head.querySelector(`meta[name="csrf-token"]`).getAttribute("content")
+          "X-CSRF-Token": document.head.querySelector(`meta[name="csrf-token"]`)?.getAttribute("content")
         },
       }).then(() => Turbo.visit(`/${endpoint}`));
 

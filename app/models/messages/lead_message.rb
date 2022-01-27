@@ -23,7 +23,6 @@ class Messages::LeadMessage < Message
   end
 
   def final_destination?
-    Rails.logger.info "CHECKING FINAL DEST #{lead? && ad.self_authored?}"
     lead? && ad.self_authored?
   end
 
@@ -34,11 +33,16 @@ class Messages::LeadMessage < Message
     message_thread ||= MessageThread.find_or_initialize_by(ad: ad, uuid: response['resource']['message_thread_uuid'])
     message_thread.public_key ||= Base64.decode64(response['resource']['base64_public_key'])
     message_thread.from_peer = true # suppresses first message body presence validation, because encrypted
-    message_thread.peer ||= peer # does not force set, may be advertiser responding which has an ad pointer
+    message_thread.peer = peer
+    message_thread.hops ||= ( response['resource']['message_thread_hops'] || 0 ) + 1
     message_thread.save!
 
     Rails.logger.info 'UPSERTING LEAD MESSAGE'
-    update!(response['resource'].merge(message_thread: message_thread).except('base64_public_key', 'ad_uuid', 'message_thread_uuid'))
+    update!(
+      response['resource']
+      .merge(message_thread: message_thread)
+      .except('base64_public_key', 'ad_uuid', 'message_thread_uuid', 'message_thread_hops')
+    )
     Rails.logger.info final_destination?
   end
 end
