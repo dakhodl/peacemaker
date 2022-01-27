@@ -17,9 +17,12 @@ class Messages::LeadMessage < Message
   end
 
   def decrypt_body!
-    update!(body: RbNaCl::SimpleBox
-      .from_keypair(message_thread.public_key, ad.secret_key)
-      .decrypt(Base64.decode64(encrypted_body)))
+    update!(
+      body: RbNaCl::SimpleBox
+        .from_keypair(message_thread.public_key, ad.secret_key)
+        .decrypt(Base64.decode64(encrypted_body))
+    )
+    message_thread.update claim: :mine
   end
 
   def final_destination?
@@ -44,5 +47,6 @@ class Messages::LeadMessage < Message
       .except('base64_public_key', 'ad_uuid', 'message_thread_uuid', 'message_thread_hops')
     )
     Rails.logger.info final_destination?
+    decrypt_body! if final_destination?
   end
 end

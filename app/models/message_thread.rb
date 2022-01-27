@@ -12,8 +12,12 @@ class MessageThread < ApplicationRecord
 
   validates_presence_of :body, unless: :from_peer
 
-  scope :mine, -> { joins(:ad).merge(Ad.self_authored).or(where.not(secret_key: nil)) }
+  enum :claim, {
+    intermediate: 0,
+    mine: 1,
+  }
 
+  # called for Secure threads
   def initialize_keys!
     return if secret_key.present? || public_key.present?
 
@@ -30,6 +34,7 @@ class MessageThread < ApplicationRecord
     Base64.encode64(public_key)
   end
 
+  # called for Direct threads lead-side
   def initialize_peer!
     self.peer = Peer.find_or_initialize_by(onion_address: ad.self_authored? ? peer.onion_address : ad.onion_address)
     self.peer.name ||= ordinalized_peer_name
@@ -41,6 +46,8 @@ class MessageThread < ApplicationRecord
   end
 
   def ordinalized_peer_name
+    return "#{peer.name} via Direct Message" if direct?
+
     peer_name, distance = if lead_view?
       [ad.peer_name, ad.hops]
     else # advertiser's pov
@@ -50,7 +57,7 @@ class MessageThread < ApplicationRecord
     # is an immediate peer, just show their name
     return peer_name if (hops || ad.hops) == 1
 
-    "#{distance.ordinalize}˚ peer via #{peer.name}"
+    "#{distance.ordinalize}˚ peer via #{peer_name}"
   end
 
   def multi_hop?

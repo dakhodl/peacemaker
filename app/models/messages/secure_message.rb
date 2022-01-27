@@ -8,7 +8,6 @@ module Messages::SecureMessage
   included do
     validates_presence_of :encrypted_body
     delegate :base64_public_key, to: :message_thread
-    after_create :decrypt_body!, if: :final_destination?
   end
 
   def serializable_hash(*args)

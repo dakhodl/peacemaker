@@ -24,7 +24,7 @@ class MessagesController < ApplicationController
   # POST /messages or /messages.json
   def create    
     @message_thread = MessageThread.find_by(uuid: params[:uuid])
-    @message = message_class.new(message_params.merge(author: :lead))
+    @message = message_class.new(message_params.merge(author: @message_thread.ad.self_authored? ? :advertiser : :lead))
     @message.encrypt_body! if @message_thread.secure?
 
     respond_to do |format|

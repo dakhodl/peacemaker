@@ -18,9 +18,12 @@ class Messages::AdvertiserMessage < Message
   end
 
   def decrypt_body!
-    update!(body: RbNaCl::SimpleBox
-    .from_keypair(ad.public_key, message_thread.secret_key)
-    .decrypt(Base64.decode64(encrypted_body)))
+    update!(
+      body: RbNaCl::SimpleBox
+        .from_keypair(ad.public_key, message_thread.secret_key)
+        .decrypt(Base64.decode64(encrypted_body))
+    )
+    message_thread.update claim: :mine
   end
 
   def final_destination?

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_27_053033) do
+ActiveRecord::Schema.define(version: 2022_01_27_115611) do
 
   create_table "ads", force: :cascade do |t|
     t.string "title"
@@ -37,7 +37,9 @@ ActiveRecord::Schema.define(version: 2022_01_27_053033) do
     t.binary "public_key"
     t.string "uuid"
     t.integer "hops"
+    t.integer "claim", default: 0
     t.index ["ad_id"], name: "index_message_threads_on_ad_id"
+    t.index ["claim"], name: "index_message_threads_on_claim"
     t.index ["peer_id"], name: "index_message_threads_on_peer_id"
   end
 
