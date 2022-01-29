@@ -1,0 +1,22 @@
+
+
+<% if @threads.empty? %>
+
+  <%= empty_state_container do %>
+    <h2 class="text-4xl">
+      You have no messages.
+    </h2>
+
+    <h3 class="text-lg mt-4">
+      Get out there and make some noise.
+    </h3>
+
+    <%= icon_empty_inbox %>
+  <% end %>
+
+<% else %>
+  <%= render partial: 'messages' %>
+
+  <turbo-frame id="detail_view" class="DetailSidebar__body md:h-screen-w-nav lg:h-screen overflow-y-scroll w-full md:bg-gray-50 ">
+  </turbo-frame>
+<% end %>

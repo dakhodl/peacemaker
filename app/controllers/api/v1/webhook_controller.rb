@@ -4,8 +4,6 @@ class Api::V1::WebhookController < Api::V1::BaseController
   #   until re-using the tor private key to sign requests eliminates this second hop.
   #   see https://github.com/dakhodl/peacemaker/issues/1
   def create
-    peer = Peer.find_by(onion_address: params[:from])
-
     receipt = peer.webhook_receipts.build(
       uuid: params[:uuid],
       token: params[:token],
@@ -15,6 +13,7 @@ class Api::V1::WebhookController < Api::V1::BaseController
     if receipt.save
       head :ok
     else
+      Rails.logger.info receipt.errors.to_a
       render json: receipt.errors, status: :unprocessable_entity
     end
   end
@@ -28,6 +27,19 @@ class Api::V1::WebhookController < Api::V1::BaseController
       render json: webhook_send.as_json(include: [:resource])
     else
       render json: {}, status: :unauthorized
+    end
+  end
+
+  private
+
+  def peer
+    if params['resource_type'] == 'Messages::DirectMessage'
+      Peer.find_or_initialize_by(onion_address: params[:from]).tap do |peer|
+        peer.name ||= params[:from_name]
+        peer.save!
+      end
+    else
+      Peer.find_by(onion_address: params[:from])
     end
   end
 end

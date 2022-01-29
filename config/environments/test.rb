@@ -9,7 +9,9 @@ Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Turn false under Spring and add config.action_view.cache_template_loading = true
-  config.cache_classes = true
+  # usually this is true - but for spec/integrations p2p e2e specs this is quite useful 
+  # for rapid iteration, not needing to restart server
+  config.cache_classes = ENV['CI'].present?
 
   # Eager loading loads your whole application. When running a single test locally,
   # this probably isn't necessary. It's a good idea to do in a continuous integration
@@ -28,7 +30,8 @@ Rails.application.configure do
   config.cache_store = :null_store
 
   # Raise exceptions instead of rendering exception templates.
-  config.action_dispatch.show_exceptions = false
+  config.action_dispatch.show_exceptions = true
+  config.active_record.verbose_query_logs = true
 
   # Disable request forgery protection in test environment.
   config.action_controller.allow_forgery_protection = false

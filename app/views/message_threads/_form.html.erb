@@ -1,0 +1,54 @@
+<%= form_with(model: message_thread, class: "contents") do |form| %>
+  <% if message_thread.errors.any? %>
+    <div id="error_explanation" class="bg-rose-50 text-rose-500 px-3 py-2 font-medium rounded-lg mt-3">
+      <h2><%= pluralize(message_thread.errors.count, "error") %> prohibited this message_thread from being saved:</h2>
+
+      <ul>
+        <% message_thread.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <% if @message_thread.ad.present? %>
+    <div class="my-5">
+      <%= form.hidden_field :ad_id %>
+      <%= form.hidden_field :peer_id %>
+      <%= label_tag 'To' %>
+
+      <div class="flex">
+        <%= icon_right_arrow_small %>
+
+        <%= message_thread.ad.peer_name %>
+        <% if message_thread.ad.hops > 1 %>
+          <div class="flex items-center" data-tooltip="This came through <%= message_thread.ad.peer_name %>">
+            <%= icon_right_arrow_small %>
+            <%= pluralize message_thread.ad.hops, 'peer' %> away
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <div class="my-5">
+      <%= form.hidden_field :ad_id %>
+      <%= label_tag 'Subject' %>
+
+      <%= text_field_tag :subject, "Re: #{@message_thread.ad.title}" ,class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full opacity-70", disabled: true %>
+
+    </div>
+  <% else %>
+    <div class="my-5">
+      <%= form.label :peer_id %>
+      <%= form.text_field :peer_id, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+    </div>
+  <% end %>
+
+  <div class="my-5">
+    <%= form.label :body %>
+    <%= form.text_area :body, rows: 4, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+  </div>
+
+  <div class="inline">
+    <%= form.submit 'Send', class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
+  </div>
+<% end %>

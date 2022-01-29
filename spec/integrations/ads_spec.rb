@@ -6,9 +6,8 @@ feature 'viewing and managing ads', :js, :perform_jobs, :integration do
   scenario 'creating an ad that propagates to a peer' do
     visit "http://peer_1:3000/"
     expect(page).to have_content('Peer 2')
-    expect(page).to have_content('peer_2:3000')
     click_on 'Ads'
-    expect(page).to have_content('Your ads')
+    expect(page).to have_content("You have no ads.\nCreate an ad")
     click_on 'New ad'
 
     fill_in 'Title', with: 'Farm fresh eggs'
@@ -19,21 +18,21 @@ feature 'viewing and managing ads', :js, :perform_jobs, :integration do
     click_on 'Back to Ads'
 
     expect(page).to have_content('Farm fresh eggs')
-    sleep 2
+    sleep 5
 
     expect_ad_to_have_propagated_to_all_peers("Farm fresh eggs")
 
     visit_peer(4, 'marketplace')
     # hop distance is shown next to connecting peer.
     # the arrow visual is an svg, harder to test. So the below line reads funny here
-    expect(page).to have_content("3 peers\nPeer 3")
+    expect(page).to have_content("2 peers\nPeer 3")
 
     visit_peer(1, 'ads')
     click_on 'Edit'
     fill_in 'Title', with: 'Farm fresh dogs'
     click_on 'Update Ad'
     expect(page).to have_content('Ad was successfully updated.')
-    sleep 2
+    sleep 5
 
     expect_ad_to_have_propagated_to_all_peers("Farm fresh dogs")
 

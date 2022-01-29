@@ -1,13 +1,33 @@
 module ApplicationHelper
   def nav_link_to(link_path, path_controller_name, &block)
-    current_page_style = controller_name == path_controller_name ? 'border-indigo-500 text-gray-900 border-b-2' : 'border-transparent text-gray-500'
+    current_page_style = controller_name == path_controller_name ? 'bg-white text-gray-900' : 'text-white'
     link_to link_path,
-            class: "#{current_page_style} inline-flex items-center px-1 pt-1 text-sm font-medium hover:border-b-2 hover:border-gray-300 hover:text-gray-700", &block 
+            class: "#{current_page_style} flex flex-col grow lg:grow-0 lg:py-12 justify-center p-5 items-center font-medium", &block 
   end
 
-  def mobile_nav_link_to(link_path, path_controller_name, &block)
-    current_page_style = controller_name == path_controller_name ? 'bg-indigo-50 border-indigo-500 text-indigo-700' : "border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700"
-    link_to link_path,
-      class: "#{current_page_style} block pl-3 pr-4 py-2 border-l-4 text-base font-medium sm:pl-5 sm:pr-6", &block
+  def marketplace_nav_controller
+    if @ad&.peer.present?
+      "ads"
+    elsif controller_name == 'message_threads' && action_name == 'new' && @message_thread&.ad.present?
+      "message_threads"
+    else
+      "marketplace"
+    end
+  end
+
+  def ads_nav_controller
+    if @ad&.peer.present?
+      "marketplace"
+    else
+      "ads"
+    end
+  end
+
+  def messages_nav_controller
+    if controller_name == 'message_threads' && action_name == 'new' && @message_thread&.ad.present?
+      "unselected"
+    else
+      "message_threads"
+    end
   end
 end

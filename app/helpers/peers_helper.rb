@@ -26,4 +26,29 @@ module PeersHelper
   def peer_ads_in(timeframe: 30.days.ago..Time.current)
     @peer.ads.where(created_at: timeframe).count
   end
+
+  def peer_onion_short(peer)
+    "#{peer.onion_address[..5]}...#{peer.onion_address[-13..]}"
+  end
+
+  def peer_trust_levels
+    if action_name == 'edit'
+      Peer.trust_levels.to_a.reverse  
+    else
+      Peer.trust_levels.to_a.reject {|name, value| name === 'banned' }.reverse
+    end
+  end
+
+  def peer_trust_level_description(name)
+    case name
+    when "high_trust"
+      "Chat with them and propagate this peer's ads to your network."
+    when "medium_trust"
+      "Chat with them and receive ads from this peer's network."
+    when "low_trust"
+      "Chat with them about their ads."
+    when "banned"
+      "All communication is blocked."
+    end
+  end
 end

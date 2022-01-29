@@ -6,7 +6,7 @@ class Webhook::Receipt < ApplicationRecord
 
   validates_presence_of :peer, :token, :uuid, :resource_type
 
-  validates_inclusion_of :resource_type, in: ['Ad']
+  validates_inclusion_of :resource_type, in: ['Ad', 'Messages::DirectMessage', 'Messages::AdvertiserMessage', 'Messages::LeadMessage']
   validates_inclusion_of :action, in: [:upsert, :delete], allow_nil: true
 
   validate :related_resource_claimed_by_peer

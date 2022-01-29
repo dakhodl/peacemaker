@@ -56,6 +56,15 @@ gem 'sidekiq-cron'
 # easy environment configuration
 gem 'configatron'
 
+# showing times in user tz
+gem 'local_time'
+
+# native linking https://github.com/ffi/ffi/issues/881
+gem "ffi", github: "ffi/ffi", submodules: true
+
+# crypto libsodium for SimpleBox message signing
+gem 'rbnacl'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: %i[mri mingw x64_mingw]

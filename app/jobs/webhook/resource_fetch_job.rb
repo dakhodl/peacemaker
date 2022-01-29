@@ -11,6 +11,10 @@ class Webhook::ResourceFetchJob < ApplicationJob
 
     return if resource.peer_id.present? && resource.peer != peer # rely on original peer for updates for now
     # TODO: if original peer is offline for X days, take an update from another?
+    unless peer.fetching_allowed?(webhook_receipt.resource_type)
+      Rails.logger.info "Peer fetching not allowed for #{webhook_receipt.resource_type} - peer trust level: #{peer.trust_level}"
+      return
+    end
 
     res = PeaceNet.get(peer.onion_address, "/api/v1/webhook/#{webhook_receipt.uuid}/#{webhook_receipt.token}.json")
     return if res.code != "200"
@@ -24,10 +28,7 @@ class Webhook::ResourceFetchJob < ApplicationJob
   end
 
   def upsert!(response)
-    resource.update!(response['resource']
-      .merge(peer: peer) # set peer so malicious peer cannot masquerade as another
-      .merge(hops: response.dig('resource', 'hops') + 1)
-      .except('id')) # do not copy pkey from peer
+    resource.upsert_from_peer!(response, peer)
     webhook_receipt.update resource: resource, action: :upsert
   end
 

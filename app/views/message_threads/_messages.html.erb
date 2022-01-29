@@ -1,0 +1,32 @@
+<div data-detail-sidebar-selected-class="bg-gray-50 DetailSidebar__item--selected" data-controller="detail-sidebar" class="DetailSidebar flex flex-col md:h-screen-w-nav lg:h-screen md:w-2/3 overflow-y-scroll">
+  <% @threads.each do |thread| %>
+    <%= link_to thread, class: "DetailSidebar__item block px-4 py-6 bg-white border-b #{@thread == thread ? 'bg-gray-50 DetailSidebar__item--selected' : 'hover:bg-gray-50'}", data: { "turbo-frame": "detail_view" , action: "detail-sidebar#choose"} do %>
+      <span class="flex items-center space-x-4 w-full">
+        <span class="flex-1 flex space-x-2 truncate">
+      
+          <span class="flex flex-col text-gray-500 text-ellipsis overflow-hidden">
+            <span class="DetailSidebar__item__title truncate font-bold text-gray-800"><%= thread.ad.title %></span>
+            
+            <span class="DetailSidebar__item__subtitle text-gray-900 text-xs">
+              <%= thread.ordinalized_peer_name %>
+            </span>
+          </span>
+        </span>
+
+        <div class="icon--trash" data-action="click->detail-sidebar#delete" data-detail-sidebar-endpoint-param="messages" data-detail-sidebar-record-id-param="<%= thread.uuid %>">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+          </svg>
+        </div>
+        
+        <!-- Heroicon name: solid/chevron-right -->
+        <div class='icon--chevron'>
+          <svg class="flex-shrink-0 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+          </svg>
+        </div>
+      
+      </span>
+    <% end %>
+  <% end %>
+</div>

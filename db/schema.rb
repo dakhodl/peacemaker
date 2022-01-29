@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_08_151105) do
+ActiveRecord::Schema.define(version: 2022_01_27_115611) do
 
   create_table "ads", force: :cascade do |t|
     t.string "title"
@@ -20,8 +20,43 @@ ActiveRecord::Schema.define(version: 2022_01_08_151105) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "peer_id"
     t.string "uuid"
+    t.string "onion_address"
+    t.integer "messaging_type", default: 0, null: false
+    t.binary "secret_key"
+    t.binary "public_key"
     t.index ["peer_id"], name: "index_ads_on_peer_id"
     t.index ["uuid"], name: "index_ads_on_uuid", unique: true
+  end
+
+  create_table "message_threads", force: :cascade do |t|
+    t.integer "ad_id"
+    t.integer "peer_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.binary "secret_key"
+    t.binary "public_key"
+    t.string "uuid"
+    t.integer "hops"
+    t.integer "claim", default: 0
+    t.index ["ad_id"], name: "index_message_threads_on_ad_id"
+    t.index ["claim"], name: "index_message_threads_on_claim"
+    t.index ["peer_id"], name: "index_message_threads_on_peer_id"
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.integer "ad_id"
+    t.integer "peer_id"
+    t.text "body"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "uuid"
+    t.integer "author", default: 0, null: false
+    t.integer "message_thread_id"
+    t.binary "encrypted_body"
+    t.string "type"
+    t.index ["ad_id"], name: "index_messages_on_ad_id"
+    t.index ["peer_id"], name: "index_messages_on_peer_id"
+    t.index ["uuid"], name: "index_messages_on_uuid", unique: true
   end
 
   create_table "peers", force: :cascade do |t|
@@ -29,7 +64,8 @@ ActiveRecord::Schema.define(version: 2022_01_08_151105) do
     t.string "onion_address"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.datetime "last_online_at"
+    t.datetime "last_online_at", precision: 6
+    t.integer "trust_level", default: 1
   end
 
   create_table "webhook_receipts", force: :cascade do |t|
@@ -61,6 +97,10 @@ ActiveRecord::Schema.define(version: 2022_01_08_151105) do
   end
 
   add_foreign_key "ads", "peers"
+  add_foreign_key "message_threads", "ads"
+  add_foreign_key "message_threads", "peers"
+  add_foreign_key "messages", "ads"
+  add_foreign_key "messages", "peers"
   add_foreign_key "webhook_receipts", "peers"
   add_foreign_key "webhook_sends", "peers"
 end

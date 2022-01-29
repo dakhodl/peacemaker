@@ -1,104 +1,108 @@
-<!-- This example requires Tailwind CSS v2.0+ -->
-<div class="md:flex md:items-center md:justify-between">
-  <div class="flex-1 min-w-0">
-    <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
-      <%= @peer.name %>
-    </h2>
-    <div class="mt-2 flex items-center text-sm text-gray-500">
-      <p class="break-words w-full">
-        <%= @peer.onion_address %>
-      </p>
-    </div>
-  </div>
-  <div class="mt-4 flex md:mt-0 md:ml-4">
-
-    <%= link_to 'Edit', edit_peer_path(@peer), class: "button inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
-
-    <button disabled type="button" class="ml-3 button inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" data-tooltip="Coming soon...">
-      Message
-    </button>
-  </div>
-</div>
+<%= render partial: 'peers', locals: { selected_peer: @peer } %>
 
 <!-- This example requires Tailwind CSS v2.0+ -->
-<div class="mt-5">
-  <h3 class="text-lg leading-6 font-medium text-gray-900">
-    Last 7 days
-  </h3>
-  <dl class="mt-5 grid grid-cols-1 rounded-lg bg-white shadow divide-y divide-gray-200 md:grid-cols-3 md:divide-y-0 md:divide-x">
-    <div class="px-4 py-5 sm:p-6">
-      <dt class="text-base font-normal text-gray-900">
-        Total Ads
-      </dt>
-      <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
-        <div class="flex items-baseline text-2xl font-semibold text-indigo-600">
-          <%= peer_ads_in(timeframe: 7.days.ago..Time.current) %>
-          <span class="ml-2 text-sm font-medium text-gray-500">
-            from <%= peer_ads_in(timeframe: 14.days.ago..7.days.ago) %>
-          </span>
-        </div>
-
-        <div class="inline-flex items-baseline px-2.5 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800 md:mt-2 lg:mt-0">
-          <!-- Heroicon name: solid/arrow-sm-up -->
-          <svg class="-ml-1 mr-0.5 flex-shrink-0 self-center h-5 w-5 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-            <path fill-rule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-          </svg>
-          <span class="sr-only">
-            Increased by
-          </span>
-          <%= peer_ads_in(timeframe: 7.days.ago..Time.current).to_f / ([peer_ads_in(timeframe: 14.days.ago..7.days.ago), 1].max) * 100 %>%
-        </div>
-      </dd>
+<turbo-frame id="detail_view" data-turbo-action="advance" class="DetailSidebar__body h-full overflow-y-scroll p-4 md:border-l">
+  <div class="md:flex md:items-center md:justify-between">
+    <div class="flex-1 min-w-0">
+      <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
+        <%= @peer.name %>
+      </h2>
+      <div class="mt-2 flex items-center text-sm text-gray-500">
+        <p class="break-words w-full">
+          <%= @peer.onion_address %>
+        </p>
+      </div>
     </div>
+    <div class="mt-4 flex md:mt-0 md:ml-4">
 
-    <div class="px-4 py-5 sm:p-6 filter blur-sm">
-      <dt class="text-base font-normal text-gray-900">
-        Share rate
-      </dt>
-      <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
-        <div class="flex items-baseline text-2xl font-semibold text-indigo-600">
-          58.16%
-          <span class="ml-2 text-sm font-medium text-gray-500">
-            from 56.14%
-          </span>
-        </div>
+      <%= link_to 'Edit', edit_peer_path(@peer), class: "button inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
 
-        <div class="inline-flex items-baseline px-2.5 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800 md:mt-2 lg:mt-0">
-          <!-- Heroicon name: solid/arrow-sm-up -->
-          <svg class="-ml-1 mr-0.5 flex-shrink-0 self-center h-5 w-5 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-            <path fill-rule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-          </svg>
-          <span class="sr-only">
-            Increased by
-          </span>
-          2.02%
-        </div>
-      </dd>
+      <button disabled type="button" class="ml-3 button inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" data-tooltip="Coming soon...">
+        Message
+      </button>
     </div>
+  </div>
 
-    <div class="px-4 py-5 sm:p-6 filter blur-sm">
-      <dt class="text-base font-normal text-gray-900">
-        Avg. Click Rate
-      </dt>
-      <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
-        <div class="flex items-baseline text-2xl font-semibold text-indigo-600">
-          24.57%
-          <span class="ml-2 text-sm font-medium text-gray-500">
-            from 28.62%
-          </span>
-        </div>
+  <!-- This example requires Tailwind CSS v2.0+ -->
+  <div class="mt-5">
+    <h3 class="text-lg leading-6 font-medium text-gray-900">
+      Last 7 days
+    </h3>
+    <dl class="mt-5 grid grid-cols-1 rounded-lg bg-white shadow divide-y divide-gray-200 md:grid-cols-3 md:divide-y-0 md:divide-x">
+      <div class="px-4 py-5 sm:p-6">
+        <dt class="text-base font-normal text-gray-900">
+          Total Ads
+        </dt>
+        <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
+          <div class="flex items-baseline text-2xl font-semibold text-indigo-600">
+            <%= peer_ads_in(timeframe: 7.days.ago..Time.current) %>
+            <span class="ml-2 text-sm font-medium text-gray-500">
+              from <%= peer_ads_in(timeframe: 14.days.ago..7.days.ago) %>
+            </span>
+          </div>
 
-        <div class="inline-flex items-baseline px-2.5 py-0.5 rounded-full text-sm font-medium bg-red-100 text-red-800 md:mt-2 lg:mt-0">
-          <!-- Heroicon name: solid/arrow-sm-down -->
-          <svg class="-ml-1 mr-0.5 flex-shrink-0 self-center h-5 w-5 text-red-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-            <path fill-rule="evenodd" d="M14.707 10.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 12.586V5a1 1 0 012 0v7.586l2.293-2.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-          </svg>
-          <span class="sr-only">
-            Decreased by
-          </span>
-          4.05%
-        </div>
-      </dd>
-    </div>
-  </dl>
-</div>
+          <div class="inline-flex items-baseline px-2.5 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800 md:mt-2 lg:mt-0">
+            <!-- Heroicon name: solid/arrow-sm-up -->
+            <svg class="-ml-1 mr-0.5 flex-shrink-0 self-center h-5 w-5 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+            </svg>
+            <span class="sr-only">
+              Increased by
+            </span>
+            <%= peer_ads_in(timeframe: 7.days.ago..Time.current).to_f / ([peer_ads_in(timeframe: 14.days.ago..7.days.ago), 1].max) * 100 %>%
+          </div>
+        </dd>
+      </div>
+
+      <div class="px-4 py-5 sm:p-6 filter blur-sm">
+        <dt class="text-base font-normal text-gray-900">
+          Share rate
+        </dt>
+        <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
+          <div class="flex items-baseline text-2xl font-semibold text-indigo-600">
+            58.16%
+            <span class="ml-2 text-sm font-medium text-gray-500">
+              from 56.14%
+            </span>
+          </div>
+
+          <div class="inline-flex items-baseline px-2.5 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800 md:mt-2 lg:mt-0">
+            <!-- Heroicon name: solid/arrow-sm-up -->
+            <svg class="-ml-1 mr-0.5 flex-shrink-0 self-center h-5 w-5 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+            </svg>
+            <span class="sr-only">
+              Increased by
+            </span>
+            2.02%
+          </div>
+        </dd>
+      </div>
+
+      <div class="px-4 py-5 sm:p-6 filter blur-sm">
+        <dt class="text-base font-normal text-gray-900">
+          Avg. Click Rate
+        </dt>
+        <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
+          <div class="flex items-baseline text-2xl font-semibold text-indigo-600">
+            24.57%
+            <span class="ml-2 text-sm font-medium text-gray-500">
+              from 28.62%
+            </span>
+          </div>
+
+          <div class="inline-flex items-baseline px-2.5 py-0.5 rounded-full text-sm font-medium bg-rose-100 text-rose-800 md:mt-2 lg:mt-0">
+            <!-- Heroicon name: solid/arrow-sm-down -->
+            <svg class="-ml-1 mr-0.5 flex-shrink-0 self-center h-5 w-5 text-rose-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M14.707 10.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 12.586V5a1 1 0 012 0v7.586l2.293-2.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+            </svg>
+            <span class="sr-only">
+              Decreased by
+            </span>
+            4.05%
+          </div>
+        </dd>
+      </div>
+    </dl>
+  </div>
+</turbo-frame>
