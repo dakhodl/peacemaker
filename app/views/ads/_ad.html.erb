@@ -12,8 +12,12 @@
 
       <div class="<%= controller_name == "messages" ? 'hidden' : '' %>">
         <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
-          <dt class="text-sm font-medium text-gray-500">
+          <dt class="text-sm font-medium text-gray-500 flex">
             Description
+
+            <div class="grow ml-2" data-tooltip="Do not visit any URLs from a peer. They may try to track your IP or worse.">
+              <%= icon_question %>
+            </div>
           </dt>
           <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
             <%= ad.description %>
@@ -29,12 +33,12 @@
           </dd>
         </div>
 
-        <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4"  data-tooltip="Coming soon...">
+        <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
           <dt class="text-sm font-medium text-gray-500">
             Messaging type
           </dt>
           <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-            <%= ad.messaging_type %>
+            <%= ad.messaging_type.humanize %>
           </dd>
         </div>
 
