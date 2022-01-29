@@ -11,7 +11,7 @@ feature 'viewing and managing ads', :js, :perform_jobs, :integration do
     click_on 'New ad'
 
     fill_in 'Title', with: 'Farm fresh eggs'
-    fill_in 'Message', with: 'Only the best'
+    fill_in 'Description', with: 'Only the best'
 
     click_on 'Create Ad'
     expect(page).to have_content('Ad was successfully created.')

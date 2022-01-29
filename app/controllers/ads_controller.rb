@@ -63,6 +63,6 @@ class AdsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def ad_params
-    params.require(:ad).permit(:title, :message, :messaging_type)
+    params.require(:ad).permit(:title, :description, :messaging_type)
   end
 end

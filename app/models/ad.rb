@@ -22,6 +22,8 @@ class Ad < ApplicationRecord
   before_validation :initialize_onion_address, if: :direct?
   validates :onion_address, presence: true, if: :direct?
 
+  validates :description, :title, :messaging_type, presence: true
+
   scope :self_authored, -> { where(peer_id: nil) }
 
   def initialize_keys

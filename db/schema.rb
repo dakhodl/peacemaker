@@ -10,11 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_27_115611) do
+ActiveRecord::Schema.define(version: 2022_01_29_040452) do
 
   create_table "ads", force: :cascade do |t|
     t.string "title"
-    t.text "message"
+    t.text "description"
     t.integer "hops", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

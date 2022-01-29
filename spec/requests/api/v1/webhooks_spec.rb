@@ -31,7 +31,7 @@ describe 'Webhooks', type: :request do
           resource_type: 'Ad',
           resource: {
             title: 'Incoming ad from Peer 1',
-            message: 'cool desc',
+            description: 'cool desc',
             uuid: uuid,
             hops: 3
           }
@@ -134,7 +134,7 @@ describe 'Webhooks', type: :request do
           uuid: uuid,
           resource_type: 'Ad',
           resource: {
-            message: 'This is an updated message',
+            description: 'This is an updated description',
             hops: 4,
           }
         }.to_json, headers: {})
@@ -155,7 +155,7 @@ describe 'Webhooks', type: :request do
       # once to fetch the ad resource
       expect do
         perform_enqueued_jobs
-      end.to change { ad.reload.message }.from(ad.message).to('This is an updated message')
+      end.to change { ad.reload.description }.from(ad.description).to('This is an updated description')
 
       expect do
         perform_enqueued_jobs # again to propagate to peer 2
@@ -205,7 +205,7 @@ describe 'Webhooks', type: :request do
       expect(response).to be_successful
       expect(response.parsed_body['resource']).to include(
         'title' => 'Farm fresh eggs',
-        'message' => 'What else do you need to know'
+        'description' => 'What else do you need to know'
       )
     end
   end

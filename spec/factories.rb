@@ -6,7 +6,7 @@ FactoryBot.define do
 
   factory :ad do
     title { 'Farm fresh eggs' }
-    message { 'What else do you need to know' }
+    description { 'What else do you need to know' }
     uuid { SecureRandom.uuid }
 
     trait :blinded do
