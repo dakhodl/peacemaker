@@ -9,8 +9,8 @@ FactoryBot.define do
     message { 'What else do you need to know' }
     uuid { SecureRandom.uuid }
 
-    trait :secure do
-      messaging_type { :secure }
+    trait :blinded do
+      messaging_type { :blinded }
     end
   end
 

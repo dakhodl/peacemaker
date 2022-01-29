@@ -6,7 +6,7 @@ class MessageThread < ApplicationRecord
 
   has_many :messages, dependent: :destroy
 
-  delegate :secure?, :direct?, to: :ad
+  delegate :blinded?, :direct?, to: :ad
 
   attr_accessor :body, :from_peer
 
@@ -17,7 +17,7 @@ class MessageThread < ApplicationRecord
     mine: 1,
   }
 
-  # called for Secure threads
+  # called for Blinded threads
   def initialize_keys!
     return if secret_key.present? || public_key.present?
 

@@ -7,7 +7,7 @@ module MessagesHelper
         Distant people may respond directly to you, automatically added as Low Trust peers.
         Choose this if you prefer broad reach and quick, reliable responses.
     }
-    when "secure"
+    when "blinded"
       %Q{
       Your .onion remains only with your direct peers.
       Messages propagate through peers, encrypted by public key in Ad.

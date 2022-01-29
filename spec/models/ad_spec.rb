@@ -5,8 +5,8 @@ describe Ad do
     expect(Ad < ApplicationRecord).to eql(true)
   end
 
-  describe 'generating keys for secure message_type' do
-    let(:ad) { build(:ad, :secure) }
+  describe 'generating keys for blinded message_type' do
+    let(:ad) { build(:ad, :blinded) }
 
     specify do
       expect(ad.secret_key).to be_blank
@@ -25,8 +25,8 @@ describe Ad do
   describe '#as_json' do
     subject { ad.as_json }
 
-    context 'when secure ad' do
-      let(:ad) { create(:ad, :secure) }
+    context 'when blinded ad' do
+      let(:ad) { create(:ad, :blinded) }
       
       it { is_expected.to_not have_key(:secret_key) }
       it { is_expected.to_not have_key(:public_key) }

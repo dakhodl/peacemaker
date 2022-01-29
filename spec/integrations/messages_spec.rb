@@ -7,7 +7,7 @@ feature 'viewing and managing ads', :js, :perform_jobs, :integration do
     create_ads
 
     test_direct_message
-    test_secure_message
+    test_blinded_message
   end
 
   def visit_peer(number, path = "marketplace")
@@ -44,7 +44,7 @@ feature 'viewing and managing ads', :js, :perform_jobs, :integration do
 
     fill_in 'Title', with: 'Raw milk'
     fill_in 'Message', with: 'straight from bessy'
-    choose 'Secure'
+    choose 'Blinded'
 
     click_on 'Create Ad'
     expect(page).to have_content('Ad was successfully created.')
@@ -91,7 +91,7 @@ feature 'viewing and managing ads', :js, :perform_jobs, :integration do
     expect(page).to have_content('Yes, have dropoff at south end')
   end
 
-  def test_secure_message
+  def test_blinded_message
     visit_peer(3, 'marketplace')
     click_on 'Raw milk'
     click_on 'Message'

@@ -25,7 +25,7 @@ class MessagesController < ApplicationController
   def create    
     @message_thread = MessageThread.find_by(uuid: params[:uuid])
     @message = message_class.new(message_params.merge(author: @message_thread.ad.self_authored? ? :advertiser : :lead))
-    @message.encrypt_body! if @message_thread.secure?
+    @message.encrypt_body! if @message_thread.blinded?
 
     respond_to do |format|
       if @message.save
@@ -74,9 +74,9 @@ class MessagesController < ApplicationController
     end
 
     def message_class
-      if @message_thread.secure? && @message_thread.ad.self_authored? 
+      if @message_thread.blinded? && @message_thread.ad.self_authored? 
         Messages::AdvertiserMessage
-      elsif @message_thread.secure? && !@message_thread.ad.self_authored?
+      elsif @message_thread.blinded? && !@message_thread.ad.self_authored?
         Messages::LeadMessage
       else
         Messages::DirectMessage

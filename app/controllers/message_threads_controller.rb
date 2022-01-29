@@ -28,13 +28,13 @@ end
 # POST /message_threads or /message_threads.json
 def create
   @message_thread = MessageThread.new(message_thread_params.merge(claim: :mine))
-  @message_thread.initialize_keys! if @message_thread.secure?
+  @message_thread.initialize_keys! if @message_thread.blinded?
   @message_thread.initialize_peer! if @message_thread.direct?
 
   respond_to do |format|
     if @message_thread.save
       message = @message_thread.messages.build(body: @message_thread.body, author: :lead)
-      if @message_thread.secure?
+      if @message_thread.blinded?
         message.type = 'Messages::LeadMessage'
         message = message.becomes(Messages::LeadMessage)
         message.encrypt_body!

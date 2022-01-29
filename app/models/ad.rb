@@ -8,16 +8,16 @@ class Ad < ApplicationRecord
 
   enum :messaging_type, {
     direct: 0,
-    secure: 1
+    blinded: 1
   }
 
   after_commit :propagate_to_peers
 
   delegate :name, to: :peer, prefix: true, allow_nil: true
 
-  before_validation :initialize_keys, if: :secure?
-  validates_presence_of :public_key, if: :secure?
-  validates_presence_of :secret_key, if: -> { secure? && self_authored? }
+  before_validation :initialize_keys, if: :blinded?
+  validates_presence_of :public_key, if: :blinded?
+  validates_presence_of :secret_key, if: -> { blinded? && self_authored? }
 
   before_validation :initialize_onion_address, if: :direct?
   validates :onion_address, presence: true, if: :direct?
@@ -83,7 +83,7 @@ class Ad < ApplicationRecord
 
   # sanitize json version of secret key globally
   def serializable_hash(*args)
-    if secure?
+    if blinded?
       super(except: [:onion_address, :secret_key, :public_key], methods: [:base64_public_key])
     else
       super(except: [:secret_key, :public_key])
