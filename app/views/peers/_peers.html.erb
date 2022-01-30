@@ -14,7 +14,10 @@
         <span class="flex-1 flex space-x-2 w-full truncate">
       
           <span class="flex flex-col text-gray-500 text-sm text-ellipsis overflow-hidden">
-            <span class="DetailSidebar__item__title truncate font-bold text-gray-800"><%= peer.name %></span>
+            <span class="DetailSidebar__item__title flex items-center truncate font-bold text-gray-800">
+              <%= peer_online_status(peer, type: :small) %>
+              <%= peer.name %>
+            </span>
             <span class="DetailSidebar__item__subtitle break-words text-gray-900 text-xs"><%= peer_onion_short(peer) %></span>
             <time class="DetailSidebar__item__timestamp text-xs" datetime="<%= peer.created_at.to_date %>">since <%= peer.created_at.to_date %></time>
           </span>

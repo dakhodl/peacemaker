@@ -1,25 +1,34 @@
 module PeersHelper
-  def peer_online_status(peer)
+  def peer_online_status(peer, type: :large)
     if peer.last_online_at.nil?
       status = 'Unknown'
       color = 'yellow'
+      circleColor = '#EF4444'
     elsif peer.last_online_at > 10.minutes.ago
       status = 'Online'
       color = 'green'
+      circleColor = '#22C55E'
     else
       status = 'Offline'
-      color = 'red'
+      color = 'rose'
+      circleColor = '#DC2626'
     end
 
-    tag.span(
-      class: "inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-#{color}-100 text-#{color}-800",
-      "data-tooltip": "Last seen:  #{status == 'Unknown' ? 'Never' : time_ago_in_words(peer.last_online_at) + ' ago'}",
-      'aria-label': "Connection status for #{peer.name}"
-    ) do
-      concat(tag.svg(class: "-ml-0.5 mr-1.5 h-2 w-2 text-#{color}-400", fill: 'currentColor', viewBox: '0 0 8 8') do
+    if type == :large
+      tag.span(
+        class: "inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-#{color}-100 text-#{color}-800",
+        "data-tooltip": "Last seen:  #{status == 'Unknown' ? 'Never' : time_ago_in_words(peer.last_online_at) + ' ago'}",
+        'aria-label': "Connection status for #{peer.name}"
+      ) do
+        concat(tag.svg(class: "-ml-0.5 mr-1.5 h-2 w-2 text-#{color}-400", fill: 'currentColor', viewBox: '0 0 8 8') do
+          tag.circle cx: '4', cy: '4', r: '3'
+        end)
+        concat status
+      end
+    else
+      tag.svg(class: " mr-1 h-2 w-2", fill: circleColor, viewBox: '0 0 8 8') do
         tag.circle cx: '4', cy: '4', r: '3'
-      end)
-      concat status
+      end
     end
   end
 
