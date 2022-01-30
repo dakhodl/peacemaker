@@ -26,18 +26,17 @@ feature 'viewing and managing ads', :js, :perform_jobs, :integration do
     visit_peer(1, 'peers')
     expect(page).to have_content('Peer 2')
     click_on 'Ads'
-    expect(page).to have_content("You have no ads.\nCreate an ad")
 
     click_on 'New ad'
 
-    fill_in 'Title', with: 'Farm fresh eggs'
+    fill_in 'Title', with: 'Farm fresh pogs'
     fill_in 'Description', with: 'Only the best'
 
     click_on 'Create Ad'
     expect(page).to have_content('Ad was successfully created.')
     click_on 'Back to Ads'
 
-    expect(page).to have_content('Farm fresh eggs')
+    expect(page).to have_content('Farm fresh pogs')
     sleep 2
 
     click_on 'New ad'
@@ -56,7 +55,7 @@ feature 'viewing and managing ads', :js, :perform_jobs, :integration do
 
   def test_direct_message
     visit_peer(4, 'marketplace')
-    click_on 'Farm fresh eggs'
+    click_on 'Farm fresh pogs'
     click_on 'Message'
 
     fill_in 'Body', with: 'Is this still available?'
@@ -65,21 +64,21 @@ feature 'viewing and managing ads', :js, :perform_jobs, :integration do
     sleep 2
 
     visit_peer(1, 'messages')
-    click_on "Farm fresh eggs"
+    click_on "Farm fresh pogs"
     expect(page).to have_content("Is this still available?")
     fill_in 'message_body', with: 'Yes.'
     click_on 'Send'
 
     sleep 2
     visit_peer(4, 'messages')
-    click_on 'Farm fresh eggs'
+    click_on 'Farm fresh pogs'
     expect(page).to have_content('Yes.')
     fill_in 'message_body', with: "I'll take a dozen weekly. Are you in DFW area?"
     click_on 'Send'
 
     sleep 2
     visit_peer(1, 'messages')
-    click_on "Farm fresh eggs"
+    click_on "Farm fresh pogs"
     expect(page).to have_content("Is this still available?")
     expect(page).to have_content("Yes.")
     expect(page).to have_content("I'll take a dozen weekly. Are you in DFW area?")
@@ -87,7 +86,7 @@ feature 'viewing and managing ads', :js, :perform_jobs, :integration do
     click_on 'Send'
     sleep 2
     visit_peer(4, 'messages')
-    click_on 'Farm fresh eggs'
+    click_on 'Farm fresh pogs'
     expect(page).to have_content('Yes, have dropoff at south end')
   end
 

@@ -23,9 +23,19 @@ feature 'viewing and managing ads', :js, :perform_jobs, :integration do
     expect_ad_to_have_propagated_to_all_peers("Farm fresh eggs")
 
     visit_peer(4, 'marketplace')
-    # hop distance is shown next to connecting peer.
-    # the arrow visual is an svg, harder to test. So the below line reads funny here
-    expect(page).to have_content("2 peers\nPeer 3")
+    # test searching by text and hops
+    expect(page).to have_content("3˚ peer via Peer 3")
+    fill_in 'Search', with: 'cars'
+    click_on 'Search'
+    expect(page).to have_content("No ads found")
+
+    fill_in 'Search', with: 'eggs'
+    fill_in 'Max˚', with: '2'
+    click_on 'Search'
+    expect(page).to have_content("No ads found")
+    fill_in 'Max˚', with: '3'
+    click_on 'Search'
+    expect(page).to have_content("Farm fresh eggs\n3˚ peer via Peer 3")
 
     visit_peer(1, 'ads')
     click_on 'Edit'

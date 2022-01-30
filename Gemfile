@@ -46,8 +46,13 @@ gem 'tailwindcss-rails'
 gem 'bootsnap', require: false
 
 # How long can we get away with sqlite instead of postgres
-# This is a one-machine, one-user application. Probably a while if not forever.
+# This is a one-machine, one-user application.
+# A single peer could have a lot of chatter going on.
+# They could queue up in redis or... just use postgres with a larger conn pool.
 gem 'sqlite3'
+
+# pagination
+gem 'kaminari'
 
 # background job processing
 gem 'sidekiq'
