@@ -1,6 +1,6 @@
 <% content_for :page_title, 'Marketplace' %>
 
-<% if @ads.empty? %>
+<% if @ads.empty? && @search.parameters_blank? %>
   <%= empty_state_container do %>
     <h2 class="text-4xl">
       Your market is empty.
@@ -14,7 +14,7 @@
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636a9 9 0 010 12.728m0 0l-2.829-2.829m2.829 2.829L21 21M15.536 8.464a5 5 0 010 7.072m0 0l-2.829-2.829m-4.243 2.829a4.978 4.978 0 01-1.414-2.83m-1.414 5.658a9 9 0 01-2.167-9.238m7.824 2.167a1 1 0 111.414 1.414m-1.414-1.414L3 3m8.293 8.293l1.414 1.414" />
     </svg>
 
-    <%= link_to new_peer_path, class: "btn relative inline-flex items-center justify-center my-2 mx-4 rounded-lg py-3 px-5 bg-indigo-700 text-white block font-medium hover:bg-blue-500" do %>
+    <%= link_to new_peer_path, class: "btn relative inline-flex items-center justify-center my-2 mx-4 rounded-lg py-3 px-5 bg-indigo-700 text-white block font-medium hover:bg-indigo-500" do %>
       <!-- Heroicon name: solid/plus-sm -->
       <%= icon_plus %>
       <span>
@@ -25,6 +25,20 @@
 <% else %>
   <!-- Peer list (smallest breakpoint only) -->
   <div id="detail_view" class="grow p-4">
+    <div class="facets flex-1 flex mb-2">
+      <form class="w-full flex md:ml-0" action="/marketplace" method="GET">
+        <label for="search-field" class="sr-only">Search</label>
+        <div class="relative flex w-full text-gray-400 focus-within:text-gray-600">
+          <div class="absolute inset-y-0 left-2 flex items-center pointer-events-none">
+            <%= icon_search %>
+          </div>
+          <input id="search-field" class="block w-4/6 h-full pl-8 pr-3 py-4 rounded border-gray-200 border-transparent text-gray-900 placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-0 focus:border-indigo-500 sm:text-sm" placeholder="Search" autofocus type="search" name="q" value="<%= @search.query %>" onfocus="var temp_value=this.value; this.value=''; this.value=temp_value" >
+          <input id="hops-field" class="block ml-2 w-1/6 h-full px-3 py-4 rounded border-gray-200 border-transparent text-gray-900 placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-0 focus:border-indigo-500 sm:text-sm" placeholder="Max˚" autofocus type="number" name="hops" value="<%= @search.hops %>" data-tooltip="How many degrees of peer to peer do you want?">
+          <input class="block ml-2 w-1/6 h-full px-3 py-4 border-gray-200 cursor-pointer rounded btn items-center justify-center rounded-lg bg-indigo-700 text-white font-medium hover:bg-indigo-500" type="submit" value="Search"/>
+        </div>
+      </form>
+    </div>
+
     <ul role="list" class="mt-2 divide-y divide-gray-200 overflow-hidden shadow">
       <% @ads.find_each do |ad| %>
         <li>
@@ -33,17 +47,16 @@
               <span class="flex-1 flex space-x-2 truncate items-center">
                 <span class="flex flex-col text-gray-500 text-sm truncate">
                   <span class="truncate text-lg text-black font-bold"><%= ad.title %></span>
-                  <span class="text-gray-900 font-medium text-xs flex items-center">
+                  <span class="text-gray-900 font-medium text-xs flex items-center" data-tooltip="Posted by <%= ad.hops %>˚ peer.">
                     <% if ad.hops > 1 %>
-                      <div class="flex items-center" data-tooltip="This came through <%= ad.peer_name %>">
-                        <%= pluralize ad.hops - 1, 'peer' %>
-                        <%= icon_right_arrow_small %>
-                      </div>
+                      <%= ad.hops %>˚ peer via
                     <% end %>
                     <%= ad.peer_name %>
-                    <%= icon_right_arrow_small %>
+                    
                   </span>
-                  <time datetime="<%= ad.created_at.to_date %>"><%= ad.created_at.to_date %></time>
+                  <span class="flex">
+                    <time datetime="<%= ad.created_at.to_date %>"><%= ad.created_at.to_date %></time>
+                  </span>
                 </span>
               </span>
           
@@ -61,14 +74,24 @@
       <% end %>
     </ul>
 
-    <nav class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200" aria-label="Pagination">
-      <div class="flex-1 flex justify-between">
-        <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:text-gray-500">
-          Previous
-        </a>
-        <a href="#" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:text-gray-500">
-          Next
-        </a>
+    <nav class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6" aria-label="Pagination">
+      <div class="sm:block">
+        <p class="text-sm text-gray-700">
+          <%= page_entries_info @ads %>
+        </p>
+      </div>
+      <div class="flex-1 flex justify-between sm:justify-end">
+        <% unless @ads.first_page? %>
+          <a href="<%= path_to_prev_page @ads %>" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+            Previous
+          </a>
+        <% end %>
+
+        <% if !@ads.last_page? && !@ads.empty? %>
+          <a href="<%= path_to_next_page @ads %>" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+            Next
+          </a>
+        <% end %>
       </div>
     </nav>
   </div>

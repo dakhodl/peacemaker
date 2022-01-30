@@ -1,6 +1,8 @@
 class Ad < ApplicationRecord
   include HasUuid
 
+  paginates_per 10
+
   belongs_to :peer, optional: true # set if the ad comes from a peer
   has_many :message_threads, dependent: :destroy
   has_many :webhook_sends, as: :resource, class_name: 'Webhook::Send', dependent: :destroy
@@ -25,6 +27,7 @@ class Ad < ApplicationRecord
   validates :description, :title, :messaging_type, presence: true
 
   scope :self_authored, -> { where(peer_id: nil) }
+  scope :from_peers, -> { where.not(peer_id: nil) }
 
   def initialize_keys
     # secret key is set if I own this ad.
