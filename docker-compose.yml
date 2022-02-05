@@ -27,9 +27,7 @@ services:
     volumes:
       - shared_data:/var/shared/redis
   tor:
-    build:
-      context: .
-      dockerfile: Dockerfile.dev
+    image: peacemaker_dev:v-0.1
     container_name: peacemaker_tor
     volumes:
       - .:/var/app
@@ -41,9 +39,7 @@ services:
     depends_on:
       - web
   worker:
-    build:
-      context: .
-      dockerfile: Dockerfile.dev
+    image: peacemaker_dev:v-0.1
     container_name: peacemaker_worker
     volumes:
       - .:/var/app
@@ -62,10 +58,12 @@ services:
       - tor
       - redis
       - postgres
+      - web
   web:
     build:
       context: .
       dockerfile: Dockerfile.dev
+    image: peacemaker_dev:v-0.1
     container_name: web
     volumes:
       - .:/var/app
