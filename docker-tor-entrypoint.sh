@@ -10,5 +10,7 @@ echo "[TOR] Starting onion service at ${TOR_HOSTNAME}"
 echo "[TOR] ==================================================================="
 echo ""
 
+chown root -R hidden_service/
+
 # Then exec the container's main process (what's set as CMD in the Dockerfile).
 exec "$@"

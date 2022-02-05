@@ -26,7 +26,7 @@ services:
     volumes:
       - production_shared_data:/var/shared/redis
   tor:
-    image: dakhodl/peacemaker:v-0.1
+    image: dakhodl/peacemaker:v-0.1.1
     volumes:
       - .:/var/app
       - production_shared_data:/var/shared
@@ -38,7 +38,7 @@ services:
     depends_on:
       - web
   worker:
-    image: dakhodl/peacemaker:v-0.1
+    image: dakhodl/peacemaker:v-0.1.1
     volumes:
       - .:/var/app
       - production_shared_data:/var/shared
@@ -62,7 +62,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.production
-    image: dakhodl/peacemaker:v-0.1
+    image: dakhodl/peacemaker:v-0.1.1
     volumes:
       - .:/var/app
       - production_shared_data:/var/shared

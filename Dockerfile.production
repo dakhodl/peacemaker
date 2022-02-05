@@ -6,6 +6,7 @@ ENV BUNDLE_PATH /usr/local/bundle/gems
 ENV TMP_PATH /tmp/
 ENV RAILS_LOG_TO_STDOUT true
 ENV RAILS_PORT 3000
+ENV RAILS_ENV production
 
 # COPY ./config/torrc-dev /var/app/config/torrc-dev
 
@@ -35,19 +36,19 @@ WORKDIR $APP_PATH
 
 COPY Gemfile $APP_PATH/Gemfile
 COPY Gemfile.lock $APP_PATH/Gemfile.lock
-RUN bundle install
-
+RUN bundle install --without development test
 
 # copy entrypoint scripts and grant execution permissions
-# TODO figure out assets
-# done?
 COPY ./docker-production-entrypoint.sh /usr/local/bin/production-entrypoint.sh
 COPY ./docker-tor-entrypoint.sh /usr/local/bin/docker-tor-entrypoint.sh
 RUN chmod +x /usr/local/bin/production-entrypoint.sh && chmod +x /usr/local/bin/docker-tor-entrypoint.sh
 
+COPY . ${APP_PATH}
+RUN rm -rf ${APP_PATH}/hidden_service
+RUN mkdir /hidden_service
 
 EXPOSE $RAILS_PORT
 
-ENV DISABLE_BOOTSNAP true
+ENV RAILS_SERVE_STATIC_FILES true
 
 ENTRYPOINT [ "bundle", "exec" ]
