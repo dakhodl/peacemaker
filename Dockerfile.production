@@ -15,8 +15,6 @@ build-base \
 git \
 libxml2-dev \
 libxslt-dev \
-nodejs \
-yarn \
 imagemagick \
 tzdata \
 less \
@@ -25,7 +23,6 @@ libsodium-dev \
 tor \
 gcompat \
 libpq-dev \
-vim \
 && rm -rf /var/cache/apk/* \
 && mkdir -p $APP_PATH 
 
@@ -40,16 +37,13 @@ COPY Gemfile $APP_PATH/Gemfile
 COPY Gemfile.lock $APP_PATH/Gemfile.lock
 RUN bundle install
 
-ENV YARN_CACHE_FOLDER=/usr/local/yarn-cache
-VOLUME /usr/local/yarn-cache
-RUN yarn install
-
 
 # copy entrypoint scripts and grant execution permissions
-COPY ./docker-dev-entrypoint.sh /usr/local/bin/dev-entrypoint.sh
-COPY ./docker-testnet-entrypoint.sh /usr/local/bin/test-entrypoint.sh
+# TODO figure out assets
+# done?
+COPY ./docker-production-entrypoint.sh /usr/local/bin/production-entrypoint.sh
 COPY ./docker-tor-entrypoint.sh /usr/local/bin/docker-tor-entrypoint.sh
-RUN chmod +x /usr/local/bin/dev-entrypoint.sh && chmod +x /usr/local/bin/test-entrypoint.sh && chmod +x /usr/local/bin/docker-tor-entrypoint.sh
+RUN chmod +x /usr/local/bin/production-entrypoint.sh && chmod +x /usr/local/bin/docker-tor-entrypoint.sh
 
 
 EXPOSE $RAILS_PORT

@@ -41,7 +41,11 @@ set -eo pipefail
 # Check if we need to install new gems
 bundle check || bundle install --jobs 20 --retry 5
 
-bundle exec rake db:migrate 2>/dev/null || RAILS_ENV=development bundle exec rake db:setup
+if [ ! -f "${APP_PATH}/config/master.key" ]; then
+  rm config/credentials.yml.enc
+  bundle exec rails secret >> config/master.key
+fi
+bundle exec rake db:migrate 2>/dev/null || bundle exec rake db:setup
 
 # Start Tor
 bundle exec ${@}

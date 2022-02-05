@@ -1,41 +1,40 @@
 version: '3'
 networks:
-  development:
-  test:
+  production:
 volumes:
-  gem_cache:
-  shared_data:
+  production_gem_cache:
+  production_shared_data:
 services:
   postgres:
+    container_name: production_postgres
     image: postgres:13.5-alpine
     # This needs to run as root for migrations to succeed
     # user: "1000:1000"
-    stop_grace_period: 1m
     restart: on-failure
+    stop_grace_period: 1m
     environment:
-        POSTGRES_PASSWORD: default
+        POSTGRES_HOST_AUTH_METHOD: trust
     volumes:
-        - shared_data:/var/shared/postgres
+        - ${APP_DATA_DIR}/data/postgres:/var/lib/postgresql/data
     networks:
-      - development
+      - production
   redis:
     image: redis:4.0-alpine
     command: redis-server
     networks:
-      - development
-      - test
+      - production
     volumes:
-      - shared_data:/var/shared/redis
+      - production_shared_data:/var/shared/redis
   tor:
     build:
       context: .
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile.production
     container_name: peacemaker_tor
     volumes:
       - .:/var/app
-      - shared_data:/var/shared
+      - production_shared_data:/var/shared
     networks:
-      - development
+      - production
     entrypoint: docker-tor-entrypoint.sh
     command: ["tor", "-f", "/var/app/config/torrc-dev"]
     depends_on:
@@ -43,46 +42,44 @@ services:
   worker:
     build:
       context: .
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile.production
     container_name: peacemaker_worker
     volumes:
       - .:/var/app
-      - shared_data:/var/shared
-      - gem_cache:/usr/local/bundle/gems
+      - production_shared_data:/var/shared
+      - production_gem_cache:/usr/local/bundle/gems
     networks:
-      - development
+      - production
     stdin_open: true
     tty: true
     command: ["bundle", "exec", "sidekiq"]
     environment:
-      RAILS_ENV: development
+      RAILS_ENV: production
       REDIS_URL_SIDEKIQ: "redis://redis:6379/1"
       SOCKS_PROXY_URL: "web"
+      DISABLE_BOOTSNAP: 'true'
     depends_on:
       - tor
       - redis
-      - postgres
   web:
     build:
       context: .
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile.production
     container_name: web
     volumes:
       - .:/var/app
-      - shared_data:/var/shared
-      - gem_cache:/usr/local/bundle/gems
+      - production_shared_data:/var/shared
+      - production_gem_cache:/usr/local/bundle/gems
     networks:
-      - development
+      - production
     ports:
       - 3000:3000
     stdin_open: true
     tty: true
-    entrypoint: dev-entrypoint.sh
+    entrypoint: production-entrypoint.sh
     command: ['rails', 'server', '-p', '3000', '-b', '0.0.0.0']
     environment:
-      RAILS_ENV: development
+      RAILS_ENV: production
       REDIS_URL_SIDEKIQ: "redis://redis:6379/1"
-      EDITOR: vim
     depends_on:
       - redis
-      - postgres
