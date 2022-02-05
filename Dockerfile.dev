@@ -25,6 +25,7 @@ libsodium-dev \
 sqlite-dev \
 tor \
 gcompat \
+libpq-dev \
 && rm -rf /var/cache/apk/* \
 && mkdir -p $APP_PATH 
 

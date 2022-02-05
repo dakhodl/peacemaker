@@ -6,6 +6,17 @@ volumes:
   gem_cache:
   shared_data:
 services:
+  postgres:
+    image: postgres:13.5-alpine
+    # This needs to run as root for migrations to succeed
+    # user: "1000:1000"
+    stop_grace_period: 1m
+    environment:
+        POSTGRES_PASSWORD: default
+    volumes:
+        - shared_data:/var/shared/postgres
+    networks:
+      - development
   redis:
     image: redis:4.0-alpine
     command: redis-server
@@ -49,6 +60,7 @@ services:
     depends_on:
       - tor
       - redis
+      - postgres
   web:
     build:
       context: .
@@ -71,3 +83,4 @@ services:
       REDIS_URL_SIDEKIQ: "redis://redis:6379/1"
     depends_on:
       - redis
+      - postgres

@@ -41,7 +41,7 @@ set -eo pipefail
 # Check if we need to install new gems
 bundle check || bundle install --jobs 20 --retry 5
 
-bundle exec rails db:migrate
+bundle exec rails db:create db:migrate
 
 # Start Tor
 bundle exec ${@}
