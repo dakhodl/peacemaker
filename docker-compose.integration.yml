@@ -108,7 +108,7 @@ services:
       - test
     stdin_open: true
     tty: true
-    entrypoint: test-capybara-entrypoint.sh
+    entrypoint: docker-integration-runner-entrypoint.sh
     command: ["rspec", "spec/integrations"]
     environment:
       RAILS_ENV: test

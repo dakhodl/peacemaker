@@ -46,10 +46,10 @@ RUN yarn install
 
 
 # copy entrypoint scripts and grant execution permissions
-COPY ./dev-docker-entrypoint.sh /usr/local/bin/dev-entrypoint.sh
-COPY ./test-docker-entrypoint.sh /usr/local/bin/test-entrypoint.sh
-COPY ./tor-entrypoint.sh /usr/local/bin/tor-entrypoint.sh
-RUN chmod +x /usr/local/bin/dev-entrypoint.sh && chmod +x /usr/local/bin/test-entrypoint.sh && chmod +x /usr/local/bin/tor-entrypoint.sh
+COPY ./docker-dev-entrypoint.sh /usr/local/bin/dev-entrypoint.sh
+COPY ./docker-testnet-entrypoint.sh /usr/local/bin/test-entrypoint.sh
+COPY ./docker-tor-entrypoint.sh /usr/local/bin/docker-tor-entrypoint.sh
+RUN chmod +x /usr/local/bin/dev-entrypoint.sh && chmod +x /usr/local/bin/test-entrypoint.sh && chmod +x /usr/local/bin/docker-tor-entrypoint.sh
 
 
 EXPOSE $RAILS_PORT
