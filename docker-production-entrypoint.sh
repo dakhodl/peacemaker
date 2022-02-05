@@ -42,8 +42,8 @@ set -eo pipefail
 bundle check || bundle install --jobs 20 --retry 5
 
 if [ ! -f "${APP_PATH}/config/master.key" ]; then
-  rm config/credentials.yml.enc
-  bundle exec rails secret >> config/master.key
+  rm -f config/credentials.yml.enc
+  EDITOR='cat' bundle exec rails credentials:edit
 fi
 bundle exec rake db:migrate 2>/dev/null || bundle exec rake db:setup
 
