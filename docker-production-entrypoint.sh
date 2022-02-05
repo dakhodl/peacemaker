@@ -4,6 +4,9 @@ set -e
 
 echo "Environment: $RAILS_ENV"
 
+echo "What is in this directory?"
+ls -l
+
 # Remove pre-existing puma/passenger server.pid
 rm -f $APP_PATH/tmp/pids/server.pid
 
@@ -19,7 +22,7 @@ if [ ! -f "${APP_PATH}/hidden_service/hs_ed25519_secret_key" ] || [ ! -f "${APP_
     rm -f "${APP_PATH}/hidden_service/hs_ed25519_secret_key" "${APP_PATH}/hidden_service/hs_ed5519_public_key" "${APP_PATH}/hidden_service/hostname"
 
     # Start Tor in the background and track the PID
-    tor -f "${APP_PATH}/config/torrc-dev" & TOR_PID=$!
+    tor -f "${APP_PATH}/config/torrc-production" & TOR_PID=$!
 
     # Wait until hs_ed25519_secret_key, hs_ed5519_public_key, and hostname are generated then kill Tor (for now)
     TOR_AUTOGEN_TRIES_REMAINING=5

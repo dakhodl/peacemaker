@@ -43,12 +43,11 @@ COPY ./docker-production-entrypoint.sh /usr/local/bin/production-entrypoint.sh
 COPY ./docker-tor-entrypoint.sh /usr/local/bin/docker-tor-entrypoint.sh
 RUN chmod +x /usr/local/bin/production-entrypoint.sh && chmod +x /usr/local/bin/docker-tor-entrypoint.sh
 
-COPY . ${APP_PATH}
-RUN rm -rf ${APP_PATH}/hidden_service
-RUN mkdir /hidden_service
+COPY  . ./
 
 EXPOSE $RAILS_PORT
 
 ENV RAILS_SERVE_STATIC_FILES true
+RUN bundle exec rake SECRET_KEY_BASE=dummyforcompilation  assets:precompile
 
 ENTRYPOINT [ "bundle", "exec" ]
