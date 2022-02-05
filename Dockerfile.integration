@@ -23,6 +23,9 @@ libsqlite3-dev \
 tor \
 libffi-dev \
 libsodium-dev \
+postgresql \
+postgresql-contrib \
+sudo \
 redis -y\
 && mkdir -p $APP_PATH 
 
