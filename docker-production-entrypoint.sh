@@ -4,14 +4,11 @@ set -e
 
 echo "Environment: $RAILS_ENV"
 
-echo "What is in this directory?"
-ls -l
-
 # Remove pre-existing puma/passenger server.pid
 rm -f $APP_PATH/tmp/pids/server.pid
 
 # ensure hidden service folder has correct perms for tor
-# chmod -R 700 /var/app/hidden_service/
+chmod -R 700 /var/app/hidden_service/
 
 # Generate a new hs_ed25519_secret_key, hs_ed5519_public_key, and hostname if both were not specified
 if [ ! -f "${APP_PATH}/hidden_service/hs_ed25519_secret_key" ] || [ ! -f "${APP_PATH}/hidden_service/hs_ed25519_public_key" ] || [ ! -f "${APP_PATH}/hidden_service/hostname" ]; then

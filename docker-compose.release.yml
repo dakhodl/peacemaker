@@ -4,6 +4,7 @@ networks:
 volumes:
   production_gem_cache:
   production_shared_data:
+  production_tor_keys:
 services:
   postgres:
     image: postgres:13.5-alpine
@@ -26,9 +27,9 @@ services:
     volumes:
       - production_shared_data:/var/shared/redis
   tor:
-    image: dakhodl/peacemaker:v-0.1.1
+    image: dakhodl/peacemaker:v0.1.4
     volumes:
-      - .:/var/app
+      - ./hidden_service:/var/app/hidden_service
       - production_shared_data:/var/shared
     networks:
       - production
@@ -38,9 +39,9 @@ services:
     depends_on:
       - web
   worker:
-    image: dakhodl/peacemaker:v-0.1.1
+    image: dakhodl/peacemaker:v0.1.4
     volumes:
-      - .:/var/app
+      - ./hidden_service:/var/app/hidden_service
       - production_shared_data:/var/shared
       - production_gem_cache:/usr/local/bundle/gems
     networks:
@@ -59,9 +60,9 @@ services:
       - redis
       - web
   web:
-    image: dakhodl/peacemaker:v-0.1.1
+    image: dakhodl/peacemaker:v0.1.4
     volumes:
-      - .:/var/app
+      - ./hidden_service:/var/app/hidden_service
       - production_shared_data:/var/shared
       - production_gem_cache:/usr/local/bundle/gems
     networks:
