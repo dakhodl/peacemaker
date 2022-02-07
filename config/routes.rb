@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   post '/messages/:uuid/messages', to: 'messages#create', as: :message_thread_messages
   delete '/messages/:uuid', to: 'message_threads#destroy'
 
+  get '/settings', to: 'settings#index'
+
   resources :ads do
     member do
       resources :message_threads, as: :ad_messages, only: [:new]

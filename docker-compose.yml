@@ -27,7 +27,9 @@ services:
     volumes:
       - shared_data:/var/shared/redis
   tor:
-    image: peacemaker_dev:v-0.1
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
     container_name: peacemaker_tor
     volumes:
       - .:/var/app
@@ -39,7 +41,9 @@ services:
     depends_on:
       - web
   worker:
-    image: peacemaker_dev:v-0.1
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
     container_name: peacemaker_worker
     volumes:
       - .:/var/app
@@ -63,7 +67,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.dev
-    image: peacemaker_dev:v-0.1
     container_name: web
     volumes:
       - .:/var/app
@@ -81,6 +84,7 @@ services:
       RAILS_ENV: development
       REDIS_URL_SIDEKIQ: "redis://redis:6379/1"
       EDITOR: vim
+      DISABLE_BOOTSNAP: 'true'
     depends_on:
       - redis
       - postgres
