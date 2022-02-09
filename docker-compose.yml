@@ -85,6 +85,8 @@ services:
       REDIS_URL_SIDEKIQ: "redis://redis:6379/1"
       EDITOR: vim
       DISABLE_BOOTSNAP: 'true'
+      WEB_PASSWORD: 'secret'
+      WEB_USERNAME: 'admin'
     depends_on:
       - redis
       - postgres

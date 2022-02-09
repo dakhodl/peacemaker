@@ -27,7 +27,7 @@ services:
     volumes:
       - production_shared_data:/var/shared/redis
   worker:
-    image: dakhodl/peacemaker:v0.2.0
+    image: dakhodl/peacemaker:v0.2.1
     volumes:
       - production_app_data:/var/app
       - production_shared_data:/var/shared
@@ -43,12 +43,14 @@ services:
       REDIS_URL_SIDEKIQ: "redis://redis:6379/1"
       SOCKS_PROXY_URL: "production_web"
       DISABLE_BOOTSNAP: 'true'
+      WEB_PASSWORD: 'changeme'
+      WEB_USERNAME: 'admin'
     depends_on:
       - redis
       - web
     user: "1000:1000"
   web:
-    image: dakhodl/peacemaker:v0.2.0
+    image: dakhodl/peacemaker:v0.2.1
     volumes:
       - production_app_data:/var/app
       - production_shared_data:/var/shared
@@ -65,6 +67,8 @@ services:
     environment:
       RAILS_ENV: production
       REDIS_URL_SIDEKIQ: "redis://redis:6379/1"
+      WEB_PASSWORD: 'changeme'
+      WEB_USERNAME: 'admin'
     depends_on:
       - redis
       - postgres

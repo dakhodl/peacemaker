@@ -4,7 +4,7 @@ feature 'viewing and managing ads', :js, :perform_jobs, :integration do
   # let!(:peer) { create(:peer) }
 
   scenario 'creating an ad that propagates to a peer' do
-    visit "http://peer_1:3000/"
+    visit "http://admin:secret@peer_1:3000/"
     expect(page).to have_content('Peer 2')
     click_on 'Ads'
     expect(page).to have_content("You have no ads.\nCreate an ad")
@@ -56,7 +56,7 @@ feature 'viewing and managing ads', :js, :perform_jobs, :integration do
   end
 
   def visit_peer(number, path = "marketplace")
-    visit "http://peer_#{number}:3000/#{path}"
+    visit "http://admin:secret@peer_#{number}:3000/#{path}"
   end
 
   def expect_ad_to_have_propagated_to_all_peers(ad_title, expectation = :to)
