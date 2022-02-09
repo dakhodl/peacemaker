@@ -4,6 +4,7 @@ networks:
 volumes:
   production_gem_cache:
   production_shared_data:
+  production_app_data:
 services:
   postgres:
     image: postgres:13.5-alpine
@@ -26,8 +27,9 @@ services:
     volumes:
       - production_shared_data:/var/shared/redis
   worker:
-    image: dakhodl/peacemaker:v0.1.4
+    image: dakhodl/peacemaker:v0.2.0
     volumes:
+      - production_app_data:/var/app
       - production_shared_data:/var/shared
       - production_gem_cache:/usr/local/bundle/gems
     networks:
@@ -42,13 +44,13 @@ services:
       SOCKS_PROXY_URL: "production_web"
       DISABLE_BOOTSNAP: 'true'
     depends_on:
-      - tor
       - redis
       - web
     user: "1000:1000"
   web:
-    image: dakhodl/peacemaker:v0.1.4
+    image: dakhodl/peacemaker:v0.2.0
     volumes:
+      - production_app_data:/var/app
       - production_shared_data:/var/shared
       - production_gem_cache:/usr/local/bundle/gems
     networks:
@@ -65,4 +67,5 @@ services:
       REDIS_URL_SIDEKIQ: "redis://redis:6379/1"
     depends_on:
       - redis
+      - postgres
     user: "1000:1000"
