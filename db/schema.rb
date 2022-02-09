@@ -12,13 +12,16 @@
 
 ActiveRecord::Schema.define(version: 2022_01_30_000337) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "ads", force: :cascade do |t|
     t.string "title"
     t.text "description"
     t.integer "hops", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "peer_id"
+    t.bigint "peer_id"
     t.string "uuid"
     t.string "onion_address"
     t.integer "messaging_type", default: 0, null: false
@@ -29,8 +32,8 @@ ActiveRecord::Schema.define(version: 2022_01_30_000337) do
   end
 
   create_table "message_threads", force: :cascade do |t|
-    t.integer "ad_id"
-    t.integer "peer_id"
+    t.bigint "ad_id"
+    t.bigint "peer_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.binary "secret_key"
@@ -44,8 +47,8 @@ ActiveRecord::Schema.define(version: 2022_01_30_000337) do
   end
 
   create_table "messages", force: :cascade do |t|
-    t.integer "ad_id"
-    t.integer "peer_id"
+    t.bigint "ad_id"
+    t.bigint "peer_id"
     t.text "body"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -77,10 +80,10 @@ ActiveRecord::Schema.define(version: 2022_01_30_000337) do
   end
 
   create_table "webhook_receipts", force: :cascade do |t|
-    t.integer "peer_id", null: false
+    t.bigint "peer_id", null: false
     t.string "token"
     t.string "resource_type"
-    t.integer "resource_id"
+    t.bigint "resource_id"
     t.integer "status"
     t.string "action"
     t.datetime "created_at", precision: 6, null: false
@@ -91,11 +94,11 @@ ActiveRecord::Schema.define(version: 2022_01_30_000337) do
   end
 
   create_table "webhook_sends", force: :cascade do |t|
-    t.integer "peer_id", null: false
+    t.bigint "peer_id", null: false
     t.string "token"
     t.string "action"
     t.string "resource_type"
-    t.integer "resource_id"
+    t.bigint "resource_id"
     t.integer "status"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

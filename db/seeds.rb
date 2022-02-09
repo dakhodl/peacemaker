@@ -24,6 +24,7 @@ end
 
 if ENV['INTEGRATION_SPECS']
   Ad.destroy_all
+  MessageThread.destroy_all
   Webhook::Send.destroy_all
   Webhook::Receipt.destroy_all
   Sidekiq::Queue.all.each(&:clear)

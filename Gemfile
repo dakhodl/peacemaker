@@ -45,11 +45,7 @@ gem 'tailwindcss-rails'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 
-# How long can we get away with sqlite instead of postgres
-# This is a one-machine, one-user application.
-# A single peer could have a lot of chatter going on.
-# They could queue up in redis or... just use postgres with a larger conn pool.
-gem 'sqlite3'
+gem 'pg'
 
 # pagination
 gem 'kaminari'

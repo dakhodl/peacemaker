@@ -23,6 +23,9 @@ libsqlite3-dev \
 tor \
 libffi-dev \
 libsodium-dev \
+postgresql \
+postgresql-contrib \
+sudo \
 redis -y\
 && mkdir -p $APP_PATH 
 
@@ -67,10 +70,10 @@ VOLUME /usr/local/yarn-cache
 RUN yarn install
 
 # copy entrypoint scripts and grant execution permissions
-COPY ./test-docker-entrypoint.sh /usr/local/bin/test-entrypoint.sh
+COPY ./docker-testnet-entrypoint.sh /usr/local/bin/test-entrypoint.sh
 RUN chmod +x /usr/local/bin/test-entrypoint.sh
 
-COPY ./test-capybara-entrypoint.sh /usr/local/bin/test-capybara-entrypoint.sh
-RUN chmod +x /usr/local/bin/test-capybara-entrypoint.sh
+COPY ./docker-integration-runner-entrypoint.sh /usr/local/bin/docker-integration-runner-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-integration-runner-entrypoint.sh
 
 EXPOSE $RAILS_PORT

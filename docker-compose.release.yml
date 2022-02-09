@@ -1,0 +1,68 @@
+version: '3'
+networks:
+  production:
+volumes:
+  production_gem_cache:
+  production_shared_data:
+services:
+  postgres:
+    image: postgres:13.5-alpine
+    # This needs to run as root for migrations to succeed
+    # user: "1000:1000"
+    restart: on-failure
+    stop_grace_period: 1m
+    environment:
+        POSTGRES_HOST_AUTH_METHOD: trust
+    volumes:
+        - ${APP_DATA_DIR}/data/postgres:/var/lib/postgresql/data
+    networks:
+      - production
+  redis:
+    image: redis:4.0-alpine
+    command: redis-server
+    restart: on-failure
+    networks:
+      - production
+    volumes:
+      - production_shared_data:/var/shared/redis
+  worker:
+    image: dakhodl/peacemaker:v0.1.4
+    volumes:
+      - production_shared_data:/var/shared
+      - production_gem_cache:/usr/local/bundle/gems
+    networks:
+      - production
+    stdin_open: true
+    restart: on-failure
+    tty: true
+    command: ["bundle", "exec", "sidekiq"]
+    environment:
+      RAILS_ENV: production
+      REDIS_URL_SIDEKIQ: "redis://redis:6379/1"
+      SOCKS_PROXY_URL: "production_web"
+      DISABLE_BOOTSNAP: 'true'
+    depends_on:
+      - tor
+      - redis
+      - web
+    user: "1000:1000"
+  web:
+    image: dakhodl/peacemaker:v0.1.4
+    volumes:
+      - production_shared_data:/var/shared
+      - production_gem_cache:/usr/local/bundle/gems
+    networks:
+      - production
+    ports:
+      - 3000:3000
+    stdin_open: true
+    restart: on-failure
+    tty: true
+    entrypoint: production-entrypoint.sh
+    command: ['rails', 'server', '-p', '3000', '-b', '0.0.0.0']
+    environment:
+      RAILS_ENV: production
+      REDIS_URL_SIDEKIQ: "redis://redis:6379/1"
+    depends_on:
+      - redis
+    user: "1000:1000"

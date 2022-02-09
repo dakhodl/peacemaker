@@ -8,7 +8,7 @@ echo "Environment: $RAILS_ENV"
 rm -f $APP_PATH/tmp/pids/server.pid
 
 # ensure hidden service folder has correct perms for tor
-# chmod -R 700 /var/app/hidden_service/
+chmod -R 700 /var/app/hidden_service/
 
 # Generate a new hs_ed25519_secret_key, hs_ed5519_public_key, and hostname if both were not specified
 if [ ! -f "${APP_PATH}/hidden_service/hs_ed25519_secret_key" ] || [ ! -f "${APP_PATH}/hidden_service/hs_ed25519_public_key" ] || [ ! -f "${APP_PATH}/hidden_service/hostname" ]; then
@@ -19,7 +19,7 @@ if [ ! -f "${APP_PATH}/hidden_service/hs_ed25519_secret_key" ] || [ ! -f "${APP_
     rm -f "${APP_PATH}/hidden_service/hs_ed25519_secret_key" "${APP_PATH}/hidden_service/hs_ed5519_public_key" "${APP_PATH}/hidden_service/hostname"
 
     # Start Tor in the background and track the PID
-    tor -f "${APP_PATH}/config/torrc-dev" & TOR_PID=$!
+    tor -f "${APP_PATH}/config/torrc-production" & TOR_PID=$!
 
     # Wait until hs_ed25519_secret_key, hs_ed5519_public_key, and hostname are generated then kill Tor (for now)
     TOR_AUTOGEN_TRIES_REMAINING=5
@@ -41,8 +41,14 @@ set -eo pipefail
 # Check if we need to install new gems
 bundle check || bundle install --jobs 20 --retry 5
 
-bundle exec rails db:migrate
+if [ ! -f "${APP_PATH}/config/master.key" ]; then
+  rm -f config/credentials.yml.enc
+  EDITOR='cat' bundle exec rails credentials:edit
+fi
+bundle exec rake db:migrate 2>/dev/null || bundle exec rake db:setup
 
 # Start Tor
+tor -f /var/app/config/torrc-production &
+
 bundle exec ${@}
 # run passed commands

@@ -8,7 +8,7 @@ class Search < ApplicationRecord
 
     terms = self.query.split(' ')
     terms.map(&:downcase).uniq.inject(ads) do |scope, term|
-      scope.where("(title || description) COLLATE NOCASE LIKE ?", "%#{sanitize_sql_like term}%")
+      scope.where("(title || description) ILIKE ?", "%#{sanitize_sql_like term}%")
     end.order(created_at: :desc).page(page)
   end
 

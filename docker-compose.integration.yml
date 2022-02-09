@@ -3,8 +3,8 @@ networks:
   test:
     driver: bridge
 volumes:
-  gem_cache:
-  shared_data:
+  integration_gem_cache: 
+  integration_shared_data:
 services:
   peer_1:
     build:
@@ -13,8 +13,8 @@ services:
     container_name: peacemaker_test_peer_1
     volumes:
       - .:/var/app
-      - shared_data:/var/shared
-      - gem_cache:/usr/local/bundle/gems
+      - integration_shared_data:/var/shared
+      - integration_gem_cache:/usr/local/bundle/gems
     networks:
       - test
     ports:
@@ -35,8 +35,8 @@ services:
     container_name: peacemaker_test_peer_2
     volumes:
       - .:/var/app
-      - shared_data:/var/shared
-      - gem_cache:/usr/local/bundle/gems
+      - integration_shared_data:/var/shared
+      - integration_gem_cache:/usr/local/bundle/gems
     networks:
       - test
     ports:
@@ -57,8 +57,8 @@ services:
     container_name: peacemaker_test_peer_3
     volumes:
       - .:/var/app
-      - shared_data:/var/shared
-      - gem_cache:/usr/local/bundle/gems
+      - integration_shared_data:/var/shared
+      - integration_gem_cache:/usr/local/bundle/gems
     networks:
       - test
     ports:
@@ -79,8 +79,8 @@ services:
     container_name: peacemaker_test_peer_4
     volumes:
       - .:/var/app
-      - shared_data:/var/shared
-      - gem_cache:/usr/local/bundle/gems
+      - integration_shared_data:/var/shared
+      - integration_gem_cache:/usr/local/bundle/gems
     networks:
       - test
     ports:
@@ -102,13 +102,13 @@ services:
     container_name: peacemaker_test_runner
     volumes:
       - .:/var/app
-      - shared_data:/var/shared
-      - gem_cache:/usr/local/bundle/gems
+      - integration_shared_data:/var/shared
+      - integration_gem_cache:/usr/local/bundle/gems
     networks:
       - test
     stdin_open: true
     tty: true
-    entrypoint: test-capybara-entrypoint.sh
+    entrypoint: docker-integration-runner-entrypoint.sh
     command: ["rspec", "spec/integrations"]
     environment:
       RAILS_ENV: test

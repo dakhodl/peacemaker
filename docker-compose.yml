@@ -6,6 +6,18 @@ volumes:
   gem_cache:
   shared_data:
 services:
+  postgres:
+    image: postgres:13.5-alpine
+    # This needs to run as root for migrations to succeed
+    # user: "1000:1000"
+    stop_grace_period: 1m
+    restart: on-failure
+    environment:
+        POSTGRES_PASSWORD: default
+    volumes:
+        - shared_data:/var/shared/postgres
+    networks:
+      - development
   redis:
     image: redis:4.0-alpine
     command: redis-server
@@ -24,7 +36,7 @@ services:
       - shared_data:/var/shared
     networks:
       - development
-    entrypoint: tor-entrypoint.sh
+    entrypoint: docker-tor-entrypoint.sh
     command: ["tor", "-f", "/var/app/config/torrc-dev"]
     depends_on:
       - web
@@ -49,6 +61,8 @@ services:
     depends_on:
       - tor
       - redis
+      - postgres
+      - web
   web:
     build:
       context: .
@@ -69,5 +83,8 @@ services:
     environment:
       RAILS_ENV: development
       REDIS_URL_SIDEKIQ: "redis://redis:6379/1"
+      EDITOR: vim
+      DISABLE_BOOTSNAP: 'true'
     depends_on:
       - redis
+      - postgres

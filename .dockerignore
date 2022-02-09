@@ -1,0 +1,10 @@
+# Ignore logs and os crap
+**/*.log
+**/.DS_Store
+**/Thumbs.db
+
+# Don't put a development service key into build
+hidden_service/
+
+# moving away from node for import-maps
+node_modules/
