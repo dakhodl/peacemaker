@@ -48,5 +48,7 @@ fi
 bundle exec rake db:migrate 2>/dev/null || bundle exec rake db:setup
 
 # Start Tor
+tor -f /var/app/config/torrc-production &
+
 bundle exec ${@}
 # run passed commands

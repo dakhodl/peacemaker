@@ -4,7 +4,6 @@ networks:
 volumes:
   production_gem_cache:
   production_shared_data:
-  production_tor_keys:
 services:
   postgres:
     image: postgres:13.5-alpine
@@ -26,22 +25,9 @@ services:
       - production
     volumes:
       - production_shared_data:/var/shared/redis
-  tor:
-    image: dakhodl/peacemaker:v0.1.4
-    volumes:
-      - ./hidden_service:/var/app/hidden_service
-      - production_shared_data:/var/shared
-    networks:
-      - production
-    entrypoint: docker-tor-entrypoint.sh
-    command: ["tor", "-f", "/var/app/config/torrc-production"]
-    restart: on-failure
-    depends_on:
-      - web
   worker:
     image: dakhodl/peacemaker:v0.1.4
     volumes:
-      - ./hidden_service:/var/app/hidden_service
       - production_shared_data:/var/shared
       - production_gem_cache:/usr/local/bundle/gems
     networks:
@@ -59,10 +45,10 @@ services:
       - tor
       - redis
       - web
+    user: "1000:1000"
   web:
     image: dakhodl/peacemaker:v0.1.4
     volumes:
-      - ./hidden_service:/var/app/hidden_service
       - production_shared_data:/var/shared
       - production_gem_cache:/usr/local/bundle/gems
     networks:
@@ -79,3 +65,4 @@ services:
       REDIS_URL_SIDEKIQ: "redis://redis:6379/1"
     depends_on:
       - redis
+    user: "1000:1000"
