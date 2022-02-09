@@ -54,6 +54,8 @@ RUN chown -R 1000:1000 ./ && rm -rf ./hidden-service
 RUN mkdir $APP_PATH/hidden_service && chmod 700 $APP_PATH/hidden_service && mkdir $APP_PATH/hidden_service/tor-data
 RUN chown -R 1000:1000 $APP_PATH/hidden_service
 
+RUN rm -rf config/master.key
+
 USER 1000
 
 ENTRYPOINT [ "bundle", "exec" ]
