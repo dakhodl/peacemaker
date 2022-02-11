@@ -1,4 +1,3 @@
-class Api::V1::BaseController < ApplicationController
+class Api::V1::BaseController < ActionController::Base
   skip_before_action :verify_authenticity_token
-  skip_before_action :http_basic_authenticate
 end
