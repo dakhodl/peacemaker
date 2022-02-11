@@ -41,10 +41,6 @@ set -eo pipefail
 # Check if we need to install new gems
 bundle check || bundle install --jobs 20 --retry 5
 
-if [ ! -f "${APP_PATH}/config/master.key" ]; then
-  rm -f config/credentials.yml.enc
-  EDITOR='cat' bundle exec rails credentials:edit
-fi
 bundle exec rake db:migrate 2>/dev/null || bundle exec rake db:setup
 
 # Start Tor
