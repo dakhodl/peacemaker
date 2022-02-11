@@ -40,6 +40,7 @@ services:
     command: ["tor", "-f", "/var/app/config/torrc-dev"]
     depends_on:
       - web
+    user: '1002'
   worker:
     build:
       context: .
@@ -63,6 +64,7 @@ services:
       - redis
       - postgres
       - web
+    user: '1002'
   web:
     build:
       context: .
@@ -90,3 +92,4 @@ services:
     depends_on:
       - redis
       - postgres
+    user: '1002'
