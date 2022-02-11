@@ -65,6 +65,6 @@ class PeersController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def peer_params
-    params.require(:peer).permit(:name, :onion_address)
+    params.require(:peer).permit(:name, :onion_address, :trust_level)
   end
 end

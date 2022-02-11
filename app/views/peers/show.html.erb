@@ -24,6 +24,9 @@
 
   <div class="flex mt-4">
     <%= peer_online_status(@peer) %>
+    <span class="ml-2 text-gray-800 text-sm">
+      <%= @peer.trust_level.humanize %>
+    </span>
   </div>
 
 

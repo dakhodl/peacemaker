@@ -75,7 +75,7 @@ services:
     networks:
       - development
     ports:
-      - 3000:3000
+      - 3006:3000
     stdin_open: true
     tty: true
     entrypoint: dev-entrypoint.sh
