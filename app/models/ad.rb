@@ -89,9 +89,9 @@ class Ad < ApplicationRecord
   # sanitize json version of secret key globally
   def serializable_hash(*args)
     if blinded?
-      super(except: [:onion_address, :secret_key, :public_key], methods: [:base64_public_key])
+      super(except: [:id, :peer_id, :onion_address, :secret_key, :public_key], methods: [:base64_public_key])
     else
-      super(except: [:secret_key, :public_key])
+      super(except: [:id, :peer_id, :secret_key, :public_key])
     end
   end
 end

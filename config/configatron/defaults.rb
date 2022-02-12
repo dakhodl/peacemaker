@@ -6,14 +6,18 @@
 #
 #   configatron.file.storage = :s3
 
-if File.exists?("hidden_service/peacemaker_key")
-  secret_key = RbNaCl::PrivateKey.new File.read('hidden_service/peacemaker_key').b
+# Generates an identify for us to sign
+# following https://github.com/RubyCrypto/rbnacl/wiki/Digital-Signatures
+
+KEYFILE_NAME = "hidden_service/peacemaker_key#{ENV['INTEGRATION_SPECS'].present? ? "-#{ENV['INTEGRATION_SPECS']}" : ''}"
+
+if File.exists?(KEYFILE_NAME)
+  signing_key = RbNaCl::SigningKey.new File.read(KEYFILE_NAME).b
 else
-  secret_key = RbNaCl::PrivateKey.generate
-  File.open('hidden_service/peacemaker_key', 'wb') do |f|
-    f.write(secret_key.to_s.b)
+  signing_key = RbNaCl::SigningKey.generate
+  File.open(KEYFILE_NAME, 'wb') do |f|
+    f.write(signing_key.to_s.b)
   end
 end
 
-configatron.public_key = secret_key.public_key
-configatron.secret_key = secret_key
+configatron.signing_key = signing_key

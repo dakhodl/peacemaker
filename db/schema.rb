@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_30_000337) do
+ActiveRecord::Schema.define(version: 2022_02_11_040851) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -69,6 +69,7 @@ ActiveRecord::Schema.define(version: 2022_01_30_000337) do
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "last_online_at", precision: 6
     t.integer "trust_level", default: 1
+    t.binary "public_key"
   end
 
   create_table "searches", force: :cascade do |t|

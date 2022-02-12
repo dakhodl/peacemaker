@@ -31,6 +31,8 @@ if ENV['INTEGRATION_SPECS']
   Sidekiq::RetrySet.new.clear
   Sidekiq::ScheduledSet.new.clear
   Sidekiq::DeadSet.new.clear
+
+  PeerStatusCheckJob.set(wait: 30.seconds).perform_later
 end
 
 

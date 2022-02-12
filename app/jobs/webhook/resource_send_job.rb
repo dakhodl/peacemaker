@@ -17,16 +17,14 @@ class Webhook::ResourceSendJob < ApplicationJob
     )
 
     post_body = {
-      resource_type: resource_type,
-      from: configatron.my_onion,
       from_name: from_name_for_resource(webhook_send.resource),
-      token: webhook_send.token,
-      uuid: uuid
-      # we make peer fetch to determine action that was taken.
-      # to prevent bad peer from spamming deletes
+      uuid: uuid,
+      resource_type: resource_type,
+      api_name_for_resource(resource_type) => webhook_send.resource&.as_json,
+      'action_taken': deleted ? 'delete' : 'upsert',
     }.to_json
 
-    PeaceNet.post(peer.onion_address, '/api/v1/webhook.json', post_body)
+    PeaceNet.post(peer, api_endpoint_for_resource(resource_type, uuid), post_body)
   end
 
   def from_name_for_resource(resource)
@@ -37,6 +35,26 @@ class Webhook::ResourceSendJob < ApplicationJob
       # Does it need to be or is that part of the 'direct comms' Ad choice tradeoff? If receiver cares, they should choose Private.
     else
       "Does not matter - this should never be rendered to users"
+    end
+  end
+
+  def api_endpoint_for_resource(resource_type, uuid)
+    endpoint = case resource_type
+    when "Messages::DirectMessage", "Messages::AdvertiserMessage", "Message::LeadMessage"
+      "messages"
+    when "Ad"
+      "ads"
+    end
+
+    "/api/v1/#{endpoint}"
+  end
+
+  def api_name_for_resource(resource_type)
+    case resource_type
+    when "Messages::DirectMessage", "Messages::AdvertiserMessage", "Message::LeadMessage"
+      "message"
+    when "Ad"
+      "ad"
     end
   end
 end

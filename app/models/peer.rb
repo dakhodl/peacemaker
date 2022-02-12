@@ -27,7 +27,7 @@ class Peer < ApplicationRecord
   end
 
   def get_status
-    PeaceNet.get(onion_address, '/api/v1/status.json')
+    PeaceNet.get(self, '/api/v1/status.json')
   end
 
   def fetching_allowed?(resource_type)
