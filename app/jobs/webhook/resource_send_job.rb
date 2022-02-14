@@ -40,7 +40,7 @@ class Webhook::ResourceSendJob < ApplicationJob
 
   def api_endpoint_for_resource(resource_type, uuid)
     endpoint = case resource_type
-    when "Messages::DirectMessage", "Messages::AdvertiserMessage", "Message::LeadMessage"
+    when "Messages::DirectMessage", "Messages::AdvertiserMessage", "Messages::LeadMessage"
       "messages"
     when "Ad"
       "ads"
@@ -51,7 +51,7 @@ class Webhook::ResourceSendJob < ApplicationJob
 
   def api_name_for_resource(resource_type)
     case resource_type
-    when "Messages::DirectMessage", "Messages::AdvertiserMessage", "Message::LeadMessage"
+    when "Messages::DirectMessage", "Messages::AdvertiserMessage", "Messages::LeadMessage"
       "message"
     when "Ad"
       "ad"

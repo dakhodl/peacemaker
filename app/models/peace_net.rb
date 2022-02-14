@@ -22,7 +22,11 @@ class PeaceNet
   end
 
   def self.post(peer, path, body_params = "")
-    signature = Base64.strict_encode64(configatron.signing_key.sign(body_params))
+    # encode body before signature to support unicode characters like ˚
+    signature = configatron.signing_key.sign(Base64.encode64(body_params))
+    # strict encode to avoid CR/LF in header
+    signature = Base64.strict_encode64(signature)
+
 
     if Rails.env.test? && ENV['INTEGRATION_SPECS']
       uri = URI("http://#{peer.onion_address}#{path}")

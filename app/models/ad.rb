@@ -70,13 +70,6 @@ class Ad < ApplicationRecord
     end
   end
 
-  def upsert_from_peer!(response, peer)
-    update!(response['resource']
-      .merge(peer: peer) # set peer so malicious peer cannot masquerade as another
-      .merge(hops: response.dig('resource', 'hops') + 1)
-      .except('id')) # do not copy pkey from peer
-  end
-
   # ResourceSendJob#from_name_for_resource API
   def ad
     self
