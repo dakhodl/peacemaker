@@ -22,6 +22,8 @@ class Peer < ApplicationRecord
 
   validates_presence_of :onion_address
 
+  scope :with_public_key_resolved, -> { where.not(public_key: nil) }
+
   def set_defaults
     self.trust_level ||= :low_trust
   end

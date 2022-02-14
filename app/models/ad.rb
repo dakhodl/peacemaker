@@ -59,7 +59,7 @@ class Ad < ApplicationRecord
   end
 
   def propagate_to_peers
-    Peer.where.not(id: peer_id).find_each do |peer|
+    Peer.high_trust.with_public_key_resolved.where.not(id: peer_id).find_each do |peer|
       Webhook::ResourceSendJob.perform_later(
         self.class.name,
         id,
