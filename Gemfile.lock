@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/dakhodl/tor_requests.git
-  revision: 37a8db509c5d0ceea9f01da70b3eb9a0cc1dc305
+  revision: 281d60046c690b5a7decef286009dc7606860e41
   specs:
     tor_requests (0.6.0)
       socksify
