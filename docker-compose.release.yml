@@ -2,7 +2,6 @@ version: '3'
 networks:
   production:
 volumes:
-  production_gem_cache:
   production_shared_data:
   production_hidden_service:
 services:
@@ -27,10 +26,9 @@ services:
     volumes:
       - production_shared_data:/var/shared/redis
   worker:
-    image: dakhodl/peacemaker:v0.3.0
+    image: dakhodl/peacemaker:v0.3.1
     volumes:
       - production_shared_data:/var/shared
-      - production_gem_cache:/usr/local/bundle/gems
       - production_hidden_service:/var/app/hidden_service
     networks:
       - production
@@ -47,10 +45,9 @@ services:
       - web
     user: "1000:1000"
   web:
-    image: dakhodl/peacemaker:v0.3.0
+    image: dakhodl/peacemaker:v0.3.1
     volumes:
       - production_shared_data:/var/shared
-      - production_gem_cache:/usr/local/bundle/gems
       - production_hidden_service:/var/app/hidden_service
     networks:
       - production
