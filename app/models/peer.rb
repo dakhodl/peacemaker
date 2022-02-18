@@ -5,8 +5,6 @@ class Peer < ApplicationRecord
   has_many :message_threads, dependent: :destroy
   has_many :messages, dependent: :destroy
 
-  after_commit -> { Webhook::StatusCheckJob.perform_later(self) }, on: :create
-
   enum :trust_level, {
     banned: 0, # ignore completely
     low_trust: 1, # only messaging 
@@ -19,6 +17,8 @@ class Peer < ApplicationRecord
   AD_PROPAGATE_TRUST_LEVEL = %w(high_trust)
 
   before_create :set_defaults
+  after_commit -> { Webhook::StatusCheckJob.perform_later(self) }, on: :create
+  after_commit -> { PeerSyncAdsJob.perform_later(self ) }, on: :create
 
   validates_presence_of :onion_address
 
@@ -32,11 +32,11 @@ class Peer < ApplicationRecord
     PeaceNet.get(self, '/api/v1/status.json')
   end
 
-  def fetching_allowed?(resource_type)
-    case resource_type
-    when 'Message', 'Messages::DirectMessage', 'Messages::LeadMessage', 'Messages::AdvertiserMessage'
+  def fetching_allowed?(controller)
+    case controller.to_s
+    when "Api::V1::MessagesController"
       MESSAGING_TRUST_LEVELS.include?(trust_level)
-    when 'Ad'
+    when "Api::V1::AdsController"
       AD_RECEIVE_TRUST_LEVELS.include?(trust_level)
     else
       false

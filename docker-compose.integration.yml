@@ -95,6 +95,29 @@ services:
       INTEGRATION_SPECS: '4'
       DISABLE_BOOTSNAP: '1'
 
+  peer_5:
+    build:
+      context: .
+      dockerfile: Dockerfile.integration
+    container_name: peacemaker_test_peer_5
+    volumes:
+      - .:/var/app
+      - integration_shared_data:/var/shared
+      - integration_gem_cache:/usr/local/bundle/gems
+    networks:
+      - test
+    ports:
+      - 3005:3000
+    stdin_open: true
+    tty: true
+    entrypoint: test-entrypoint.sh
+    command: bundle exec foreman s -f Procfile.integration
+    environment:
+      RAILS_ENV: test
+      REDIS_URL_SIDEKIQ: "redis://localhost:6379/1"
+      INTEGRATION_SPECS: '5'
+      DISABLE_BOOTSNAP: '1'
+
   spec_runner:
     build:
       context: .
@@ -113,7 +136,7 @@ services:
     environment:
       RAILS_ENV: test
       REDIS_URL_SIDEKIQ: "redis://localhost:6379/1"
-      INTEGRATION_SPECS: '5'
+      INTEGRATION_SPECS: 'X'
       SELENIUM_HOST: selenium
       SELENIUM_PORT: 4444
     depends_on:

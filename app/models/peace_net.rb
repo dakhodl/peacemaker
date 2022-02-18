@@ -1,6 +1,16 @@
 class PeaceNet
   def self.get(peer, path)
-    signature = Base64.strict_encode64(configatron.signing_key.sign(path))
+    # Need message to be longer than signature - lest the library complains
+
+    # Append destination to path so that signature is unique to receiver
+    # Thus preventing replay attacks. (I can't take this sig and go pretend to be you with someone else)
+    if path.include?('?')
+      path = "#{path}&to=#{ERB::Util.url_encode(peer.onion_address)}"
+    else
+      path = "#{path}?to=#{ERB::Util.url_encode(peer.onion_address)}"
+    end
+
+    signature = Base64.strict_encode64(configatron.signing_key.sign(Base64.encode64(path)))
 
     if Rails.env.test? && ENV['INTEGRATION_SPECS']
       uri = URI("http://#{peer.onion_address}#{path}")

@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-docker-compose -f docker-compose.integration.yml up peer_1 peer_2 peer_3 peer_4 selenium
+docker-compose -f docker-compose.integration.yml up peer_1 peer_2 peer_3 peer_4 peer_5 selenium

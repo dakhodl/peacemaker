@@ -14,6 +14,7 @@ class Ad < ApplicationRecord
   }
 
   after_commit :propagate_to_peers
+  after_save :log_receipt, if: :peer
 
   delegate :name, to: :peer, prefix: true, allow_nil: true
 
@@ -28,6 +29,10 @@ class Ad < ApplicationRecord
 
   scope :self_authored, -> { where(peer_id: nil) }
   scope :from_peers, -> { where.not(peer_id: nil) }
+
+  def log_receipt
+    Webhook::Receipt.create!(resource: self, uuid: uuid, peer: peer, action: 'upsert')
+  end
 
   def initialize_keys
     # secret key is set if I own this ad.

@@ -19,6 +19,8 @@ case ENV['INTEGRATION_SPECS']
     Peer.find_or_create_by!(name: 'Peer 4', onion_address: 'peer_4:3000', trust_level: :high_trust)
   when '4'
     Peer.find_or_create_by!(name: 'Peer 3', onion_address: 'peer_3:3000', trust_level: :high_trust)
+  when '5'
+    Peer.destroy_all
   else
 end
 
@@ -32,7 +34,7 @@ if ENV['INTEGRATION_SPECS']
   Sidekiq::ScheduledSet.new.clear
   Sidekiq::DeadSet.new.clear
 
-  PeerStatusCheckJob.set(wait: 30.seconds).perform_later
+  PeerStatusCheckJob.set(wait: 15.seconds).perform_later
 end
 
 
