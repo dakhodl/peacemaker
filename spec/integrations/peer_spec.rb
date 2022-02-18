@@ -1,25 +1,40 @@
 require 'integration_helper'
 
 feature 'viewing and managing ads', :js, :perform_jobs, :integration do
-  scenario 'creating and editing a peer' do
-    visit "http://admin:secret@peer_1:3000/"
-    click_on 'New peer'
+  scenario 'onboarding new peer syncs ad dataset' do
+    add_peer_5_to_peer_2
 
-    fill_in 'Name', with: 'Peer 3'
-    fill_in 'Onion address', with: 'peer_3:3000'
+    # adding peer2 on peer5 pulls in known ads from peer2
+    visit "http://admin:secret@peer_5:3000/peers/new"
 
-    choose 'Medium trust'
-
+    fill_in 'Name', with: 'Peer 2'
+    fill_in 'Onion address', with: 'peer_2:3000'
+    choose 'High trust'
     click_on 'Create Peer'
 
-    expect(page).to have_content('Peer 3')
+    visit "http://admin:secret@peer_5:3000/marketplace"
+
+    expect(page).to have_content('Farm fresh pogs') # An ad through peer 2 is already appearing
+  end
+
+  def add_peer_5_to_peer_2
+    visit "http://admin:secret@peer_2:3000/"
+
+    click_on 'New peer'
+    fill_in 'Name', with: 'Peer 5'
+    fill_in 'Onion address', with: 'peer_5:3000'
+    choose 'Medium trust'
+    click_on 'Create Peer'
+
+    expect(page).to have_content('Peer 5')
     expect(page).to have_content('Medium trust')
 
+    # quick smoke test of edit form
     click_on 'Edit'
     choose 'High trust'
     click_on 'Update Peer'
     expect(page).to have_content('Online')
-    expect(page).to have_content('Peer 3')
+    expect(page).to have_content('Peer 5')
     expect(page).to have_content('High trust')
   end
 end

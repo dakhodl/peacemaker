@@ -8,6 +8,18 @@
 require 'sidekiq/api'
 
 
+if ENV['INTEGRATION_SPECS']
+  MessageThread.delete_all
+  Webhook::Send.delete_all
+  Webhook::Receipt.delete_all
+  Ad.delete_all
+  Sidekiq::Queue.all.each(&:clear)
+  Sidekiq::RetrySet.new.clear
+  Sidekiq::ScheduledSet.new.clear
+  Sidekiq::DeadSet.new.clear
+  Peer.delete_all
+end
+
 case ENV['INTEGRATION_SPECS']
   when '1'
     Peer.find_or_create_by!(name: 'Peer 2', onion_address: 'peer_2:3000', trust_level: :high_trust)
@@ -22,16 +34,8 @@ case ENV['INTEGRATION_SPECS']
   else
 end
 
-if ENV['INTEGRATION_SPECS']
-  Ad.destroy_all
-  MessageThread.destroy_all
-  Webhook::Send.destroy_all
-  Webhook::Receipt.destroy_all
-  Sidekiq::Queue.all.each(&:clear)
-  Sidekiq::RetrySet.new.clear
-  Sidekiq::ScheduledSet.new.clear
-  Sidekiq::DeadSet.new.clear
-end
+PeerStatusCheckJob.set(wait: 15.seconds).perform_later
+
 
 
 IPSUM = [%q{

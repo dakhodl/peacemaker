@@ -19,7 +19,8 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :ads, only: [:get]
+      resources :ads, only: [:index, :create, :destroy]
+      resources :messages, only: [:create]
       post 'webhook', to: 'webhook#create'
       get 'webhook/:uuid/:token', to: 'webhook#show'
       get 'status', to: 'status#show'

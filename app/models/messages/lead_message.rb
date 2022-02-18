@@ -29,20 +29,19 @@ class Messages::LeadMessage < Message
     lead? && ad.self_authored?
   end
 
-  def upsert_from_peer!(response, peer)
-    Rails.logger.info response
-    ad = Ad.find_by(uuid: response['resource']['ad_uuid'])
+  def upsert_from_peer!(message_params, peer)
+    ad = Ad.find_by(uuid: message_params['ad_uuid'])
 
-    message_thread ||= MessageThread.find_or_initialize_by(ad: ad, uuid: response['resource']['message_thread_uuid'])
-    message_thread.public_key ||= Base64.decode64(response['resource']['base64_public_key'])
+    message_thread ||= MessageThread.find_or_initialize_by(ad: ad, uuid: message_params['message_thread_uuid'])
+    message_thread.public_key ||= Base64.decode64(message_params['base64_public_key'])
     message_thread.from_peer = true # suppresses first message body presence validation, because encrypted
     message_thread.peer = peer
-    message_thread.hops ||= ( response['resource']['message_thread_hops'] || 0 ) + 1
+    message_thread.hops ||= ( message_params['message_thread_hops'] || 0 ) + 1
     message_thread.save!
 
     Rails.logger.info 'UPSERTING LEAD MESSAGE'
     update!(
-      response['resource']
+      message_params
       .merge(message_thread: message_thread)
       .except('base64_public_key', 'ad_uuid', 'message_thread_uuid', 'message_thread_hops')
     )

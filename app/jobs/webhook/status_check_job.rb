@@ -4,7 +4,7 @@ class Webhook::StatusCheckJob < ApplicationJob
   def perform(peer)
     status = peer.get_status
     Rails.logger.info "Peer status: #{status.code} for #{peer.onion_address}"
-    peer.update last_online_at: Time.current if status&.code == '200'
+    peer.update last_online_at: Time.current, public_key: status.body if status&.code == '200'
   rescue SOCKSError::HostUnreachable => e
   end
 end

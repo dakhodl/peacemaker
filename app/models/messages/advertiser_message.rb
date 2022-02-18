@@ -12,7 +12,7 @@ class Messages::AdvertiserMessage < Message
   end
 
   def encrypt_body!
-    self.encrypted_body ||= Base64.encode64(RbNaCl::SimpleBox
+    self.encrypted_body ||= Base64.strict_encode64(RbNaCl::SimpleBox
       .from_keypair(message_thread.public_key, ad.secret_key)
       .encrypt(body))
   end
@@ -21,7 +21,7 @@ class Messages::AdvertiserMessage < Message
     update!(
       body: RbNaCl::SimpleBox
         .from_keypair(ad.public_key, message_thread.secret_key)
-        .decrypt(Base64.decode64(encrypted_body))
+        .decrypt(Base64.strict_decode64(encrypted_body))
     )
     message_thread.update claim: :mine
   end
@@ -30,11 +30,10 @@ class Messages::AdvertiserMessage < Message
     advertiser? && message_thread.secret_key.present?
   end
 
-  def upsert_from_peer!(response, peer)
-    Rails.logger.info response
-    message_thread = MessageThread.find_by!(uuid: response['resource']['message_thread_uuid'])
+  def upsert_from_peer!(message_params, peer)
+    message_thread = MessageThread.find_by!(uuid: message_params['message_thread_uuid'])
     update!(
-      response['resource']
+      message_params
       .merge(message_thread: message_thread)
       .except('peer_id', 'base64_public_key', 'ad_uuid', 'message_thread_uuid', 'message_thread_hops')
     )
