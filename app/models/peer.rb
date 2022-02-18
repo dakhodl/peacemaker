@@ -20,7 +20,7 @@ class Peer < ApplicationRecord
   after_commit -> { Webhook::StatusCheckJob.perform_later(self) }, on: :create
   after_commit -> { PeerSyncAdsJob.perform_later(self ) }, on: :create
 
-  validates_presence_of :onion_address
+  validates :onion_address, uniqueness: true, presence: true
 
   scope :with_public_key_resolved, -> { where.not(public_key: nil) }
 

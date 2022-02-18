@@ -10,14 +10,13 @@ class PeerSyncAdsJob < ApplicationJob
     page = 1
     while results_remain
       response = PeaceNet.get(self.peer, "/api/v1/ads?page=#{page}")
-      Rails.logger.info response.code
       if response.code != "200"
         results_remain = false
         return
       end
       data = JSON.parse(response.body).with_indifferent_access
       process_page(data)
-      results_remain = false if data[:last_page]
+      results_remain = false if data[:last_page] || data[:total_pages] === 0
       page += 1
     end
 
@@ -25,7 +24,6 @@ class PeerSyncAdsJob < ApplicationJob
   end
 
   def process_page(data)
-    Rails.logger.info "Data: #{data}"
     ads = {}
     data[:results].each do |ad_params|
       accepted_ad_params = ad_params.slice(

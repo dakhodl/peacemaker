@@ -9,5 +9,4 @@ class Webhook::Receipt < ApplicationRecord
   validates_presence_of :peer, :resource_type
 
   validates_inclusion_of :resource_type, in: ['Ad']
-  validates_inclusion_of :action, in: ['upsert', 'delete'], allow_nil: true
 end
