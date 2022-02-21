@@ -1,5 +1,6 @@
 class Webhook::StatusCheckJob < ApplicationJob
   queue_as :default
+  sidekiq_options retry: false # it'll happen again in 5 minutes anyway, best not to build up a ton of redis mem
 
   def perform(peer)
     status = peer.get_status
