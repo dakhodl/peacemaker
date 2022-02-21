@@ -14,7 +14,7 @@ services:
     environment:
         POSTGRES_HOST_AUTH_METHOD: trust
     volumes:
-        - ${APP_DATA_DIR}/data/postgres:/var/lib/postgresql/data
+        - ./data/postgres:/var/lib/postgresql/data
     networks:
       - production
   redis:
