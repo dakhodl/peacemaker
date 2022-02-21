@@ -14,7 +14,7 @@
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636a9 9 0 010 12.728m0 0l-2.829-2.829m2.829 2.829L21 21M15.536 8.464a5 5 0 010 7.072m0 0l-2.829-2.829m-4.243 2.829a4.978 4.978 0 01-1.414-2.83m-1.414 5.658a9 9 0 01-2.167-9.238m7.824 2.167a1 1 0 111.414 1.414m-1.414-1.414L3 3m8.293 8.293l1.414 1.414" />
     </svg>
 
-    <%= link_to new_peer_path, class: "btn relative inline-flex items-center justify-center my-2 mx-4 rounded-lg py-3 px-5 bg-indigo-700 text-white block font-medium hover:bg-indigo-500" do %>
+    <%= link_to new_peer_path, class: "btn relative inline-flex items-center justify-center my-2 mx-4 rounded-lg py-3 px-5 bg-blue-700 text-white block font-medium hover:bg-blue-500" do %>
       <!-- Heroicon name: solid/plus-sm -->
       <%= icon_plus %>
       <span>
@@ -32,9 +32,9 @@
           <div class="absolute inset-y-0 left-2 flex items-center pointer-events-none">
             <%= icon_search %>
           </div>
-          <input id="search-field" class="block w-4/6 h-full pl-8 pr-3 py-4 rounded border-gray-200 border-transparent text-gray-900 placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-0 focus:border-indigo-500 sm:text-sm" placeholder="Search" autofocus type="search" name="q" value="<%= @search.query %>" onfocus="var temp_value=this.value; this.value=''; this.value=temp_value" >
-          <input id="hops-field" class="block ml-2 w-1/6 h-full px-3 py-4 rounded border-gray-200 border-transparent text-gray-900 placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-0 focus:border-indigo-500 sm:text-sm" placeholder="Max˚" autofocus type="number" name="hops" value="<%= @search.hops %>" data-tooltip="How many degrees of peer to peer do you want?">
-          <input class="block ml-2 w-1/6 h-full px-3 py-4 border-gray-200 cursor-pointer rounded btn items-center justify-center rounded-lg bg-indigo-700 text-white font-medium hover:bg-indigo-500" type="submit" value="Search"/>
+          <input id="search-field" class="block w-4/6 h-full pl-8 pr-3 py-4 rounded border-gray-200 border-transparent text-gray-900 placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-0 focus:border-blue-500 sm:text-sm" placeholder="Search" autofocus type="search" name="q" value="<%= @search.query %>" onfocus="var temp_value=this.value; this.value=''; this.value=temp_value" >
+          <input id="hops-field" class="block ml-2 w-1/6 h-full px-3 py-4 rounded border-gray-200 border-transparent text-gray-900 placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-0 focus:border-blue-500 sm:text-sm" placeholder="Max˚" autofocus type="number" name="hops" value="<%= @search.hops %>" data-tooltip="How many degrees of peer to peer do you want?">
+          <input class="block ml-2 w-1/6 h-full px-3 py-4 border-gray-200 cursor-pointer rounded btn items-center justify-center rounded-lg bg-blue-700 text-white font-medium hover:bg-blue-500" type="submit" value="Search"/>
         </div>
       </form>
     </div>

@@ -14,9 +14,9 @@
       </div>
     </div>
     <div class="mt-4 flex md:mt-0 md:ml-4">
-      <%= link_to 'Edit', edit_peer_path(@peer), class: "button inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+      <%= link_to 'Edit', edit_peer_path(@peer), class: "button inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
 
-      <button disabled type="button" class="ml-3 button inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" data-tooltip="Coming soon...">
+      <button disabled type="button" class="ml-3 button inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" data-tooltip="Coming soon...">
         Message
       </button>
     </div>
@@ -41,7 +41,7 @@
           Total Ads
         </dt>
         <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
-          <div class="flex items-baseline text-2xl font-semibold text-indigo-600">
+          <div class="flex items-baseline text-2xl font-semibold text-blue-600">
             <%= peer_ads_in(timeframe: 7.days.ago..Time.current) %>
             <span class="ml-2 text-sm font-medium text-gray-500">
               from <%= peer_ads_in(timeframe: 14.days.ago..7.days.ago) %>
@@ -66,7 +66,7 @@
           Share rate
         </dt>
         <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
-          <div class="flex items-baseline text-2xl font-semibold text-indigo-600">
+          <div class="flex items-baseline text-2xl font-semibold text-blue-600">
             58.16%
             <span class="ml-2 text-sm font-medium text-gray-500">
               from 56.14%
@@ -91,7 +91,7 @@
           Avg. Click Rate
         </dt>
         <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
-          <div class="flex items-baseline text-2xl font-semibold text-indigo-600">
+          <div class="flex items-baseline text-2xl font-semibold text-blue-600">
             24.57%
             <span class="ml-2 text-sm font-medium text-gray-500">
               from 28.62%
