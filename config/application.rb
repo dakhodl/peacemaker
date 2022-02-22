@@ -22,6 +22,9 @@ module Peacekeeper
 
     # Support onion hostname
     config.hosts << '127.0.0.1'
+    config.hosts << 'localhost'
+    config.hosts << 'umbrel-dev.local'
+    config.hosts << 'umbrel.local'
     config.hosts << begin
       File.read('hidden_service/hostname').to_s.strip
     rescue StandardError
@@ -30,6 +33,10 @@ module Peacekeeper
 
     if ENV['INTEGRATION_SPECS']
       config.hosts << "peer_#{ENV['INTEGRATION_SPECS']}"
+    end
+
+    if ENV['HOSTNAME']
+      config.hosts << ENV['HOSTNAME']
     end
   end
 end
