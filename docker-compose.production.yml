@@ -12,7 +12,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.production
-    image: dakhodl/peacemaker:v0.3.1
+    image: dakhodl/peacemaker:v0.3.5
     volumes:
       - production_shared_data:/var/shared
       - production_gem_cache:/usr/local/bundle/gems
