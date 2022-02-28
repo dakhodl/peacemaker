@@ -26,7 +26,7 @@ services:
     volumes:
       - production_shared_data:/var/shared/redis
   worker:
-    image: dakhodl/peacemaker:v0.3.1
+    image: dakhodl/peacemaker:v0.3.5
     volumes:
       - production_shared_data:/var/shared
       - production_hidden_service:/var/app/hidden_service
@@ -45,7 +45,7 @@ services:
       - web
     user: "1000:1000"
   web:
-    image: dakhodl/peacemaker:v0.3.1
+    image: dakhodl/peacemaker:v0.3.5
     volumes:
       - production_shared_data:/var/shared
       - production_hidden_service:/var/app/hidden_service
