@@ -8,3 +8,5 @@ hidden_service/
 
 # moving away from node for import-maps
 node_modules/
+
+tmp/
