@@ -11,7 +11,7 @@ feature 'viewing and managing ads', :js, :perform_jobs, :integration do
   end
 
   def visit_peer(number, path = "marketplace")
-    visit "http://admin:secret@peer_#{number}:3000/#{path}"
+    visit "http://peer_#{number}:3000/#{path}"
   end
 
   def expect_ad_to_have_propagated_to_all_peers(ad_title, expectation = :to)

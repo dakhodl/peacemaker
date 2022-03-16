@@ -11,6 +11,7 @@ class Message < ApplicationRecord
   after_commit :send_to_peer, on: :create
 
   delegate :peer, :ad, to: :message_thread
+  delegate :trust_channel, to: :ad
 
   def upsert_from_peer!(*args)
     raise 'to be implemented in subclass'

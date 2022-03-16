@@ -12,7 +12,7 @@ class PeerSyncAdsJob < ApplicationJob
       response = PeaceNet.get(self.peer, "/api/v1/ads?page=#{page}")
       if response.code != "200"
         results_remain = false
-        return
+        raise "Peer not ready to sync - trying again later."
       end
       data = JSON.parse(response.body).with_indifferent_access
       process_page(data)

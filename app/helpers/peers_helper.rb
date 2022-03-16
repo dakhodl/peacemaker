@@ -51,11 +51,9 @@ module PeersHelper
   def peer_trust_level_description(name)
     case name
     when "high_trust"
-      "Chat with them and propagate this peer's ads to your network."
-    when "medium_trust"
-      "Chat with them and receive ads from this peer's network."
+      "Tell your peers you really trust ads from this person."
     when "low_trust"
-      "Chat with them about their ads."
+      "Tell your peers to you do not know this person too well."
     when "banned"
       "All communication is blocked."
     end

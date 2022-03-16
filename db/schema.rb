@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_14_114012) do
+ActiveRecord::Schema.define(version: 2022_03_16_122023) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(version: 2022_02_14_114012) do
     t.integer "messaging_type", default: 0, null: false
     t.binary "secret_key"
     t.binary "public_key"
+    t.integer "trust_channel", default: 1, null: false
     t.index ["peer_id"], name: "index_ads_on_peer_id"
     t.index ["uuid"], name: "index_ads_on_uuid", unique: true
   end
@@ -79,6 +80,7 @@ ActiveRecord::Schema.define(version: 2022_02_14_114012) do
     t.integer "messaging_type"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "trust_channel"
   end
 
   create_table "webhook_receipts", force: :cascade do |t|

@@ -13,8 +13,14 @@ class Ad < ApplicationRecord
     blinded: 1
   }
 
+  enum :trust_channel, {
+    low_trust: 1, 
+    high_trust: 3,
+  }
+
   after_commit :propagate_to_peers
   after_save :log_receipt, if: :peer
+  before_create :set_defaults
 
   delegate :name, to: :peer, prefix: true, allow_nil: true
 
@@ -29,6 +35,10 @@ class Ad < ApplicationRecord
 
   scope :self_authored, -> { where(peer_id: nil) }
   scope :from_peers, -> { where.not(peer_id: nil) }
+
+  def set_defaults
+    self.trust_channel ||= :low_trust
+  end
 
   def log_receipt
     Webhook::Receipt.create!(resource: self, uuid: uuid, peer: peer, action: 'upsert')
@@ -64,7 +74,7 @@ class Ad < ApplicationRecord
   end
 
   def propagate_to_peers
-    Peer.high_trust.with_public_key_resolved.where.not(id: peer_id).find_each do |peer|
+    peers_in_trust_level.with_public_key_resolved.where.not(id: peer_id).find_each do |peer|
       Webhook::ResourceSendJob.perform_later(
         self.class.name,
         id,
@@ -73,6 +83,15 @@ class Ad < ApplicationRecord
         deleted: transaction_include_any_action?([:destroy])
       )
     end
+  end
+
+  def peers_in_trust_level
+    accepted_levels = [:high_trust]
+    if low_trust?
+      accepted_levels << :low_trust
+    end
+
+    Peer.where(trust_level: accepted_levels)
   end
 
   # ResourceSendJob#from_name_for_resource API

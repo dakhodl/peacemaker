@@ -26,7 +26,7 @@
     <%= peer_online_status(@peer) %>
     <span class="ml-2 text-gray-800 text-sm">
       <%= @peer.trust_level.humanize %>
-    </span>
+    </span>    
   </div>
 
 
@@ -112,4 +112,16 @@
       </div>
     </dl>
   </div>
+
+  <div class="flex mt-4">
+    <span class="ml-2 text-gray-800 text-sm">
+      <% if @peer.first_sync_at %>
+        First sync <%= time_ago_in_words @peer.first_sync_at %> ago
+      <% else %>
+        Awaiting first sync
+      <% end %>
+    </span>
+    
+  </div>
+
 </turbo-frame>

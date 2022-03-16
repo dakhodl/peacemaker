@@ -34,6 +34,16 @@
           </div>
           <input id="search-field" class="block w-4/6 h-full pl-8 pr-3 py-4 rounded border-gray-200 border-transparent text-gray-900 placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-0 focus:border-blue-500 sm:text-sm" placeholder="Search" autofocus type="search" name="q" value="<%= @search.query %>" onfocus="var temp_value=this.value; this.value=''; this.value=temp_value" >
           <input id="hops-field" class="block ml-2 w-1/6 h-full px-3 py-4 rounded border-gray-200 border-transparent text-gray-900 placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-0 focus:border-blue-500 sm:text-sm" placeholder="Max˚" autofocus type="number" name="hops" value="<%= @search.hops %>" data-tooltip="How many degrees of peer to peer do you want?">
+          <%= select(nil, "trust_channel", [['High trust', 3], ['Low trust', 1]], 
+            { 
+              include_blank: 'Any trust',
+              selected: params[:trust_channel]
+            },
+            {
+              class: "ml-2 w-1/6 block pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded",
+              'data-tooltip': "Ads can be sent through High or Low trust peers." 
+            }
+          ) %>
           <input class="block ml-2 w-1/6 h-full px-3 py-4 border-gray-200 cursor-pointer rounded btn items-center justify-center rounded-lg bg-blue-700 text-white font-medium hover:bg-blue-500" type="submit" value="Search"/>
         </div>
       </form>

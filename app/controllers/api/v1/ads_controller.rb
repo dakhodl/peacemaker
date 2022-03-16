@@ -38,6 +38,7 @@ class Api::V1::AdsController < Api::V1::BaseController
         :description,
         :hops,
         :messaging_type,
+        :trust_channel,
         :base64_public_key,
         :onion_address,
         :created_at,

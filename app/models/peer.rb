@@ -7,14 +7,9 @@ class Peer < ApplicationRecord
 
   enum :trust_level, {
     banned: 0, # ignore completely
-    low_trust: 1, # only messaging 
-    medium_trust: 2, # receive ads, message
-    high_trust: 3, # receive and propagate ads, message
+    low_trust: 1,
+    high_trust: 3,
   }
-
-  MESSAGING_TRUST_LEVELS = %w(low_trust medium_trust high_trust)
-  AD_RECEIVE_TRUST_LEVELS = %w(medium_trust high_trust)
-  AD_PROPAGATE_TRUST_LEVEL = %w(high_trust)
 
   before_create :set_defaults
   after_commit -> { Webhook::StatusCheckJob.perform_later(self) }, on: :create
@@ -32,14 +27,7 @@ class Peer < ApplicationRecord
     PeaceNet.get(self, '/api/v1/status.json')
   end
 
-  def fetching_allowed?(controller)
-    case controller.to_s
-    when "Api::V1::MessagesController"
-      MESSAGING_TRUST_LEVELS.include?(trust_level)
-    when "Api::V1::AdsController"
-      AD_RECEIVE_TRUST_LEVELS.include?(trust_level)
-    else
-      false
-    end
+  def incoming_ad_trust_channel_allowed?(channel)
+    channel == 'low_trust' || channel == trust_level
   end
 end

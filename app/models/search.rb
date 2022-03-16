@@ -6,6 +6,10 @@ class Search < ApplicationRecord
       ads = ads.where("hops <= ?", self.hops)
     end
 
+    if self.trust_channel
+      ads = ads.where(trust_channel: self.trust_channel)
+    end
+
     terms = self.query.split(' ')
     terms.map(&:downcase).uniq.inject(ads) do |scope, term|
       scope.where("(title || description) ILIKE ?", "%#{sanitize_sql_like term}%")

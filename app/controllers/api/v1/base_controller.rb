@@ -42,7 +42,13 @@ class Api::V1::BaseController < ActionController::Base
   end
 
   def verify_peer_trust_level
-    unless peer.fetching_allowed?(self.class)
+    raise 400 if peer.banned?
+    return unless params[:resource_type] === 'Ad' # messages follow ad network anyway
+    return unless params[:action_taken] === 'upsert' # DELETES fall back to peer ownership check
+
+    trust_channel = params.dig(:ad, :trust_channel)
+
+    unless peer.incoming_ad_trust_channel_allowed?(trust_channel)
       Rails.logger.info "Peer fetching not allowed for #{self.class} - peer trust level: #{peer.trust_level}"
       raise 400
     end

@@ -4,7 +4,7 @@ feature 'viewing and managing ads', :js, :perform_jobs, :integration do
   # let!(:peer) { create(:peer) }
 
   scenario 'creating an ad that propagates to a peer' do
-    visit "http://admin:secret@peer_1:3000/"
+    visit "http://peer_1:3000/"
     expect(page).to have_content('Peer 2')
     click_on 'Ads'
     expect(page).to have_content("You have no ads.\nCreate an ad")
@@ -52,11 +52,42 @@ feature 'viewing and managing ads', :js, :perform_jobs, :integration do
     expect(page).to have_content('Ad was successfully destroyed.')
 
     # deletes propagate
+    sleep 5
     expect_ad_to_have_propagated_to_all_peers("Farm fresh dogs", :to_not)
+
+    # all prior were low trust ads
+    # high trust ads only go over high trust channels
+    visit "http://peer_2:3000/"
+    expect(page).to have_content('Peer 3')
+    click_on 'Ads'
+    click_on 'New ad'
+
+    fill_in 'Title', with: 'High trust diesel'
+    fill_in 'Description', with: 'Only the best'
+    choose 'High trust'
+
+    click_on 'Create Ad'
+    expect(page).to have_content('Ad was successfully created.')
+    click_on 'Back to Ads'
+
+    sleep 2
+    visit_peer(3)
+    expect(page).to have_content('High trust diesel')
+    # quick test of search facet
+    select 'High trust', from: 'trust_channel'
+    click_on 'Search'
+    expect(page).to have_content('High trust diesel')
+    select 'Low trust', from: 'trust_channel'
+    click_on 'Search'
+    expect(page).to_not have_content('High trust diesel')
+
+    sleep 2
+    visit_peer(4)
+    expect(page).to_not have_content('High trust diesel')
   end
 
   def visit_peer(number, path = "marketplace")
-    visit "http://admin:secret@peer_#{number}:3000/#{path}"
+    visit "http://peer_#{number}:3000/#{path}"
   end
 
   def expect_ad_to_have_propagated_to_all_peers(ad_title, expectation = :to)
