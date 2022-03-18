@@ -2,7 +2,7 @@ class Api::V1::AdsController < Api::V1::BaseController
   skip_before_action :verify_peer_ownership, only: [:index]
 
   def index
-    results = Ad.order(:created_at).page(params[:page]).per(500)
+    results = Ad.to_sync_to(peer).order(:created_at).page(params[:page]).per(500)
     render json: {
       total_pages: results.total_pages,
       last_page: results.last_page?,

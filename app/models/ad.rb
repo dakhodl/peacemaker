@@ -36,6 +36,14 @@ class Ad < ApplicationRecord
   scope :self_authored, -> { where(peer_id: nil) }
   scope :from_peers, -> { where.not(peer_id: nil) }
 
+  scope :to_sync_to, -> (peer) {
+    if peer.low_trust?
+      where(trust_channel: :trust_level)
+    else
+      self
+    end
+  }
+
   def set_defaults
     self.trust_channel ||= :low_trust
   end
@@ -86,12 +94,7 @@ class Ad < ApplicationRecord
   end
 
   def peers_in_trust_level
-    accepted_levels = [:high_trust]
-    if low_trust?
-      accepted_levels << :low_trust
-    end
-
-    Peer.where(trust_level: accepted_levels)
+    Peer.where(trust_level: [:high_trust, trust_channel].uniq)
   end
 
   # ResourceSendJob#from_name_for_resource API

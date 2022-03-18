@@ -13,7 +13,7 @@ class Peer < ApplicationRecord
 
   before_create :set_defaults
   after_commit -> { Webhook::StatusCheckJob.perform_later(self) }, on: :create
-  after_commit -> { PeerSyncAdsJob.perform_later(self ) }, on: :create
+  after_commit -> { PeerSyncAdsJob.perform_later(self ) }, on: [:create, :update], if: -> { saved_change_to_attribute?(:trust_level) }
 
   validates :onion_address, uniqueness: true, presence: true
 
