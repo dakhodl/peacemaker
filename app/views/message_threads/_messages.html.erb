@@ -1,6 +1,6 @@
-<div data-detail-sidebar-selected-class="bg-gray-50 DetailSidebar__item--selected" data-controller="detail-sidebar" class="DetailSidebar flex flex-col md:h-screen-w-nav lg:h-screen md:w-2/3 overflow-y-scroll">
+<%= detail_sidebar do %>
   <% @threads.each do |thread| %>
-    <%= link_to thread, class: "DetailSidebar__item block px-4 py-6 bg-white border-b #{@thread == thread ? 'bg-gray-50 DetailSidebar__item--selected' : 'hover:bg-gray-50'}", data: { "turbo-frame": "detail_view" , action: "detail-sidebar#choose"} do %>
+    <%= link_to thread, class: "DetailSidebar__item block px-4 py-6 border-b #{@thread == thread ? 'DetailSidebar__item--selected' : ''}", data: { "turbo-frame": "detail_view" , action: "detail-sidebar#choose"} do %>
       <span class="flex items-center space-x-4 w-full">
         <span class="flex-1 flex space-x-2 truncate">
       
@@ -29,4 +29,4 @@
       </span>
     <% end %>
   <% end %>
-</div>
+<% end %>

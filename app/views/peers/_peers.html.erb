@@ -1,5 +1,5 @@
-<div data-detail-sidebar-selected-class="bg-gray-50 DetailSidebar__item--selected" data-controller="detail-sidebar" class="DetailSidebar flex flex-col md:h-screen-w-nav lg:h-screen md:w-1/3 overflow-y-scroll">
-  <div class="DetailSidebar__item flex p-2 bg-white border-b sticky top-0">
+<%= detail_sidebar do %>
+  <div class="DetailSidebar__item flex p-2 border-b sticky top-0">
     <%= link_to new_peer_path, class: "btn inline-flex items-center justify-center my-2 mx-4 rounded-lg py-3 px-5 bg-blue-700 text-white block font-medium hover:bg-blue-500 w-full" do %>
       <%= icon_plus %>
       <span>
@@ -9,7 +9,7 @@
   </div>
 
   <% @peers.find_each do |peer| %>
-    <%= link_to peer,class: "DetailSidebar__item block px-4 py-4 bg-white border-b #{selected_peer == peer ? 'border-r-4 border-r-rose-700 DetailSidebar__item--selected' : 'hover:bg-gray-50'}", data: { "turbo-frame": "detail_view" , action: "detail-sidebar#choose"} do %>
+    <%= link_to peer,class: "DetailSidebar__item block px-4 py-4 border-b #{selected_peer == peer ? 'DetailSidebar__item--selected' : ''}", data: { "turbo-frame": "detail_view" , action: "detail-sidebar#choose"} do %>
       <span class="flex items-center space-x-4 w-full">
         <span class="flex-1 flex space-x-2 w-full truncate">
       
@@ -39,4 +39,4 @@
       </span>
     <% end %>
   <% end %>
-</div>
+<% end %>

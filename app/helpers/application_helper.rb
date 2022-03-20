@@ -1,6 +1,6 @@
 module ApplicationHelper
   def nav_link_to(link_path, path_controller_name, &block)
-    current_page_style = controller_name == path_controller_name ? 'bg-white text-gray-900' : 'text-white'
+    current_page_style = controller_name == path_controller_name ? 'bg-gray-50 text-gray-900 border-b-2 lg:border-b-0 lg:border-r-2 border-dotted border-gray-300 box-content' : 'text-white'
     link_to link_path,
             class: "#{current_page_style} flex flex-col grow lg:grow-0 lg:py-12 justify-center p-5 items-center font-medium", &block 
   end

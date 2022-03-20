@@ -1,3 +1,24 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.DetailSidebar {
+  @apply flex flex-col md:h-screen-w-nav lg:h-screen md:w-1/3 overflow-y-scroll;
+}
+
+.DetailSidebar__body {
+  @apply bg-white  h-full overflow-y-scroll w-2/3 p-4
+}
+
+.DetailSidebar__item:not(.DetailSidebar__item--selected):hover {
+  @apply bg-white;
+}
+
+.DetailSidebar__item--selected {
+  @apply bg-white;
+}
+
+.DetailSidebar__item--selected:hover {
+  @apply bg-white;
+}
