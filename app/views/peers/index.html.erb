@@ -23,63 +23,51 @@
 
   <!-- This example requires Tailwind CSS v2.0+ -->
   <%= detail_sidebar_body do %>
-    <h3 class="text-lg leading-6 font-medium text-gray-900">
-      Overview
-    </h3>
-    <dl class="filter blur-sm mt-5 grid grid-cols-1 rounded-lg bg-white overflow-hidden shadow divide-y divide-gray-200 md:grid-cols-3 md:divide-y-0 md:divide-x">
+    <h1 class="paper__title">
+      Peer network
+    </h1>
+    <dl class="mt-5 grid grid-cols-1 rounded-lg overflow-hidden border border-1 divide-y divide-gray-200 md:grid-cols-3 md:divide-y-0 md:divide-x">
       <div class="px-4 py-5 sm:p-6">
         <dt class="text-base font-normal text-gray-900">
-          Total Subscribers
+          Advertisers found
         </dt>
+        <% advertisers =  Ad.from_peers.distinct('onion_address || public_key::to_string') %>
+        <% advertisers_last_week = advertisers.where(created_at: 7.days.ago..Time.current).count %>
+        <% advertisers_prior_week = advertisers.where(created_at: 14.days.ago..7.days.ago).count %>
         <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
           <div class="flex items-baseline text-2xl font-semibold text-blue-600">
-            71,897
+            <%= advertisers_last_week %>
             <span class="ml-2 text-sm font-medium text-gray-500">
-              from 70,946
+              from <%= advertisers_prior_week %>
             </span>
           </div>
 
-          <div class="inline-flex items-baseline px-2.5 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800 md:mt-2 lg:mt-0">
-            <!-- Heroicon name: solid/arrow-sm-up -->
-            <svg class="-ml-1 mr-0.5 flex-shrink-0 self-center h-5 w-5 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-              <path fill-rule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-            </svg>
-            <span class="sr-only">
-              Increased by
-            </span>
-            12%
-          </div>
+          <%= change_percentage_bubble(advertisers_last_week / ([advertisers_prior_week, 1].max)) %>
         </dd>
       </div>
 
       <div class="px-4 py-5 sm:p-6">
         <dt class="text-base font-normal text-gray-900">
-          Avg. Open Rate
+          Farthest connection
         </dt>
+        <% ads =  Ad.from_peers %>
+        <% max_hops_last_week = ads.where(created_at: 7.days.ago..Time.current).maximum(:hops) %>
+        <% max_hops_prior_week = ads.where(created_at: 14.days.ago..7.days.ago).maximum(:hops) %>
         <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
           <div class="flex items-baseline text-2xl font-semibold text-blue-600">
-            58.16%
+            <%= max_hops_last_week %>
             <span class="ml-2 text-sm font-medium text-gray-500">
-              from 56.14%
+              from <%= max_hops_prior_week %>
             </span>
           </div>
 
-          <div class="inline-flex items-baseline px-2.5 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800 md:mt-2 lg:mt-0">
-            <!-- Heroicon name: solid/arrow-sm-up -->
-            <svg class="-ml-1 mr-0.5 flex-shrink-0 self-center h-5 w-5 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-              <path fill-rule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-            </svg>
-            <span class="sr-only">
-              Increased by
-            </span>
-            2.02%
-          </div>
+          <%= change_percentage_bubble(max_hops_last_week || 1 / ([max_hops_prior_week || 1, 1].max)) %>
         </dd>
       </div>
 
-      <div class="px-4 py-5 sm:p-6">
+      <div class="px-4 py-5 sm:p-6 filter blur-sm">
         <dt class="text-base font-normal text-gray-900">
-          Avg. Click Rate
+          Replies propagated
         </dt>
         <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
           <div class="flex items-baseline text-2xl font-semibold text-blue-600">
