@@ -30,10 +30,21 @@
         <dt class="text-sm font-medium text-gray-500">
           Messaging type
         </dt>
-        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 flex items-center gap-2">
+          <%= messaging_type_icon(ad.messaging_type.to_s) %>
           <%= ad.messaging_type.humanize %>
         </dd>
       </div>
+
+      <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        Trust channel
+      </dt>
+      <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 flex items-center gap-2">
+        <%= ad_trust_channel_icon(ad.trust_channel.to_s) %>
+        <%= ad.trust_channel.humanize %>
+      </dd>
+    </div>
 
       <% if ad.peer %>
         <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">

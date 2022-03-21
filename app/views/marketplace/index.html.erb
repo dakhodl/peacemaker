@@ -70,8 +70,12 @@
                 </span>
               </span>
           
-              <span class="truncate flex-1 hidden md:block text-right">
-                <%= ad.description %>
+              <span class="truncate flex-1 text-right flex justify-end items-center">
+                <%= ad_trust_channel_icon(ad.trust_channel) %>
+                <%= messaging_type_icon(ad.messaging_type) %>
+                <div class="hidden md:block text-right">
+                  <%= ad.description %>
+                </div>
               </span>
 
               <!-- Heroicon name: solid/chevron-right -->
@@ -104,5 +108,27 @@
         <% end %>
       </div>
     </nav>
+    <div class="ml-6">
+      <ul>
+        <li class="flex">
+          <%= icon_shield_check %>
+          <span class="ml-1">High trust</span>
+        </li>
+        <li class="flex">
+          <%= icon_shield_exclamation %>
+          <span class="ml-1">Low trust</span>
+        </li>
+      </ul>
+      <ul class="mt-8">
+        <li class="flex">
+          <%= icon_eye_off %>
+          <span class="ml-1">Blinded</span>
+        </li>
+        <li class="flex">
+          <%= icon_eye %>
+          <span class="ml-1">Direct</span>
+        </li>
+      </ul>
+    </div>
   </div>
 <% end %>
