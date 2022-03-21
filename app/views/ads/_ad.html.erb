@@ -1,60 +1,52 @@
-<div class="p-4">
-  <div class="mt-5 border-t border-gray-200">
-    <dl class="sm:divide-y sm:divide-gray-200">
+<div class="paper__title">
+  <%= ad.title %>
+</div>
+<div class="mt-5 border-t border-gray-200">
+  <dl class="sm:divide-y sm:divide-gray-200">
+    <div class="<%= controller_name == "messages" ? 'hidden' : '' %>">
       <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
-        <dt class="text-sm font-medium text-gray-500">
-          Title
+        <dt class="text-sm font-medium text-gray-500 flex">
+          Description
+
+          <div class="grow ml-2" data-tooltip="Do not visit any URLs from a peer. They may try to track your IP or worse.">
+            <%= icon_question %>
+          </div>
         </dt>
-        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 font-medium">
-          <%= ad.title %>
+        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+          <%= ad.description %>
         </dd>
       </div>
 
-      <div class="<%= controller_name == "messages" ? 'hidden' : '' %>">
-        <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
-          <dt class="text-sm font-medium text-gray-500 flex">
-            Description
-
-            <div class="grow ml-2" data-tooltip="Do not visit any URLs from a peer. They may try to track your IP or worse.">
-              <%= icon_question %>
-            </div>
-          </dt>
-          <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-            <%= ad.description %>
-          </dd>
-        </div>
-
-        <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4"  data-tooltip="Coming soon...">
-          <dt class="text-sm font-medium text-gray-500">
-            Price
-          </dt>
-          <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-            $$$
-          </dd>
-        </div>
-
-        <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
-          <dt class="text-sm font-medium text-gray-500">
-            Messaging type
-          </dt>
-          <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-            <%= ad.messaging_type.humanize %>
-          </dd>
-        </div>
-
-        <% if ad.peer %>
-          <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
-            <dt class="text-sm font-medium text-gray-500">
-              Through
-            </dt>
-            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              <%= link_to ad.peer_name, peer_path(ad.peer) %>
-            </dd>
-          </div>
-        <% end %>
+      <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4"  data-tooltip="Coming soon...">
+        <dt class="text-sm font-medium text-gray-500">
+          Price
+        </dt>
+        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+          $$$
+        </dd>
       </div>
-    </dl>
-  </div>
+
+      <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+        <dt class="text-sm font-medium text-gray-500">
+          Messaging type
+        </dt>
+        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+          <%= ad.messaging_type.humanize %>
+        </dd>
+      </div>
+
+      <% if ad.peer %>
+        <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+          <dt class="text-sm font-medium text-gray-500">
+            Through
+          </dt>
+          <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+            <%= link_to ad.peer_name, peer_path(ad.peer) %>
+          </dd>
+        </div>
+      <% end %>
+    </div>
+  </dl>
 </div>
 
 <% unless controller_name == 'messages' %>

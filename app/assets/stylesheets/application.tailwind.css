@@ -2,13 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
-
+/* Side-menu list of items and main content section to view a chosen item */
 .DetailSidebar {
-  @apply flex flex-col md:h-screen-w-nav lg:h-screen md:w-1/3 overflow-y-scroll;
+  @apply flex flex-col overflow-y-scroll;
+}
+
+@screen md {
+  .DetailSidebar {
+    @apply h-screen-w-nav w-1/3;
+  }
+}
+
+@screen lg {
+  .DetailSidebar {
+    @apply h-screen;
+  }
 }
 
 .DetailSidebar__body {
-  @apply bg-white  h-full overflow-y-scroll w-2/3 p-4
+  @apply bg-gray-50 overflow-y-scroll w-2/3 p-4;
 }
 
 .DetailSidebar__item:not(.DetailSidebar__item--selected):hover {
@@ -21,4 +33,20 @@
 
 .DetailSidebar__item--selected:hover {
   @apply bg-white;
+}
+
+
+/* A simple white sheet container */
+.paper {
+  @apply m-10 w-full p-10 bg-white rounded shadow;
+}
+
+.paper__title {
+  @apply text-lg font-bold text-4xl;
+}
+
+@screen lg {
+  .paper {
+    @apply mx-auto w-2/3 mb-auto mt-4;
+  }
 }
