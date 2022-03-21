@@ -15,4 +15,14 @@ module MessagesHelper
     }
     end
   end
+
+  def messaging_type_icon(name)
+
+    case name
+    when "direct"
+      icon_eye
+    when "blinded"
+      icon_eye_off
+    end
+  end
 end

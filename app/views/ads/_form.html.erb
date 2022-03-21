@@ -24,16 +24,20 @@
 
   <div class="my-5">
   <%= form.label :messaging_type, class: "mb-2" %>
-    <div class="mt-5">
+    <div class="mt-5 grid gap-4 grid-cols-2">
       <%= form.collection_radio_buttons :messaging_type, Ad.messaging_types, :first, :first, html_options: { class: 'mt-2' } do |b| %>
-        <%= b.label do %>
+        <%= b.label class: "border border-2 border-dashed p-4" do %>
           <div class="relative flex items-start">
             <div class="flex items-center h-5">
               <%= b.radio_button html_options: { class: "focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300" } %>
             </div>
             <div class="ml-3 text-sm">
-              <label for="small" class="font-medium text-gray-700"><%= b.text.humanize %></label>
-              <p id="small-description" class="text-gray-500 whitespace-pre-wrap"><%= messaging_type_description(b.text) %></p>
+              <div class="flex mb-4">
+                <label for="small" class="font-medium text-gray-700 mr-2"><%= b.text.humanize %></label>
+                <%= messaging_type_icon(b.text) %>
+              </div>
+
+              <p id="small-description" class="text-gray-500"><%= messaging_type_description(b.text) %></p>
             </div>
           </div>
           <br>
@@ -44,16 +48,19 @@
 
   <div class="my-5">
   <%= form.label :trust_channel, class: "mb-2" %>
-    <div class="mt-5">
+    <div class="mt-5 grid gap-4 grid-cols-2">
       <%= form.collection_radio_buttons :trust_channel, Ad.trust_channels, :first, :first, html_options: { class: 'mt-2' } do |b| %>
-        <%= b.label do %>
+        <%= b.label class: "border border-2 border-dashed p-4" do %>
           <div class="relative flex items-start">
             <div class="flex items-center h-5">
               <%= b.radio_button html_options: { class: "focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300" } %>
             </div>
             <div class="ml-3 text-sm">
-              <label for="small" class="font-medium text-gray-700"><%= b.text.humanize %></label>
-              <p id="small-description" class="text-gray-500 whitespace-pre-wrap"><%= ad_trust_channel_description(b.text) %></p>
+              <div class="flex mb-4">
+                <label for="small" class="font-medium text-gray-700 mr-2"><%= b.text.humanize %></label>
+                <%= ad_trust_channel_icon(b.text) %>
+              </div>
+              <p id="small-description" class="text-gray-500"><%= ad_trust_channel_description(b.text) %></p>
             </div>
           </div>
           <br>
