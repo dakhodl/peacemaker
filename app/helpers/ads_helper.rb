@@ -13,13 +13,11 @@ module AdsHelper
   end
 
   def ad_trust_channel_icon(name)
-    content_tag(:div, class: "overflow-visible relative", 'data-tooltip': name.humanize) do
-      case name
-      when "high_trust"
-        icon_shield_check
-      when "low_trust"
-        icon_shield_exclamation
-      end
+    case name
+    when "high_trust"
+      icon_shield_check
+    when "low_trust"
+      icon_shield_exclamation
     end
   end
 

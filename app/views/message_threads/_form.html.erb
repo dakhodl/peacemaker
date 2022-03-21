@@ -17,7 +17,7 @@
       <%= form.hidden_field :peer_id %>
       <%= label_tag 'To' %>
 
-      <div class="flex">
+      <div class="flex items-center">
         <%= icon_right_arrow_small %>
 
         <%= message_thread.ad.peer_name %>
@@ -27,6 +27,13 @@
             <%= pluralize message_thread.ad.hops, 'peer' %> away
           </div>
         <% end %>
+        <span data-tooltip="<%= message_thread.high_trust? ? 'Found through high trust peers.' : 'Found through low trust peers.' %>">
+          <%= ad_trust_channel_icon(message_thread.ad.trust_channel) %>
+        </span>
+
+        <span data-tooltip="<%= message_thread.blinded? ? 'Your .onion will not be disclosed.' : 'Your .onion will be disclosed.' %>">
+          <%= messaging_type_icon(message_thread.ad.messaging_type) %>
+        </span>
       </div>
     </div>
     <div class="my-5">

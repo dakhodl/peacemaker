@@ -6,7 +6,7 @@ class MessageThread < ApplicationRecord
 
   has_many :messages, dependent: :destroy
 
-  delegate :blinded?, :direct?, to: :ad
+  delegate :blinded?, :direct?, :high_trust?, :low_trust?, to: :ad
 
   attr_accessor :body, :from_peer
 
